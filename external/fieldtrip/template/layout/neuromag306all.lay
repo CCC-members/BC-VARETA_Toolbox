@@ -1,0 +1,2019 @@
+1 -0.409943 0.253171 0.031052 0.033230 MEG0113
+2 -0.409943 0.284323 0.031052 0.033230 MEG0112
+3 -0.376408 0.268747 0.031052 0.033230 MEG0111
+4 -0.332733 0.284774 0.031052 0.033230 MEG0122
+5 -0.332733 0.315927 0.031052 0.033230 MEG0123
+6 -0.299197 0.300351 0.031052 0.033230 MEG0121
+7 -0.379773 0.161334 0.031052 0.033230 MEG0132
+8 -0.379773 0.192487 0.031052 0.033230 MEG0133
+9 -0.346237 0.176910 0.031052 0.033230 MEG0131
+10 -0.450000 0.095407 0.031052 0.033230 MEG0143
+11 -0.450000 0.126560 0.031052 0.033230 MEG0142
+12 -0.416464 0.110984 0.031052 0.033230 MEG0141
+13 -0.315925 0.151006 0.031052 0.033230 MEG0213
+14 -0.315925 0.182158 0.031052 0.033230 MEG0212
+15 -0.282390 0.166582 0.031052 0.033230 MEG0211
+16 -0.248879 0.154274 0.031052 0.033230 MEG0222
+17 -0.248879 0.185427 0.031052 0.033230 MEG0223
+18 -0.215343 0.169851 0.031052 0.033230 MEG0221
+19 -0.264623 0.043616 0.031052 0.033230 MEG0232
+20 -0.264623 0.074768 0.031052 0.033230 MEG0233
+21 -0.231087 0.059192 0.031052 0.033230 MEG0231
+22 -0.330935 0.027759 0.031052 0.033230 MEG0243
+23 -0.330935 0.058912 0.031052 0.033230 MEG0242
+24 -0.297400 0.043335 0.031052 0.033230 MEG0241
+25 -0.221999 0.340482 0.031052 0.033230 MEG0313
+26 -0.221999 0.371635 0.031052 0.033230 MEG0312
+27 -0.188463 0.356059 0.031052 0.033230 MEG0311
+28 -0.212072 0.249133 0.031052 0.033230 MEG0322
+29 -0.212072 0.280285 0.031052 0.033230 MEG0323
+30 -0.178536 0.264709 0.031052 0.033230 MEG0321
+31 -0.154310 0.224830 0.031052 0.033230 MEG0333
+32 -0.154310 0.255983 0.031052 0.033230 MEG0332
+33 -0.120774 0.240407 0.031052 0.033230 MEG0331
+34 -0.277299 0.262278 0.031052 0.033230 MEG0343
+35 -0.277299 0.288446 0.031052 0.033230 MEG0342
+36 -0.243764 0.272870 0.031052 0.033230 MEG0341
+37 -0.184034 0.142209 0.031052 0.033230 MEG0413
+38 -0.184034 0.173361 0.031052 0.033230 MEG0412
+39 -0.150498 0.157785 0.031052 0.033230 MEG0411
+40 -0.117447 0.131905 0.031052 0.033230 MEG0422
+41 -0.117447 0.163057 0.031052 0.033230 MEG0423
+42 -0.083911 0.147481 0.031052 0.033230 MEG0421
+43 -0.122176 0.044434 0.031052 0.033230 MEG0432
+44 -0.122176 0.075586 0.031052 0.033230 MEG0433
+45 -0.088641 0.060010 0.031052 0.033230 MEG0431
+46 -0.194243 0.047225 0.031052 0.033230 MEG0443
+47 -0.194243 0.078378 0.031052 0.033230 MEG0442
+48 -0.160708 0.062802 0.031052 0.033230 MEG0441
+49 -0.155324 0.390386 0.031052 0.033230 MEG0513
+50 -0.155324 0.421538 0.031052 0.033230 MEG0512
+51 -0.121788 0.405962 0.031052 0.033230 MEG0511
+52 -0.086270 0.416431 0.031052 0.033230 MEG0523
+53 -0.086270 0.447584 0.031052 0.033230 MEG0522
+54 -0.052734 0.432007 0.031052 0.033230 MEG0521
+55 -0.081292 0.352185 0.031052 0.033230 MEG0532
+56 -0.081292 0.383337 0.031052 0.033230 MEG0533
+57 -0.047756 0.367761 0.031052 0.033230 MEG0531
+58 -0.151853 0.318260 0.031052 0.033230 MEG0542
+59 -0.151853 0.349412 0.031052 0.033230 MEG0543
+60 -0.118317 0.333836 0.031052 0.033230 MEG0541
+61 -0.082221 0.282648 0.031052 0.033230 MEG0613
+62 -0.082221 0.313801 0.031052 0.033230 MEG0612
+63 -0.048685 0.298225 0.031052 0.033230 MEG0611
+64 -0.016183 0.214817 0.031052 0.033230 MEG0622
+65 -0.016183 0.245970 0.031052 0.033230 MEG0623
+66 0.017353 0.230393 0.031052 0.033230 MEG0621
+67 -0.050431 0.136561 0.031052 0.033230 MEG0633
+68 -0.050431 0.167714 0.031052 0.033230 MEG0632
+69 -0.016895 0.152137 0.031052 0.033230 MEG0631
+70 -0.084550 0.210895 0.031052 0.033230 MEG0642
+71 -0.084550 0.242047 0.031052 0.033230 MEG0643
+72 -0.051014 0.226471 0.031052 0.033230 MEG0641
+73 -0.051281 0.055520 0.031052 0.033230 MEG0713
+74 -0.051281 0.086673 0.031052 0.033230 MEG0712
+75 -0.017745 0.071096 0.031052 0.033230 MEG0711
+76 0.018928 0.054772 0.031052 0.033230 MEG0723
+77 0.018928 0.085925 0.031052 0.033230 MEG0722
+78 0.052464 0.075333 0.031052 0.033230 MEG0721
+79 0.019334 -0.021003 0.031052 0.033230 MEG0733
+80 0.019334 0.010149 0.031052 0.033230 MEG0732
+81 0.052870 -0.005427 0.031052 0.033230 MEG0731
+82 -0.052265 -0.020579 0.031052 0.033230 MEG0743
+83 -0.052265 0.010574 0.031052 0.033230 MEG0742
+84 -0.018729 -0.005002 0.031052 0.033230 MEG0741
+85 -0.016156 0.425078 0.031052 0.033230 MEG0813
+86 -0.016156 0.450000 0.031052 0.033230 MEG0812
+87 0.017380 0.440654 0.031052 0.033230 MEG0811
+88 -0.016173 0.360493 0.031052 0.033230 MEG0822
+89 -0.016173 0.391646 0.031052 0.033230 MEG0823
+90 0.017363 0.376069 0.031052 0.033230 MEG0821
+91 0.053528 0.416651 0.031052 0.033230 MEG0913
+92 0.053528 0.447804 0.031052 0.033230 MEG0912
+93 0.087063 0.432228 0.031052 0.033230 MEG0911
+94 0.123184 0.390193 0.031052 0.033230 MEG0923
+95 0.123184 0.421346 0.031052 0.033230 MEG0922
+96 0.156720 0.405769 0.031052 0.033230 MEG0921
+97 0.119198 0.318423 0.031052 0.033230 MEG0932
+98 0.119198 0.349576 0.031052 0.033230 MEG0933
+99 0.152734 0.334000 0.031052 0.033230 MEG0931
+100 0.048816 0.352494 0.031052 0.033230 MEG0942
+101 0.048816 0.383647 0.031052 0.033230 MEG0943
+102 0.082352 0.368070 0.031052 0.033230 MEG0941
+103 -0.016182 0.292132 0.031052 0.033230 MEG1013
+104 -0.016182 0.323285 0.031052 0.033230 MEG1012
+105 0.017354 0.307708 0.031052 0.033230 MEG1011
+106 0.049314 0.282687 0.031052 0.033230 MEG1023
+107 0.049314 0.313840 0.031052 0.033230 MEG1022
+108 0.082850 0.298264 0.031052 0.033230 MEG1021
+109 0.051399 0.211002 0.031052 0.033230 MEG1032
+110 0.051399 0.242155 0.031052 0.033230 MEG1033
+111 0.084934 0.226579 0.031052 0.033230 MEG1031
+112 0.018291 0.137151 0.031052 0.033230 MEG1043
+113 0.018291 0.168304 0.031052 0.033230 MEG1042
+114 0.051827 0.152728 0.031052 0.033230 MEG1041
+115 0.084325 0.131647 0.031052 0.033230 MEG1112
+116 0.084325 0.162800 0.031052 0.033230 MEG1113
+117 0.117861 0.147224 0.031052 0.033230 MEG1111
+118 0.151082 0.141927 0.031052 0.033230 MEG1123
+119 0.151082 0.173080 0.031052 0.033230 MEG1122
+120 0.184618 0.157503 0.031052 0.033230 MEG1121
+121 0.161137 0.046381 0.031052 0.033230 MEG1133
+122 0.161137 0.077534 0.031052 0.033230 MEG1132
+123 0.194673 0.061958 0.031052 0.033230 MEG1131
+124 0.089177 0.045201 0.031052 0.033230 MEG1142
+125 0.089177 0.076354 0.031052 0.033230 MEG1143
+126 0.122713 0.060778 0.031052 0.033230 MEG1141
+127 0.190209 0.340225 0.031052 0.033230 MEG1213
+128 0.190209 0.371377 0.031052 0.033230 MEG1212
+129 0.223745 0.355801 0.031052 0.033230 MEG1211
+130 0.245904 0.256274 0.031052 0.033230 MEG1223
+131 0.245904 0.287427 0.031052 0.033230 MEG1222
+132 0.279440 0.271850 0.031052 0.033230 MEG1221
+133 0.179340 0.249133 0.031052 0.033230 MEG1232
+134 0.179340 0.280285 0.031052 0.033230 MEG1233
+135 0.212876 0.264709 0.031052 0.033230 MEG1231
+136 0.121132 0.225018 0.031052 0.033230 MEG1243
+137 0.121132 0.256170 0.031052 0.033230 MEG1242
+138 0.154668 0.240594 0.031052 0.033230 MEG1241
+139 0.216148 0.154274 0.031052 0.033230 MEG1312
+140 0.216148 0.185427 0.031052 0.033230 MEG1313
+141 0.249684 0.169851 0.031052 0.033230 MEG1311
+142 0.282989 0.150186 0.031052 0.033230 MEG1323
+143 0.282989 0.181338 0.031052 0.033230 MEG1322
+144 0.316524 0.165762 0.031052 0.033230 MEG1321
+145 0.298986 0.026776 0.031052 0.033230 MEG1333
+146 0.298986 0.057929 0.031052 0.033230 MEG1332
+147 0.332522 0.042353 0.031052 0.033230 MEG1331
+148 0.231641 0.043615 0.031052 0.033230 MEG1342
+149 0.231641 0.074768 0.031052 0.033230 MEG1343
+150 0.265177 0.059192 0.031052 0.033230 MEG1341
+151 0.300572 0.285235 0.031052 0.033230 MEG1412
+152 0.300572 0.316388 0.031052 0.033230 MEG1413
+153 0.334108 0.300812 0.031052 0.033230 MEG1411
+154 0.375552 0.255831 0.031052 0.033230 MEG1423
+155 0.375552 0.286984 0.031052 0.033230 MEG1422
+156 0.409088 0.271408 0.031052 0.033230 MEG1421
+157 0.416464 0.096903 0.031052 0.033230 MEG1433
+158 0.416464 0.128056 0.031052 0.033230 MEG1432
+159 0.450000 0.112480 0.031052 0.033230 MEG1431
+160 0.346286 0.160620 0.031052 0.033230 MEG1442
+161 0.346286 0.191772 0.031052 0.033230 MEG1443
+162 0.379822 0.176196 0.031052 0.033230 MEG1441
+163 -0.398109 0.015638 0.031052 0.033230 MEG1512
+164 -0.398109 0.046790 0.031052 0.033230 MEG1513
+165 -0.364574 0.031214 0.031052 0.033230 MEG1511
+166 -0.375655 -0.113339 0.031052 0.033230 MEG1522
+167 -0.375655 -0.082186 0.031052 0.033230 MEG1523
+168 -0.342119 -0.097762 0.031052 0.033230 MEG1521
+169 -0.400367 -0.205205 0.031052 0.033230 MEG1533
+170 -0.400367 -0.174052 0.031052 0.033230 MEG1532
+171 -0.366831 -0.189628 0.031052 0.033230 MEG1531
+172 -0.446228 -0.063558 0.031052 0.033230 MEG1543
+173 -0.446228 -0.032405 0.031052 0.033230 MEG1542
+174 -0.412692 -0.047982 0.031052 0.033230 MEG1541
+175 -0.317721 -0.081590 0.031052 0.033230 MEG1613
+176 -0.317721 -0.050437 0.031052 0.033230 MEG1612
+177 -0.284185 -0.066013 0.031052 0.033230 MEG1611
+178 -0.254648 -0.056719 0.031052 0.033230 MEG1622
+179 -0.254648 -0.025566 0.031052 0.033230 MEG1623
+180 -0.221112 -0.041143 0.031052 0.033230 MEG1621
+181 -0.211411 -0.145554 0.031052 0.033230 MEG1632
+182 -0.211411 -0.114401 0.031052 0.033230 MEG1633
+183 -0.177875 -0.129977 0.031052 0.033230 MEG1631
+184 -0.272686 -0.180431 0.031052 0.033230 MEG1643
+185 -0.272686 -0.149278 0.031052 0.033230 MEG1642
+186 -0.239150 -0.164854 0.031052 0.033230 MEG1641
+187 -0.317048 -0.323149 0.031052 0.033230 MEG1713
+188 -0.317048 -0.296980 0.031052 0.033230 MEG1712
+189 -0.283512 -0.307572 0.031052 0.033230 MEG1711
+190 -0.319243 -0.234520 0.031052 0.033230 MEG1722
+191 -0.319243 -0.198383 0.031052 0.033230 MEG1723
+192 -0.285708 -0.213959 0.031052 0.033230 MEG1721
+193 -0.233806 -0.318147 0.031052 0.033230 MEG1732
+194 -0.233806 -0.286994 0.031052 0.033230 MEG1733
+195 -0.200270 -0.302571 0.031052 0.033230 MEG1731
+196 -0.208683 -0.406431 0.031052 0.033230 MEG1743
+197 -0.208683 -0.375278 0.031052 0.033230 MEG1742
+198 -0.175147 -0.390855 0.031052 0.033230 MEG1741
+199 -0.188523 -0.040820 0.031052 0.033230 MEG1813
+200 -0.188523 -0.009668 0.031052 0.033230 MEG1812
+201 -0.154987 -0.025244 0.031052 0.033230 MEG1811
+202 -0.120802 -0.033661 0.031052 0.033230 MEG1822
+203 -0.120802 -0.002508 0.031052 0.033230 MEG1823
+204 -0.087267 -0.018084 0.031052 0.033230 MEG1821
+205 -0.053256 -0.093296 0.031052 0.033230 MEG1832
+206 -0.053256 -0.062143 0.031052 0.033230 MEG1833
+207 -0.019720 -0.077719 0.031052 0.033230 MEG1831
+208 -0.136444 -0.122328 0.031052 0.033230 MEG1843
+209 -0.136444 -0.091175 0.031052 0.033230 MEG1842
+210 -0.102908 -0.106751 0.031052 0.033230 MEG1841
+211 -0.144175 -0.209552 0.031052 0.033230 MEG1912
+212 -0.144175 -0.178399 0.031052 0.033230 MEG1913
+213 -0.110639 -0.193976 0.031052 0.033230 MEG1911
+214 -0.114254 -0.306158 0.031052 0.033230 MEG1923
+215 -0.114254 -0.275005 0.031052 0.033230 MEG1922
+216 -0.080718 -0.290581 0.031052 0.033230 MEG1921
+217 -0.130547 -0.374823 0.031052 0.033230 MEG1932
+218 -0.130547 -0.343670 0.031052 0.033230 MEG1933
+219 -0.097011 -0.359246 0.031052 0.033230 MEG1931
+220 -0.202141 -0.256870 0.031052 0.033230 MEG1943
+221 -0.202141 -0.225717 0.031052 0.033230 MEG1942
+222 -0.168605 -0.241293 0.031052 0.033230 MEG1941
+223 -0.057961 -0.168793 0.031052 0.033230 MEG2013
+224 -0.057961 -0.137640 0.031052 0.033230 MEG2012
+225 -0.024425 -0.153217 0.031052 0.033230 MEG2011
+226 0.024758 -0.168678 0.031052 0.033230 MEG2023
+227 0.024758 -0.137525 0.031052 0.033230 MEG2022
+228 0.058294 -0.153101 0.031052 0.033230 MEG2021
+229 0.026366 -0.243451 0.031052 0.033230 MEG2032
+230 0.026366 -0.212298 0.031052 0.033230 MEG2033
+231 0.059902 -0.227874 0.031052 0.033230 MEG2031
+232 -0.059096 -0.243161 0.031052 0.033230 MEG2042
+233 -0.059096 -0.212009 0.031052 0.033230 MEG2043
+234 -0.025561 -0.227585 0.031052 0.033230 MEG2041
+235 -0.016658 -0.321948 0.031052 0.033230 MEG2113
+236 -0.016658 -0.290795 0.031052 0.033230 MEG2112
+237 0.016878 -0.306371 0.031052 0.033230 MEG2111
+238 -0.016366 -0.393428 0.031052 0.033230 MEG2122
+239 -0.016366 -0.362275 0.031052 0.033230 MEG2123
+240 0.017170 -0.377852 0.031052 0.033230 MEG2121
+241 0.050251 -0.450000 0.031052 0.033230 MEG2133
+242 0.050251 -0.418847 0.031052 0.033230 MEG2132
+243 0.083787 -0.434424 0.031052 0.033230 MEG2131
+244 -0.083365 -0.449920 0.031052 0.033230 MEG2143
+245 -0.083365 -0.418767 0.031052 0.033230 MEG2142
+246 -0.049829 -0.434343 0.031052 0.033230 MEG2141
+247 0.087827 -0.033410 0.031052 0.033230 MEG2212
+248 0.087827 -0.002257 0.031052 0.033230 MEG2213
+249 0.121363 -0.017834 0.031052 0.033230 MEG2211
+250 0.155709 -0.040205 0.031052 0.033230 MEG2223
+251 0.155709 -0.009052 0.031052 0.033230 MEG2222
+252 0.189245 -0.024629 0.031052 0.033230 MEG2221
+253 0.103813 -0.122945 0.031052 0.033230 MEG2233
+254 0.103813 -0.091792 0.031052 0.033230 MEG2232
+255 0.137349 -0.107368 0.031052 0.033230 MEG2231
+256 0.020757 -0.093390 0.031052 0.033230 MEG2242
+257 0.020757 -0.062237 0.031052 0.033230 MEG2243
+258 0.054293 -0.077814 0.031052 0.033230 MEG2241
+259 0.111366 -0.209684 0.031052 0.033230 MEG2312
+260 0.111366 -0.178531 0.031052 0.033230 MEG2313
+261 0.144901 -0.194108 0.031052 0.033230 MEG2311
+262 0.168522 -0.257059 0.031052 0.033230 MEG2323
+263 0.168522 -0.225907 0.031052 0.033230 MEG2322
+264 0.196469 -0.241483 0.031052 0.033230 MEG2321
+265 0.097451 -0.374757 0.031052 0.033230 MEG2332
+266 0.097451 -0.343604 0.031052 0.033230 MEG2333
+267 0.130987 -0.359181 0.031052 0.033230 MEG2331
+268 0.080497 -0.306314 0.031052 0.033230 MEG2343
+269 0.080497 -0.275161 0.031052 0.033230 MEG2342
+270 0.114032 -0.290737 0.031052 0.033230 MEG2341
+271 0.221989 -0.055814 0.031052 0.033230 MEG2412
+272 0.221989 -0.024661 0.031052 0.033230 MEG2413
+273 0.255525 -0.040237 0.031052 0.033230 MEG2411
+274 0.284408 -0.082149 0.031052 0.033230 MEG2423
+275 0.284408 -0.050996 0.031052 0.033230 MEG2422
+276 0.317943 -0.066572 0.031052 0.033230 MEG2421
+277 0.239033 -0.181069 0.031052 0.033230 MEG2433
+278 0.239033 -0.149916 0.031052 0.033230 MEG2432
+279 0.272569 -0.165493 0.031052 0.033230 MEG2431
+280 0.178679 -0.145554 0.031052 0.033230 MEG2442
+281 0.178679 -0.114401 0.031052 0.033230 MEG2443
+282 0.212215 -0.129977 0.031052 0.033230 MEG2441
+283 0.200570 -0.318280 0.031052 0.033230 MEG2512
+284 0.200570 -0.287128 0.031052 0.033230 MEG2513
+285 0.234106 -0.302704 0.031052 0.033230 MEG2511
+286 0.286418 -0.229061 0.031052 0.033230 MEG2522
+287 0.286418 -0.197909 0.031052 0.033230 MEG2523
+288 0.319954 -0.213485 0.031052 0.033230 MEG2521
+289 0.283806 -0.323463 0.031052 0.033230 MEG2533
+290 0.283806 -0.292310 0.031052 0.033230 MEG2532
+291 0.317342 -0.307886 0.031052 0.033230 MEG2531
+292 0.175460 -0.406654 0.031052 0.033230 MEG2543
+293 0.175460 -0.375501 0.031052 0.033230 MEG2542
+294 0.208996 -0.391078 0.031052 0.033230 MEG2541
+295 0.364475 0.015670 0.031052 0.033230 MEG2612
+296 0.364475 0.046823 0.031052 0.033230 MEG2613
+297 0.398011 0.031246 0.031052 0.033230 MEG2611
+298 0.413017 -0.063004 0.031052 0.033230 MEG2623
+299 0.413017 -0.031851 0.031052 0.033230 MEG2622
+300 0.446553 -0.047427 0.031052 0.033230 MEG2621
+301 0.366447 -0.206328 0.031052 0.033230 MEG2633
+302 0.366447 -0.175176 0.031052 0.033230 MEG2632
+303 0.399982 -0.190752 0.031052 0.033230 MEG2631
+304 0.342581 -0.113202 0.031052 0.033230 MEG2642
+305 0.342581 -0.082050 0.031052 0.033230 MEG2643
+306 0.376116 -0.097626 0.031052 0.033230 MEG2641
+307 -0.547000 -0.500000 0.031052 0.033230 COMNT
+308 0.547000 -0.500000 0.031052 0.033230 SCALE
+                                                                                                                                                                                                                                                                                                                                                                                                   ğ2~¬Š½cÕeÅ
+¿ìõõ[<Ã¯AN7n¥9ÀšŞÇ~RQWá¬x¥óÉY?è74½ û`ùÅÙ ;0xçİ„UK¨¶:HùhFÀ·²æâHâQ¸—8"™wÔÏEÃ{­“ÕwÃ*éëæÙGã ’ÜqÓoÅ°ö‘{iLO€5SÇ¾E>ûÒç{¬”’a©ØÂ„˜EÏ@oéuºåĞ3ğ:qDmcu
+œ¥|¼›
+¼gº¦ËY}şŸaDçH¤ƒÎOrLúçtøıºõvTåÈ\|£Ø7,>¾QÌ«>ó^óÇ)d‚Ì„À!ÒD&ì-ºÂ„¹•iÃ7¢˜0¢YµK¼	)îÜ/Ûº˜°´ÀïÛôw&ø>¬\Ê‚w#«C·°Àè2÷†h#˜G>åsfÁº]»BYp89Xş’„ËŞÕİ,HK>ôU§wßäîó÷¾[dú)u;â˜V?ˆJzVò™÷ƒâˆşXƒg?X^ëJÖˆê‡Œ‘-c³¹ıPñç+Ü—'Œôƒ•ÂÍ=<Ğ©ia¶ô È\şuVw TVmã3€xÁï¯œ`nËaÁ¯^pYyIKÃ­Xjš-‘ç?ÈùÎ‘ãÌãèáèå¬ÃY—cÇ.»9~püâøÉñ›N\8qâÄGN\9qæÄ“N^8yâä“GN^ÿÙ÷ª<ÿ÷¾ß÷¿ì{.¶|-9M`¡?—u¥(ß¡âıŠ­1T´KPÙ«—NÅ‰)“ğ*²ôaı&*²¦Ú”ÍTdøzñ×|¢â¾7Ï"/ş¦bÊf¾£"®$]§“&°¶¾tæÁVÏ.Ø»§û 5±»mÖœbi˜nå@ ÇoR¤7œfbSÂ^ú$ì)…Ôò<¹R4"¥†@;ùj›×].çúÚsù=>ú‹'	ü,àöòÉBJ¿©7ù¶œ†-±ËTòei¨_PÂìİBC]Ÿ“B§´ØÿXI¦á!Ñ<g©S4Ü<ë`bÅ6¢[ueÎ%¦n9³ö*%*½2oĞPÒhcÿê Z×m¬
+¥¡Î¤ÜFİBÜ6pEÓpĞè´Áôc62Ûİsãh(7¨Ü)OÃ§²töøbôğLW=›uÄE¢Øëİn¸OC1³äüÏÁ4|¼Çò;~4<Wª|Õƒ†*ŒGÖù4œT-½·Å‚†|±§WĞpq€xQµäî¥”(Ğpá©oÎÈösÁ‚§ßv7õEv¾#ğòÎîÚÒ&µ7¨İÉ$ğÙ¡O2¡NáÑ™ën•{KDêÈszYÉ	v^*0ó¦¨(%5}ó‰ŠòÎGF&sáÂÙ“%r)¹ğUßâ±O.„Éîqø{&z…ì÷d¿á–-U¹Ùæ­ÅÛ¦š;+›¾\È‚„;äŸèL¨"êx[ñŞ¡°2@ÒÙØ>ıøÿr~ı–ÒŸl×¤Ã[ÆÏÁ#ù˜ş›Miğc©ÏO¥TvWÂS@¾dÛæıëŸx'FI$C}‰ß›ÔµOá]¼RO
+w¸í~Ô ø!İo›ºÇ !Ûiã³hÈà6—I¼AAv;ÌÂ·uæ&]ÃáÑŞGwôTBÀÖÆªYa"„EUÜ„iïˆ!©ëÀ(_ëşŠqT›?]ë4±ƒê¿Ì3µ:°t«Xš›	r]r‘=weº}å#Yx·í­Ñ¤µ/^~lG#±nâ®
+ÏF‘+A˜°6o?~½‹âIn§¿…áõ}e<O¢àjÛ”·3Q^6ÌZi Ã×yğ?Âß2rbùÑ¸$üguû|
+Ş= ±pw,¦¨¿>‡\Klƒ]ãñÛ©O®·/>A)÷{ü·ŒĞÚ_×ÚmM"ªW)Ìíb÷ÏÄÍª´>Ç§¸|»pFëèS´2tnzfœ„™O“Bã“°Áçº¥ySJ¦(‘ŸĞ“°ò¥´nvóşÿëÆpÉJñC¡TØ\ş@Ö9Š
+KWkğæ¥PáÚru•›TàY­ ÛRK…re¡Ãw©ll2àzô
+ƒe$‡©ŸT“¾ÆO€ßü\ÏİÕlÔ¬‹S"à¿   ÿÿÜY	<Ô]÷e´QIHŠ’}'JÒ&å¡M1L13k%-<RiIÄciAÙÊ®m†Œ™1ƒZÑª´hQ½?¥xzŸ÷é}ßŞÏçÿùüŸÏÏ¹ß{Ï9÷ÜsÎ=w~WJ¬>½ÁŒÆ­×¥&Ù²€5q©ƒ(«ëã©,èIN¦G°àØ]Ü!~<^üÖ5t#“‹TuŞ“ËXà~T.ŒßÄ‹A3Ã—],PÏÍÚTĞÏ‚ë…gÉ>³àShĞ™6)6×i*°áJšåñçêlĞ,¸Dv1ğ§Š[É†Œz½ÍlpŒ*Ş¶Ù…ú&O¢¼Ù;å`Ğ½@6„½ÒÜ¸¸ú,qş!6¼“¿gw‚+šçİ<Í¥šT«)IlX»õÙ[ã?Ø0Pãdª“Î†ú^Ö³6äg¦ÙgÃ®ã,<†­İ	t‰46Ø©zh•Œõ§í®w†¯È‡ÏaƒÿÔü•Ql°ª
+ê»Æ‰KSSÙ0éU”âÁ†»ìGŠ›ØpO¦ûí++6ô•øè¾ÑeC÷|’Å;y6ğKÌÅDÙµ=#ˆù#º'Æâ-“²ËÄn² »dÛ*‡Ó,5ØÔWèÏ©×Û.Ò×³@¦iæùh5¤p¸><£Úwr˜p7¾šsıe¸oû­P95Yo=Ì#s{~v¼â«=g_‰ÍŠœlH6jÒÊƒò:•§îYø;½=$6*è+oİ.»·ú8aü‹ çmKá^€a{ß%.@—³ÂC·Yçá¶=÷ºå¼ ¦¬·¾¾0^MÒ|­–>jÈnA*Ì/ÔQ_:÷€à¤Ù¨)½6ûÜMPkO—ãS7UïŸPYQ–kõiÀkÁ±pqÜÅ¤=10NĞÛr+	½$GÃ©%§~·Òˆ7W|½Ê@8HÔJ®¼Z¶.*ï‘ßÜÒÙ>—¹¾ Uÿ0°Å •ŸyU–0IÛR:bp;)}s¶ï@Šm»çŸäSQdÓm›—.»‘ïi›Æß‡ŒÊj%ıÂQâìÜ¥èY$’I¦l|fsí2/<sÍtKÍ§8@óçqQë>‰¢•¨"wlO¡ŠùÊÒy±H*úueó§8$¹Lv¼q<J[mX²ıÂ”r‹ ' çÉvœEò>‡DöÛ$"—½Ë](³’a…ÊÑ­$”¤®Åî$CSt%.6>:‡ğk¼ëş°MF™'6Ò'$£›!»œ·Ô%#¹T5úYN2*¿¤°<»~t|"‡{.‰Ã	cT{p_¡1X`Lÿ0å~áøÛ±wÜ~1ì=ñ—§í[9w'ÔTL¯í/Dó®˜÷“KDÄ\™ºÍ—‘„ŸëÄ¶†«h_]üºÌ×pöE{ëêk(nõGÛòÏ×ĞÂYÏú›"ï`ôÒ¿q²šìzËQNØ­öìîJd«/ÒJ¶¬Aù«bŠj¦UŞyG«z4¡¤{g¾Ù§İO®ÆÓĞİØ qW
+ğ4J¤¡z¶Ü£9{iHzÙçæ”ue,ÁEÓĞ'ßÒ79'hhmKÁÜ½±4” İ•“}††,.ÎÈ{—DCİ&vùV©4Ñt´ æ<)©ZFeåĞ—}²¿áUšÔ"Şv·˜†®®
+0ˆ.§¡M7ïÄWaúnó¬£!ãÙöÓZh(Rçş ãgÏXû†8+¢.û¿mA¾ãöˆLÃ1[\ïùTä[0&K1ĞàĞTZòfÛ›ÊÙÔÜ÷ÂÙy]S3W0e ¡‰ªa†L”ÂÀU×2ÑYïõ«­K™È¼ìÄöKåLt/Îxig%ñVmŞù±š‰æy*àê˜¨µÑcû½&jtY>°ãí0¹“Æb"Wÿè¤v&Ú¾yÍúñ<&Ê¸°øØm&ZñnÑUë‡L´{?išÆ{&Bb"Ú=lTW1qßÛ[m(óùd™GŸ9ÈãR²\‡L;Ê€®ã³¦u Éâ¯Hƒ(Gâ·¬ƒåèàxÁM%î<d¸íİäS/xèr†'™Ôù"B!E|$:ÙNÄ†ÎGQÑEM|T[=/Û¥’Î–²7¾ÄGek]^Ëyğ‘L£—ÿD=>
+ï™}äòL=¡¦ã
+=ä>®ºïÈC&”¼ßi8²\º¤é\B'3¬([Ø‰´çu  ÓÏRõ4KWwÆÛ”v´[ÿ‘p·x;ZFÜĞº“‹¼—
+
+ˆTsĞÅŞßßDLæ ä—KÌ6¶¡·TÂ™SlTh7{ãÛZ´>EïÒ 	îÆO—•g¢¾÷}%[ÌZQ8¯_¿İÚD/<zéÑ‚Üö“Şô6££›Ö¯}ù’f¬9ôlüëF$º|ÅâëÑ©O_©skÑÂä¬@—ë5èÍ!o¹¸*ÄÕxÏÚêY‰ ÁÌM¾º™(é˜¿±¼†¦¯Š	Üš…zÎ23Î;P†Àd·ÓaEÙ©@#êïxŸö^ùùƒı¤‡s×”Áİ¯HjUÂ¿l²¾
+‚EëÇDÕÀÖ‰W³²jaPÄŒA«®‡÷jÅş­Xed>i£C7zÂÊoi†£áN-p$÷Ó£D[@‹Š¤³i+dÖzW`-ë¸ä­!&¬«xÓÛÔÊ‚(×şZìeqaİöhõZ™¤ó9SĞtQ™Ç|©»¤Ø!.ôlôzQ;„
+EÔ]ªk‡=‘®AÓ7wÀáş;—åït|ÕïÔ	á•½©kXàSØ¦c	<¨‘”şd˜Âƒ°ÚTAÕA¼]îäÈ^Æ‡ı„ªUZ|ÏÓM«àCeË„..ÀÄ¿,Òè‚äÉUõú]p>C*è°vÈ?şl8G¾rİî¯PâƒËÇ²š§ù`·Õßzìv¥…ñÀÒ¯t¾¾¦…Ö¦,yÙÒOWdŒß	Ä›·½åÂêÖ§XğºÔ.ß7¥²ÕÊzÂšY°íñÅğrL|Ô»ËSmT>è²€|xÜN-¨f²DÊUYĞÁ]šU¡Ì‚w®Ò<Z‡LeAMZ¦2Ç‚¤;s÷„2!Fiİå‡Yu£E$0À‹Ğ­5t‚»†¤í;Ä€¨W–ìc@¸uÆ¼–å.¢2 ëE¿‘Ä€r!Mi+7Ì{ù@qê((¶f°Õš @Ô¨4¥oìØ_M‡gÎ†©Œb:d4U;]¡C…iFÉÎt:Ôø-¸Ÿ’LÅwå^'Ğ¡æOŒ£ƒ®±êi¹“t¸÷ò£xÿQ:<¼7Í¢èp.bÖ|JÒtH•ûé`?ÓØâE(„Ê`šÒ.:n·êİH‡›ËfÄ’é ’h[ñÆƒ§Öö9ÓaHŞÓtÈ–¢··÷Ï¤á™\iuò&Ô1	*ò7aü%NÚá* ÊëFK««¢	Æ.®Åà³Gˆÿ¸^‰Î_í[‘Ú³Ço
+aaõ8ñG[·ß	«ÓTÃÚ¥ãàÛùµ;wŠ\hØ×=•é‚7œ{ûDº`«‰WJY3Ïô
+ãƒFdsî´H>˜)³kØË‡ıOUÏB°¼›\²=ÎŸ‚;•òRÈ|°ŸàûhÎ¿ï„&^Ã¼õÏ: Õõ¨¯í ¢l‚Ö¶íĞz{±ìª'®şàİÌÏóu …®¼È«æ µqÁŞÒJÜâä¿ï)ç€j“Ûç:Jw9”r`_æF©­%h¶»S1*¹ê(â€Vğ!Í¶BŒÎ®L±Æ¨ÎÚíw_ã€nûÍ|GŒv¾ff†ÑÈ|³·k†ñçµŞ^åùõ$½6*×¡\ZˆQ®”á<9l¤"C³Çg¸°<ô •z–ñRÑœ½‰\°8Ù­8;‰Oá&8bôtwìbŒZÚ<ĞÑÆÆÏªµxÉ&paJD~
+ˆÅ‹çsa'İçIâ<.S¬’7(sAVe¿O‰Tg”á4‡k\ß*p¡9©ÇåÖl.°3è«oÌä‚^ò;ÙåÒ\8‘û:jÇ$.ÄmJ~Î–äBŠŞ–#{D¹pU$4é#ôîöwÜç@¥Í;f8öİğ`f°ÜrpU„kËƒZa—ïsubÔxTX­'4Á¬Wy¡X¾%Ü¾à½ßû&œòmLÖ°½Ní÷s&.+Ó5¥Y²¹@Q»/Ù_”\3£íŸ}"~ÂĞM2¹aj¢‹ÊŠãV÷
+¦¡HõÓÍb]yHË¼šGq,D‰ê!}f­¥ˆ¤X”l†ò‘´‚æ¨ùš£‰ÊÛj´Ee+ŞT¶Yw¹käéÕ#ËrIR¶U#²}õOYGG^«ÍmšQúİ`µusZĞ‹E×ïöH3õàÓóñ‚­({óÂO[QÍÉ'1·›™èiÖ¼ä­—XHQû•¸õn6r6Q	Z±¢	©Ÿ’ç É±•15öéõ‘}\”¹%|] B;:r‰”KEí(”÷6v‚C:¸÷p‹Ä½ô|P(ÀØ½ÍÈZ‘¸¡»áæO]`ÃC6éWIù<$xí$w`iô+§ûşÆGU³°s½'ï6ÎP¢=[µü«Q
+³Xc9dÙ…lYk‚ó´»Ğ§$RÕ'Œ/pQ!›âbsßğ‘;ó°#U—~“ôïØØÍCçİ0„ñPqB¿Ë9âÿNNíDîkL‹$•;Ñ&åœ³ØyëT&Öj‡¼MIí(^"äÅş.R’œÚ:‹‹®¯ïZiMà —2çeçÛĞ¬j³W]l¤¯r©ù‚‰¨Ê…±ĞÃÜÅ773Ñ~Y#%9j+b4ßËŸÉ@{=İy±-ˆú¤)»ÇôZ3O«CÙ¢	™ô?’c¿ÿv>|_½™§¨¤¦ÈÔ¡üˆ½ÒskÆZ¡™K[ª[t{ÜÒÔJt^P~ó.^êšsÙw.±-Ì±¼£ÿ¤ Õ7[ë«_BÇù	×â„¡° 7„MNpÿc7«Ö!ÒM:çÜ˜š
+›¬ÚåwgÂ´6¯ôG²…ĞxãàqŸÈ
+hÛ>İBig5XDI¶­V¸šë¸İ4x.œ^yÃñøÅR§HbçHTï€Û{7&„zÍ8°ª“æ*ãâ}°z³ÀF7ÛoŠ~j±ı'GBMØ~¬™ıÚşÚ\lÿzée°}<Yw_J²*œ¹½9vj\ØV–![¢Î…¬™É+"µ¹_ëŸ	úµü>ÿ†Õ‹XÓåF¬.€NZRÜ9.,‘e½CÑ«gcôñ¾aFŸ{t.ÂøÏ’·còÉÓ©•>ñ\2Ëyã×À°’¦éXÔ>±©%«Sz/NÙ}ºÊ¨)!»˜0x-b=˜Ï»ºNi1zÕúcÔèÌ’âj(Éé‹æ»0ØÊÁ¨ßè‚ı°¼ñ8ƒ{Õs{•Œé=4¿Me÷µÑùØD‡5au7TvÏªX]n¾0­$­‚ÓKÔ¥bor úXb#á.6úóHËç´ƒÌòØnÂÍ>V’«W+Óö—u‚{j´„şJ\ß,¶5Ç“¶aW>DQùğ(³ö¸S(´ûÄõÎb¿s"v´H{òa‘p¬ÁŒ‡|8äã¬/İõıüşÓÚ<ú7î'ß}B8AœÔ®ÂşxáƒÉşTÜ·ÇïåE$¹“G` Á×H&}õ%SñTÂwf?j°×(ÂQ|É;®Ôoü¾x·ÑAÁ‹à:º¿‹˜I”1V¹n.x×#Ğ›L¢â=¾ÏLô°Q‚Ÿç˜‰\qcWO<‰Dğú¾„DŠ¶hÂ(t%{“F¦&cë÷ÂS¾1S}1\É$w¢ÇWU„‚~Äoª<Éc¼éFpñ÷5ã«ªïÃ_ Š)x_¼÷ˆ÷%Iß¥)¾„ "ÙßïOëÎsÜhôÍqÜhLÁË~³Ò1Ô×ÀÒ`T³à–OFğAìõ÷#øºº±•HÂbè‰†;‘àåFõ%b®ôÆS½ğ._cAöÆ8¾XÓ“ìG%á½	#¾­4ğ{ûŠJüÂ€å™ë˜¦7ÁûK¬¾¤Ì×éFÖ‰ûÏÖ!2‚‡é·}ñ¿ô«*îïïgp¸?ßÏhıd^Á?Í+ˆ3Ö1Ö–³ş‰Ü”ìÆFÚZZzŠªt´´uñFí0ú‰>‘ôc/RŞ@ï¿öÁ¨îàIqÕµãgz$~Ğ3Œ½‰Ø÷Âûğ~ßôP~¢Çì=ÃX+
+š?M?/_oÍ±j5ı¨xR ¤éJv#hº“}©
+BğÕVD‘yqÿú¾M`¤oì}›ÖH”lşµ1m„.¡Ú#t•ù«ÛÏ²ùÍsÌŒ×_Í36ïÅFúöNI6½ÁƒóîgòãFZÿM~Û
+ügûS7š/_Šqô€ùq¿ÿU\7áş×aüwq¥’É^.ä ‚Ÿæ×¢¥ù½Œ¶œüHšîT'¬(c›àôµnhxÿ;yfúƒ=ÃXy¥›‰â_èS4ÖÖ3PÄv¦º–¶º±¢¶®‰¶¡‰şÅx’Ÿ«§¢òw?ü]ü¾=£ñÃı¥Ü_Ù;ö>x†tÜş½ú „ûó:‡1…Œyùhïÿw¹'$òÿNîÿÚ/Wgú,ÿu™*ğÏÿçøoòsíšeÚÚ¿(¯ó‹òº¿(¯÷‹òú¿(oğ‹ò†¿&¯ó‹ñÓùÅøéübüt~1~:¿?İaÿı  ÿÿ¤ØQJÄ@„á,¨ø´x•d’èûB?)İHßÿ,˜ø-„MŠdªwê/r_–åc/óxÇÓò÷y¾®o×ùíúıíºşú|Œm~ßÿ¯ßWÔãı¼ÿ¡÷¨ßQ˜şDÿNôï4ÿbµçÕ?V}~›l¸ş×¿áú7]¿ıÿc ˜Ÿ1Ğ¿şôó?0ÿcGÿvôoWÿNÓ#ÿùÈ¿@şò/ôùÈÏP~èÿ‰şŸêÿ;éûCbHì‰ı!±?$ö‡ÄşØùŸÈÿDş'ò?‘ß‰üNäw"¿ù™ÈÏD~æWa~æGa~æGáş/Üÿ…û¿pÿöÿÂü(ÌÂü(ÌÂş_˜?…ùSš?Øßû{a¯Ãúccş6æoclì½Úüzµù5ò§‘?üiì¯ï¿zSÿqÿ ùÛÈßFş6ò·Îoàüÿüoä#ÿùßøş¯wœöÆşÑØ?ûGcÿhìmıãûaıcêi~SOó›zšßÔÓü¦æ7õ8?ë/Sÿ;¿   ÿÿ¤ØAjÃ0…aÚÒUéQj[v»Ì®ÌPf•û¤¢õ¾€H$½‘ŞÿğÛ²,_s¼Ìñ:ÇÓòÿy¾o×ïÛõÿûõüısßöùıõë«ßW¬ß¬~àüç?pşCçÇósàù9ğüœ¨ß‰ú¦_¬¶şXmı±êú­ÿ±áş7Ü?úg úg úgì¨ßúí¨ú ÿÇ@ıê7T¿Óê‘üä_ ÿùêüäg(?OÔÿDıOÕÿ“êóCb~HÌ‰ù!1?$æ‡Äü˜ùŸÈÿDş'ò?‘ß‰üNäw"¿ù™ÈÏD~úW¡úG¡úGáı/¼ÿ…÷¿ğşæÿBÿ(ôBÿ(ôÂü_è?…şSê?˜ßó{a~¯Ãòc£ÿ6úoc~lÌ½Zÿzµş5ò§‘?üiÌ¯ï¿zSıñş ùÛÈßFş6ò·wìßıCş7ò¿‘ÿüoäãû¿Ø?Ìù£14æÆüÑ˜?ÚòÇãşAı›õÔ¿YOı›õÔ¿Güíÿ  ÿÿÍUÍnÔ0vvÛŠ…R*$èÕ¤¶íBj9ôX‰CU$¸À%r’ÉÆÂ»±Óí¸!î\AâÈ3ğ ¨À±Ğ#âÄ¸ëı),¤É
+„%Ç™Ùıæ›ù<vÖ!;8Wp^Ã¹DFcÙÙ{÷œİÙ/÷Û]\×À?\Øî,ˆ_,ÿÃó:É¿]€¯]Â×H*ÃUÉW'<6WÌ·~	_'2+ó
+)5Ìá]™ƒ÷fğËÈğñW)ß!è¿º/ÿšïw¸O+S\í
+zŞpö]œÚH5`&Lá¤†Ç22Š›ÔÊÅ½íì{8cãG³\íş•bø‚en.¼–‡zåxî8Û®aá«>Òp%ÀH)y2{JÊÅûmÏ
+B·³;Z»~éû[ñn:ÿùŞõîûïK•ñ§ï¦ø¯%ëYuöêHı˜£BCİß–Œ×pvÃéÓéììºŸ+×÷yãÉÆWßY½ZÜ'óú‡é+%¤éeRk­ 4ëÌæ[‘¯¨ïÎJ›¢¾#%ÏÇl<Ãû`ÏÚ@Ïß§¢û·áü£qşÚâùó=µ7ƒ_wö“ŠC¦¹L5•1íá·ˆS™R¼2ª˜Iè€AC™Æ¹ºÏADÏ3®\¿şg:|+ĞáËO:Xû…Ì©ÊdÀ1¤XcDYÙÊ·z^¬›öé‰ç«7Xıæööj®iÈR*€EÔHš§pb{C°c6é3 š£·Z|3#™F(|3­˜µt"sùÜGò)?àÈÌ„ğuD<Ãà2ã m2ı¡ßgF°À·éÇÇc\ÿx¿,nkçà~ •:aÅ                          imits;
+end
+if strcmp(cfg.style, 'both');            style = 'surfiso';     end
+if strcmp(cfg.style, 'straight');        style = 'surf';        end
+if strcmp(cfg.style, 'contour');         style = 'iso';         end
+if strcmp(cfg.style, 'fill');            style = 'isofill';     end
+if strcmp(cfg.style, 'straight_imsat');  style = 'imsat';       end
+if strcmp(cfg.style, 'both_imsat');      style = 'imsatiso';    end
+
+% Draw plot
+if ~strcmp(cfg.style, 'blank')
+  opt = {'interpmethod', cfg.interpolation, ...
+    'interplim',    interplimits, ...
+    'gridscale',    cfg.gridscale, ...
+    'outline',      cfg.layout.outline, ...
+    'shading',      cfg.shading, ...
+    'isolines',     cfg.contournum, ...
+    'mask',         cfg.layout.mask, ...
+    'style',        style, ...
+    'datmask',      msk};
+  if strcmp(style, 'imsat') || strcmp(style, 'imsatiso')
+    % add clim to opt
+    opt = [opt {'clim', [zmin zmax], 'ncolors',ncolors}];
+  end
+  ft_plot_topo(chanX, chanY, dat, opt{:});
+elseif ~strcmp(cfg.style, 'blank')
+  ft_plot_layout(cfg.layout, 'box', 'no', 'label', 'no', 'point', 'no')
+end
+
+% For Highlight (channel-selection)
+for icell = 1:length(cfg.highlight)
+  if ~strcmp(cfg.highlight{icell}, 'off')
+    cfg.highlightchannel{icell} = ft_channelselection(cfg.highlightchannel{icell}, data.label);
+    [dum, layoutindex] = match_str(cfg.highlightchannel{icell}, cfg.layout.label);
+    templay = [];
+    templay.outline = cfg.layout.outline;
+    templay.mask    = cfg.layout.mask;
+    templay.pos     = cfg.layout.pos(layoutindex,:);
+    templay.width   = cfg.layout.width(layoutindex);
+    templay.height  = cfg.layout.height(layoutindex);
+    templay.label   = cfg.layout.label(layoutindex);
+    if strcmp(cfg.highlight{icell}, 'labels') || strcmp(cfg.highlight{icell}, 'numbers')
+      labelflg = 1;
+    else
+      labelflg = 0;
+    end
+    if strcmp(cfg.highlight{icell}, 'numbers')
+      for ichan = 1:length(layoutindex)
+        templay.label{ichan} = num2str(match_str(data.label, templay.label{ichan}));
+      end
+    end
+    
+    ft_plot_layout(templay, 'box', 'no', 'label', labelflg, 'point', ~labelflg, ...
+      'pointsymbol',  cfg.highlightsymbol{icell}, ...
+      'pointcolor',   cfg.highlightcolor{icell}, ...
+      'pointsize',    cfg.highlightsize{icell}, ...
+      'fontsize',     cfg.highlightfontsize{icell}, ...
+      'labeloffset',  cfg.labeloffset, ...
+      'labelalignh', 'center', ...
+      'labelalignv', 'middle');
+  end
+end % for icell
+
+% For Markers (all channels)
+switch cfg.marker
+  case {'off', 'no'}
+    % do not show the markers
+  case {'on', 'labels', 'numbers'}
+    channelsToMark = 1:length(data.label);
+    channelsToHighlight = [];
+    for icell = 1:length(cfg.highlight)
+      if ~strcmp(cfg.highlight{icell}, 'off')
+        channelsToHighlight = [channelsToHighlight; match_str(data.label, cfg.highlightchannel{icell})];
+      end
+    end
+    if strcmp(cfg.interpolatenan, 'no')
+      channelsNotMark = channelsToHighlight;
+    else
+      channelsNotMark = union(find(isnan(dat)), channelsToHighlight);
+    end
+    channelsToMark(channelsNotMark) = [];
+    [dum, layoutindex] = match_str(ft_channelselection(channelsToMark, data.label), cfg.layout.label);
+    templay = [];
+    templay.outline = cfg.layout.outline;
+    templay.mask    = cfg.layout.mask;
+    templay.pos     = cfg.layout.pos(layoutindex,:);
+    templay.width   = cfg.layout.width(layoutindex);
+    templay.height  = cfg.layout.height(layoutindex);
+    templay.label   = cfg.layout.label(layoutindex);
+    if strcmp(cfg.marker, 'labels') || strcmp(cfg.marker, 'numbers')
+      labelflg = 1;
+    else
+      labelflg = 0;
+    end
+    if strcmp(cfg.marker, 'numbers')
+      for ichan = 1:length(layoutindex)
+        templay.label{ichan} = num2str(match_str(data.label,templay.label{ichan}));
+      end
+    end
+    ft_plot_layout(templay, 'box', 'no', 'label',labelflg, 'point', ~labelflg, ...
+      'pointsymbol',  cfg.markersymbol, ...
+      'pointcolor',   cfg.markercolor, ...
+      'pointsize',    cfg.markersize, ...
+      'fontsize',     cfg.markerfontsize, ...
+      'labeloffset',  cfg.labeloffset, ...
+      'labelalignh', 'center', ...
+      'labelalignv', 'middle');
+  otherwise
+    ft_error('incorrect value for cfg.marker');
+end
+
+if isfield(cfg, 'vector')
+  % FIXME this is not documented
+  vecX = nanmean(real(data.(cfg.vector)(:,selx)), 2);
+  vecY = nanmean(imag(data.(cfg.vector)(:,selx)), 2);
+  
+  % scale quiver relative to largest gradiometer sample
+  k = 0.15/max([max(abs(real(data.(cfg.vector)(:)))) max(abs(imag(data.(cfg.vector)(:))))]);
+  quiver(chanX, chanY, k*vecX, k*vecY, 0, 'red');
+end
+
+% Write comment
+if strcmp(cfg.comment, 'no')
+  comment_handle = [];
+elseif strcmp(cfg.commentpos, 'title')
+  comment_handle = title(comment, 'FontSize', cfg.fontsize);
+elseif ~isempty(strcmp(cfg.layout.label, 'COMNT'))
+  x_comment = cfg.layout.pos(strcmp(cfg.layout.label, 'COMNT'), 1);
+  y_comment = cfg.layout.pos(strcmp(cfg.layout.label, 'COMNT'), 2);
+  % 'HorizontalAlignment', 'left', 'VerticalAlignment', 'bottom',
+  comment_handle = ft_plot_text(x_comment, y_comment, comment, 'FontSize', cfg.fontsize, 'FontWeight', cfg.fontweight);
+else
+  comment_handle = [];
+end
+
+% Set colour axis
+if ~strcmp(cfg.style, 'blank')
+  caxis([zmin zmax]);
+end
+
+% Plot colorbar
+if isfield(cfg, 'colorbar')
+  if strcmp(cfg.colorbar, 'yes')
+    c = colorbar;
+    ylabel(c, cfg.colorbartext);
+  elseif ~strcmp(cfg.colorbar, 'no')
+    c = colorbar('location', cfg.colorbar);
+    ylabel(c, cfg.colorbartext);
+  end
+end
+
+% Set renderer if specified
+if ~isempty(cfg.renderer)
+  set(gcf, 'renderer', cfg.renderer)
+end
+
+% set the figure window title, but only if the user has not changed it
+if isempty(get(gcf, 'Name'))
+  if isfield(cfg, 'funcname')
+    funcname = cfg.funcname;
+  else
+    funcname = mfilename;
+  end
+  if isempty(cfg.figurename)
+    dataname_str = join_str(', ', dataname);
+    set(gcf, 'Name', sprintf('%d: %s: %s', double(gcf), funcname, dataname_str));
+    set(gcf, 'NumberTitle', 'off');
+  else
+    set(gcf, 'name', cfg.figurename);
+    set(gcf, 'NumberTitle', 'off');
+  end
+end
+
+axis off
+hold off
+axis equal
+
+if strcmp('yes', cfg.hotkeys)
+  %  Attach data and cfg to figure and attach a key listener to the figure
+  set(gcf, 'KeyPressFcn', {@key_sub, zmin, zmax})
+end
+
+% Make the figure interactive
+if strcmp(cfg.interactive, 'yes')
+  % add the cfg/data/channel information to the figure under identifier linked to this axis
+  ident                    = ['axh' num2str(round(sum(clock.*1e6)))]; % unique identifier for this axis
+  set(gca, 'tag',ident);
+  info                     = guidata(gcf);
+  info.(ident).x           = cfg.layout.pos(:, 1);
+  info.(ident).y           = cfg.layout.pos(:, 2);
+  info.(ident).label       = cfg.layout.label;
+  info.(ident).dataname    = dataname;
+  info.(ident).cfg         = cfg;
+  info.(ident).commenth    = comment_handle;
+  if ~isfield(info.(ident),'datvarargin')
+    info.(ident).datvarargin = varargin(1:Ndata); % add all datasets to figure
+  end
+  info.(ident).datvarargin{indx} = data; % update current dataset (e.g. baselined, channel selection, etc)
+  guidata(gcf, info);
+  if any(strcmp(data.dimord, {'chan_time', 'chan_freq', 'subj_chan_time', 'rpt_chan_time', 'chan_chan_freq', 'chancmb_freq', 'rpt_chancmb_freq', 'subj_chancmb_freq'}))
+    set(gcf, 'WindowButtonUpFcn',     {@ft_select_channel, 'multiple', true, 'callback', {@select_singleplotER}, 'event', 'WindowButtonUpFcn'});
+    set(gcf, 'WindowButtonDownFcn',   {@ft_select_channel, 'multiple', true, 'callback', {@select_singleplotER}, 'event', 'WindowButtonDownFcn'});
+    set(gcf, 'WindowButtonMotionFcn', {@ft_select_channel, 'multiple', true, 'callback', {@select_singleplotER}, 'event', 'WindowButtonMotionFcn'});
+  elseif any(strcmp(data.dimord, {'chan_freq_time', 'subj_chan_freq_time', 'rpt_chan_freq_time', 'rpttap_chan_freq_time', 'chan_chan_freq_time', 'chancmb_freq_time', 'rpt_chancmb_freq_time', 'subj_chancmb_freq_time'}))
+    set(gcf, 'WindowButtonUpFcn',     {@ft_select_channel, 'multiple', true, 'callback', {@select_singleplotTFR}, 'event', 'WindowButtonUpFcn'});
+    set(gcf, 'WindowButtonDownFcn',   {@ft_select_channel, 'multiple', true, 'callback', {@select_singleplotTFR}, 'event', 'WindowButtonDownFcn'});
+    set(gcf, 'WindowButtonMotionFcn', {@ft_select_channel, 'multiple', true, 'callback', {@select_singleplotTFR}, 'event', 'WindowButtonMotionFcn'});
+  else
+    ft_warning('unsupported dimord "%s" for interactive plotting', data.dimord);
+  end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION which is called after selecting channels in case of cfg.interactive='yes'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function select_singleplotER(label)
+ident       = get(gca, 'tag');
+info        = guidata(gcf);
+cfg         = info.(ident).cfg;
+datvarargin = info.(ident).datvarargin;
+if ~isempty(label)
+  cfg = removefields(cfg, 'inputfile');       % the reading has already been done and varargin contains the data
+  cfg.baseline = 'no';                        % make sure the next function does not apply a baseline correction again
+  cfg.channel = label;
+  cfg.dataname = info.(ident).cfg.dataname;   % put data name in here, this cannot be resolved by other means
+  cfg.trials = 'all';                         % trial selection has already been taken care of
+  cfg.xlim = 'maxmin';
+  % if user specified a zlim, copy it over to the ylim of singleplot
+  if isfield(cfg, 'zlim')
+    cfg.ylim = cfg.zlim;
+    cfg = rmfield(cfg, 'zlim');
+  end
+  fprintf('selected cfg.channel = {%s}\n', join_str(', ', cfg.channel));
+  % ensure that the new figure appears at the same position
+  f = figure('Position', get(gcf, 'Position'), 'Visible', get(gcf, 'Visible'));
+  ft_singleplotER(cfg, datvarargin{:});
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION which is called after selecting channels in case of cfg.interactive='yes'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function select_singleplotTFR(label)
+ident       = get(gca, 'tag');
+info        = guidata(gcf);
+cfg         = info.(ident).cfg;
+datvarargin = info.(ident).datvarargin;
+if ~isempty(label)
+  cfg = removefields(cfg, 'inputfile');   % the reading has already been done and varargin contains the data
+  cfg.baseline = 'no';                    % make sure the next function does not apply a baseline correction again
+  cfg.channel = label;
+  cfg.dataname = info.(ident).dataname;   % put data name in here, this cannot be resolved by other means
+  cfg.trials = 'all';                     % trial selection has already been taken care of
+  cfg.xlim = 'maxmin';
+  cfg.ylim = 'maxmin';
+  fprintf('selected cfg.channel = {%s}\n', join_str(', ', cfg.channel));
+  % ensure that the new figure appears at the same position
+  f = figure('Position', get(gcf, 'Position'), 'Visible', get(gcf, 'Visible'));
+  ft_singleplotTFR(cfg, datvarargin{:});
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION which handles hot keys in the current plot
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function key_sub(handle, eventdata, varargin)
+ident       = get(gca, 'tag');
+info        = guidata(gcf);
+
+climits = caxis;
+incr_c  = abs(climits(2) - climits(1)) /10;
+
+newz = climits;
+if length(eventdata.Modifier) == 1 && strcmp(eventdata.Modifier{:}, 'control')
+  % TRANSLATE by 10%
+  switch eventdata.Key
+    case 'pageup'
+      newz = [climits(1)+incr_c climits(2)+incr_c];
+    case 'pagedown'
+      newz = [climits(1)-incr_c climits(2)-incr_c];
+  end % switch
+else
+  % ZOOM by 10%
+  switch eventdata.Key
+    case 'pageup'
+      newz = [climits(1)-incr_c climits(2)+incr_c];
+    case 'pagedown'
+      newz = [climits(1)+incr_c climits(2)-incr_c];
+    case 'm'
+      newz = [varargin{1} varargin{2}];
+  end % switch
+end % if
+
+% update the color axis
+caxis(newz);
+
+if ~isempty(ident) && isfield(info.(ident), 'commenth') && ~isempty(info.(ident).commenth)
+  commentstr = get(info.(ident).commenth, 'string');
+  sel        = contains(commentstr, info.(ident).cfg.parameter);
+  if any(sel)
+    commentstr{sel} = sprintf('%0s=[%.3g %.3g]', info.(ident).cfg.parameter, newz(1), newz(2));
+    set(info.(ident).commenth, 'string', commentstr);
+  end
+end
+                                                                                                                                                                                                                                                                                                                                                                                                       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function cb_startDrag(h, eventdata)
+f = get(h, 'Parent');
+while ~strcmp(get(f, 'Tag'), 'mainFigure')
+  f = get(f, 'Parent');
+end
+opt =  guidata(f);
+opt.handles.current.line = h;
+
+if strfind(get(h, 'Tag'), 'Color')>0
+  opt.handles.current.axes = opt.handles.colorbar;
+  opt.handles.current.color = true;
+else
+  disp('Figure out if it works for xparam and yparam');
+  keyboard
+end
+
+set(f, 'WindowButtonMotionFcn', @cb_dragLine);
+
+guidata(h, opt);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function cb_getposition(h, eventdata)
+
+h   = findobj(h, 'tag', 'mainFigure');
+opt = guidata(h);
+
+pos = get(get(h, 'currentaxes'), 'currentpoint');
+switch get(get(h, 'currentaxes'), 'tag'),
+  case 'geometry'
+    if opt.ismesh
+      % get the intersection with the mesh
+      [ipos, d] = intersect_line(opt.anatomy.pos, opt.anatomy.tri, pos(1,:), pos(2,:));
+      [md, ix]  = min(abs(d));
+   
+      dpos     = opt.anatomy.pos - ipos(ix*ones(size(opt.anatomy.pos,1),1),:);
+      opt.valz = nearest(sum(dpos.^2,2),0);
+   
+    elseif opt.isvolume
+    else
+    end
+    
+  case 'other'
+  otherwise
+end
+
+% if strcmp(get(get(h, 'currentaxes'), 'tag'), 'timecourse')
+%   % get the current point
+%   pos = get(opt.hy, 'currentpoint');
+%   set(opt.sliderx, 'value', nearest(opt.xparam, pos(1,1))./numel(opt.xparam));
+%   if isfield(opt, 'hline')
+%     set(opt.slidery, 'value', nearest(opt.yparam, pos(1,2))./numel(opt.yparam));
+%   end
+% elseif strcmp(get(get(h, 'currentaxes'), 'tag'), 'mesh')
+%   % get the current point, which is defined as the intersection through the
+%   % axis-box (in 3D)
+%   pos       = get(opt.hx, 'currentpoint');
+%   
+%   % get the intersection with the mesh
+%   [ipos, d] = intersect_line(opt.pos, opt.tri, pos(1,:), pos(2,:));
+%   [md, ix]  = min(abs(d));
+%   
+%   dpos      = opt.pos - ipos(ix*ones(size(opt.pos,1),1),:);
+%   opt.vindx = nearest(sum(dpos.^2,2),0);
+%   
+%   if isfield(opt, 'parcellation')
+%     opt.pindx = find(opt.parcellation(opt.vindx,:));
+%     disp(opt.pindx);
+%   end
+% elseif strcmp(get(get(h, 'currentaxes'), 'tag'), 'mesh2')
+%   % get the current point, which is defined as the intersection through the
+%   % axis-box (in 3D)
+%   pos       = get(opt.hz, 'currentpoint');
+%   
+%   % get the intersection with the mesh
+%   [ipos, d] = intersect_line(opt.pos, opt.tri, pos(1,:), pos(2,:));
+%   [md, ix]  = min(abs(d));
+%   
+%   dpos      = opt.pos - ipos(ix*ones(size(opt.pos,1),1),:);
+%   opt.vindx = nearest(sum(dpos.^2,2),0);
+%   
+%   if isfield(opt, 'parcellation')
+%     opt.pindx2 = find(opt.parcellation(opt.vindx,:));
+%     disp(opt.pindx2);
+%   end
+%   
+% end
+guidata(h, opt);
+cb_slider(h);
+
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function cb_dragLine(h, eventdata)
+opt =  guidata(h);
+pt = get(opt.handles.current.axes, 'CurrentPoint');
+yLim = get(opt.handles.colorbar, 'YLim');
+
+% upper (lower) bar must not below (above) lower (upper) bar
+if ~(opt.handles.current.line == opt.handles.lines.upperColor && ...
+    (any(pt(3)*[1 1]<get(opt.handles.lines.lowerColor, 'YData')) || ...
+    yLim(end) <= pt(3))) ...
+    && ~(opt.handles.current.line == opt.handles.lines.lowerColor && ...
+    (any(pt(3)*[1 1]>get(opt.handles.lines.upperColor, 'YData')) || ...
+    yLim(1) >= pt(3)))
+  set(opt.handles.current.line, 'YData', pt(3)*[1 1]);
+end
+
+adjust_colorbar(opt);
+
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function cb_stopDrag(h, eventdata)
+while ~strcmp(get(h, 'Tag'), 'mainFigure')
+  h = get(h, 'Parent');
+end
+set(h, 'WindowButtonMotionFcn', '');
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function adjust_colorbar(opt)
+  % adjust colorbar
+  upper = get(opt.handles.lines.upperColor, 'YData');
+  lower = get(opt.handles.lines.lowerColor, 'YData');
+  if any(round(upper)==0) || any(round(lower)==0)
+    return;
+  end
+  maps = get(opt.handles.menu.colormap, 'String');
+  cmap = feval(maps{get(opt.handles.menu.colormap, 'Value')}, size(colormap, 1));
+  cmap(round(lower(1)):round(upper(1)), :) = repmat(cmap(round(lower(1)), :), 1+round(upper(1))-round(lower(1)), 1);
+  for i=1:numel(opt.dat)
+    colormap(opt.handles.axes.movie_subplot{i}, cmap);
+  end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function opt = plot_geometry(opt)
+  numArgs = numel(opt.dat);
+  numRows = floor(sqrt(numArgs));
+  numCols = ceil(sqrt(numArgs));
+  for i=1:numArgs
+    axes(opt.handles.axes.movie);
+    opt.handles.axes.movie_subplot{i} = gca;
+    if isfield(opt, 'anatomy') && opt.ismesh
+      if isfield(opt.anatomy, 'sulc') && ~isempty(opt.anatomy.sulc)
+        vdat = opt.anatomy.sulc;
+        vdat(vdat>0.5) = 0.5;
+        vdat(vdat<-0.5)= -0.5;
+        vdat = vdat-min(vdat);
+        vdat = 0.35.*(vdat./max(vdat))+0.3;
+        vdat = repmat(vdat,[1 3]);
+        mesh = ft_plot_mesh(opt.anatomy, 'edgecolor', 'none', 'vertexcolor', vdat);
+      else
+        mesh = ft_plot_mesh(opt.anatomy, 'edgecolor', 'none', 'facecolor', [0.5 0.5 0.5]);
+      end
+      lighting gouraud
+      % set(mesh, 'Parent', opt.handles.axes.movie);
+      % mesh = ft_plot_mesh(source, 'edgecolor', 'none', 'vertexcolor', 0*opt.dat(:,1,1), 'facealpha', 0*opt.mask(:,1,1));
+      opt.handles.mesh{i} = ft_plot_mesh(opt.anatomy, 'edgecolor', 'none', 'vertexcolor', opt.dat{i}(:,1,1));
+      set(opt.handles.mesh{i}, 'AlphaDataMapping', 'scaled');
+      set(opt.handles.mesh{i}, 'FaceVertexAlphaData', opt.mask{i}(:,opt.valx,opt.valy));
+      % TODO FIXME below does not work
+      %set(opt.handles.mesh, 'FaceAlpha', 'flat');
+      %set(opt.handles.mesh, 'EdgeAlpha', 'flat');
+
+      lighting gouraud
+      cam1 = camlight('left');
+%       set(cam1, 'Parent', opt.handles.axes.movie);
+      cam2 = camlight('right');
+%       set(cam2, 'Parent', opt.handles.axes.movie);
+%       set(opt.handles.mesh, 'Parent', opt.handles.axes.movie);
+      %   cameratoolbar(opt.handles.figure, 'Show');
+    else
+      axes(opt.handles.axes.movie)
+      [dum, opt.handles.grid{i}] = ft_plot_topo(opt.layout{i}.pos(opt.sellay,1), opt.layout{i}.pos(opt.sellay,2), zeros(numel(opt.sellay{i}),1), 'mask', opt.layout{i}.mask, 'outline', opt.layout{i}.outline, 'interpmethod', 'v4', 'interplim', 'mask', 'parent', opt.handles.axes.movie);
+      %[dum, opt.handles.grid] = ft_plot_topo(layout.pos(sellay,1), layout.pos(sellay,2), zeros(numel(sellay),1), 'mask',layout.mask,  'outline', layout.outline, 'interpmethod', 'v4', 'interplim', 'mask', 'parent', opt.handles.axes.movie);
+      % set(opt.handles.grid, 'Parent', opt.handles.axes.movie);
+      opt.xdata{i}   = get(opt.handles.grid{i}, 'xdata');
+      opt.ydata{i}   = get(opt.handles.grid{i}, 'ydata');
+      opt.nanmask{i} = 1-get(opt.handles.grid{i}, 'cdata');
+      if (gcf~=opt.handles.figure)
+        close gcf; % sometimes there is a new window that opens up
+      end
+    end
+  end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function opt = plot_other(opt)
+  dimord  = opt.dimord;
+  
+  switch dimord
+    case {'pos_time' 'pos_freq' 'chan_time' 'chan_freq'}
+      opt.doplot    = true;
+      opt.doimagesc = false;
+    case {'pos_freq_time' 'chan_freq_time' 'chan_chan_freq' 'chan_chan_time' 'pos_pos_freq' 'pos_pos_time'}
+      opt.doplot    = false;
+      opt.doimagesc = false;
+    otherwise
+  end
+  
+  if opt.doplot
+    plot(opt.handles.axes.other, opt.xvalues, nanmean(opt.dat{1}(opt.valz,:),1));
+  elseif opt.doimagesc
+  end
+ 
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function c = ikelvin(m)
+%  pos    hue   sat   value
+cu = [
+  0.0     1/2   0     1.0
+  0.125   1/2   0.6   0.95
+  0.375   2/3   1.0   0.8
+  0.5     2/3   1.0   0.3
+  ];
+
+cl = cu;
+cl(:, 3:4) = cl(end:-1:1, 3:4);
+cl(:, 2)   = cl(:, 2) - 0.5;
+cu(:,1)    = cu(:,1)+.5;
+
+x = linspace(0, 1, m)';
+l = (x < 0.5); u = ~l;
+for i = 1:3
+  h(l, i) = interp1(cl(:, 1), cl(:, i+1), x(l));
+  h(u, i) = interp1(cu(:, 1), cu(:, i+1), x(u));
+end
+c = hsv2rgb(h);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBFUNCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function c = ikelvinr(m)
+%  pos    hue   sat   value
+cu = [
+  0.0     1/2   0     1.0
+  0.125   1/2   0.6   0.95
+  0.375   2/3   1.0   0.8
+  0.5     2/3   1.0   0.3
+  ];
+
+cl = cu;
+cl(:, 3:4) = cl(end:-1:1, 3:4);
+cl(:, 2)   = cl(:, 2) - 0.5;
+cu(:,1)    = cu(:,1)+.5;
+
+x = linspace(0, 1, m)';
+l = (x < 0.5); u = ~l;
+for i = 1:3
+  h(l, i) = interp1(cl(:, 1), cl(:, i+1), x(l));
+  h(u, i) = interp1(cu(:, 1), cu(:, i+1), x(u));
+end
+c = hsv2rgb(h);
+
+c = flipud(c);
+end
+                                                                                                                                                                                                                                                                                       '
+        'MEG0942'  'MEG0943'  'MEG0941'  'MEG0942+0943'
+        'MEG1012'  'MEG1013'  'MEG1011'  'MEG1012+1013'
+        'MEG1022'  'MEG1023'  'MEG1021'  'MEG1022+1023'
+        'MEG1032'  'MEG1033'  'MEG1031'  'MEG1032+1033'
+        'MEG1042'  'MEG1043'  'MEG1041'  'MEG1042+1043'
+        'MEG1112'  'MEG1113'  'MEG1111'  'MEG1112+1113'
+        'MEG1122'  'MEG1123'  'MEG1121'  'MEG1122+1123'
+        'MEG1132'  'MEG1133'  'MEG1131'  'MEG1132+1133'
+        'MEG1142'  'MEG1143'  'MEG1141'  'MEG1142+1143'
+        'MEG1212'  'MEG1213'  'MEG1211'  'MEG1212+1213'
+        'MEG1222'  'MEG1223'  'MEG1221'  'MEG1222+1223'
+        'MEG1232'  'MEG1233'  'MEG1231'  'MEG1232+1233'
+        'MEG1242'  'MEG1243'  'MEG1241'  'MEG1242+1243'
+        'MEG1312'  'MEG1313'  'MEG1311'  'MEG1312+1313'
+        'MEG1322'  'MEG1323'  'MEG1321'  'MEG1322+1323'
+        'MEG1332'  'MEG1333'  'MEG1331'  'MEG1332+1333'
+        'MEG1342'  'MEG1343'  'MEG1341'  'MEG1342+1343'
+        'MEG1412'  'MEG1413'  'MEG1411'  'MEG1412+1413'
+        'MEG1422'  'MEG1423'  'MEG1421'  'MEG1422+1423'
+        'MEG1432'  'MEG1433'  'MEG1431'  'MEG1432+1433'
+        'MEG1442'  'MEG1443'  'MEG1441'  'MEG1442+1443'
+        'MEG1512'  'MEG1513'  'MEG1511'  'MEG1512+1513'
+        'MEG1522'  'MEG1523'  'MEG1521'  'MEG1522+1523'
+        'MEG1532'  'MEG1533'  'MEG1531'  'MEG1532+1533'
+        'MEG1542'  'MEG1543'  'MEG1541'  'MEG1542+1543'
+        'MEG1612'  'MEG1613'  'MEG1611'  'MEG1612+1613'
+        'MEG1622'  'MEG1623'  'MEG1621'  'MEG1622+1623'
+        'MEG1632'  'MEG1633'  'MEG1631'  'MEG1632+1633'
+        'MEG1642'  'MEG1643'  'MEG1641'  'MEG1642+1643'
+        'MEG1712'  'MEG1713'  'MEG1711'  'MEG1712+1713'
+        'MEG1722'  'MEG1723'  'MEG1721'  'MEG1722+1723'
+        'MEG1732'  'MEG1733'  'MEG1731'  'MEG1732+1733'
+        'MEG1742'  'MEG1743'  'MEG1741'  'MEG1742+1743'
+        'MEG1812'  'MEG1813'  'MEG1811'  'MEG1812+1813'
+        'MEG1822'  'MEG1823'  'MEG1821'  'MEG1822+1823'
+        'MEG1832'  'MEG1833'  'MEG1831'  'MEG1832+1833'
+        'MEG1842'  'MEG1843'  'MEG1841'  'MEG1842+1843'
+        'MEG1912'  'MEG1913'  'MEG1911'  'MEG1912+1913'
+        'MEG1922'  'MEG1923'  'MEG1921'  'MEG1922+1923'
+        'MEG1932'  'MEG1933'  'MEG1931'  'MEG1932+1933'
+        'MEG1942'  'MEG1943'  'MEG1941'  'MEG1942+1943'
+        'MEG2012'  'MEG2013'  'MEG2011'  'MEG2012+2013'
+        'MEG2022'  'MEG2023'  'MEG2021'  'MEG2022+2023'
+        'MEG2032'  'MEG2033'  'MEG2031'  'MEG2032+2033'
+        'MEG2042'  'MEG2043'  'MEG2041'  'MEG2042+2043'
+        'MEG2112'  'MEG2113'  'MEG2111'  'MEG2112+2113'
+        'MEG2122'  'MEG2123'  'MEG2121'  'MEG2122+2123'
+        'MEG2132'  'MEG2133'  'MEG2131'  'MEG2132+2133'
+        'MEG2142'  'MEG2143'  'MEG2141'  'MEG2142+2143'
+        'MEG2212'  'MEG2213'  'MEG2211'  'MEG2212+2213'
+        'MEG2222'  'MEG2223'  'MEG2221'  'MEG2222+2223'
+        'MEG2232'  'MEG2233'  'MEG2231'  'MEG2232+2233'
+        'MEG2242'  'MEG2243'  'MEG2241'  'MEG2242+2243'
+        'MEG2312'  'MEG2313'  'MEG2311'  'MEG2312+2313'
+        'MEG2322'  'MEG2323'  'MEG2321'  'MEG2322+2323'
+        'MEG2332'  'MEG2333'  'MEG2331'  'MEG2332+2333'
+        'MEG2342'  'MEG2343'  'MEG2341'  'MEG2342+2343'
+        'MEG2412'  'MEG2413'  'MEG2411'  'MEG2412+2413'
+        'MEG2422'  'MEG2423'  'MEG2421'  'MEG2422+2423'
+        'MEG2432'  'MEG2433'  'MEG2431'  'MEG2432+2433'
+        'MEG2442'  'MEG2443'  'MEG2441'  'MEG2442+2443'
+        'MEG2512'  'MEG2513'  'MEG2511'  'MEG2512+2513'
+        'MEG2522'  'MEG2523'  'MEG2521'  'MEG2522+2523'
+        'MEG2532'  'MEG2533'  'MEG2531'  'MEG2532+2533'
+        'MEG2542'  'MEG2543'  'MEG2541'  'MEG2542+2543'
+        'MEG2612'  'MEG2613'  'MEG2611'  'MEG2612+2613'
+        'MEG2622'  'MEG2623'  'MEG2621'  'MEG2622+2623'
+        'MEG2632'  'MEG2633'  'MEG2631'  'MEG2632+2633'
+        'MEG2642'  'MEG2643'  'MEG2641'  'MEG2642+2643'
+        };
+      neuromag306_mag      = label(:,3);
+      neuromag306_planar   = label(:,[1 2]);
+      neuromag306_combined = label(:,[3 4]); % magnetometers and combined channels
+      label                = label(:,1:3);
+      
+    case 'eeg1020'
+      label = {
+        'Fp1'
+        'Fpz'
+        'Fp2'
+        'F7'
+        'F3'
+        'Fz'
+        'F4'
+        'F8'
+        'T7'
+        'C3'
+        'Cz'
+        'C4'
+        'T8'
+        'P7'
+        'P3'
+        'Pz'
+        'P4'
+        'P8'
+        'O1'
+        'Oz'
+        'O2'};
+      
+      % Add also reference and some alternative labels that might be used
+      label = cat(1, label, {'A1' 'A2' 'M1' 'M2' 'T3' 'T4' 'T5' 'T6'}');
+      
+    case 'eeg1010'
+      label = {
+        'Fp1'
+        'Fpz'
+        'Fp2'
+        'AF9'
+        'AF7'
+        'AF5'
+        'AF3'
+        'AF1'
+        'AFz'
+        'AF2'
+        'AF4'
+        'AF6'
+        'AF8'
+        'AF10'
+        'F9'
+        'F7'
+        'F5'
+        'F3'
+        'F1'
+        'Fz'
+        'F2'
+        'F4'
+        'F6'
+        'F8'
+        'F10'
+        'FT9'
+        'FT7'
+        'FC5'
+        'FC3'
+        'FC1'
+        'FCz'
+        'FC2'
+        'FC4'
+        'FC6'
+        'FT8'
+        'FT10'
+        'T9'
+        'T7'
+        'C5'
+        'C3'
+        'C1'
+        'Cz'
+        'C2'
+        'C4'
+        'C6'
+        'T8'
+        'T10'
+        'TP9'
+        'TP7'
+        'CP5'
+        'CP3'
+        'CP1'
+        'CPz'
+        'CP2'
+        'CP4'
+        'CP6'
+        'TP8'
+        'TP10'
+        'P9'
+        'P7'
+        'P5'
+        'P3'
+        'P1'
+        'Pz'
+        'P2'
+        'P4'
+        'P6'
+        'P8'
+        'P10'
+        'PO9'
+        'PO7'
+        'PO5'
+        'PO3'
+        'PO1'
+        'POz'
+        'PO2'
+        'PO4'
+        'PO6'
+        'PO8'
+        'PO10'
+        'O1'
+        'Oz'
+        'O2'
+        'I1'
+        'Iz'
+        'I2'
+        };
+
+      % Add also reference and some alternative labels that might be used
+      label = cat(1, label, {'A1' 'A2' 'M1' 'M2' 'T3' 'T4' 'T5' 'T6'}');
+
+    case 'eeg1005'
+      label = {
+        'Fp1'
+        'Fpz'
+        'Fp2'
+        'AF9'
+        'AF7'
+        'AF5'
+        'AF3'
+        'AF1'
+        'AFz'
+        'AF2'
+        'AF4'
+        'AF6'
+        'AF8'
+        'AF10'
+        'F9'
+        'F7'
+        'F5'
+        'F3'
+        'F1'
+        'Fz'
+        'F2'
+        'F4'
+        'F6'
+        'F8'
+        'F10'
+        'FT9'
+        'FT7'
+        'FC5'
+        'FC3'
+        'FC1'
+        'FCz'
+        'FC2'
+        'FC4'
+        'FC6'
+        'FT8'
+        'FT10'
+        'T9'
+        'T7'
+        'C5'
+        'C3'
+        'C1'
+        'Cz'
+        'C2'
+        'C4'
+        'C6'
+        'T8'
+        'T10'
+        'TP9'
+        'TP7'
+        'CP5'
+        'CP3'
+        'CP1'
+        'CPz'
+        'CP2'
+        'CP4'
+        'CP6'
+        'TP8'
+        'TP10'
+        'P9'
+        'P7'
+        'P5'
+        'P3'
+        'P1'
+        'Pz'
+        'P2'
+        'P4'
+        'P6'
+        'P8'
+        'P10'
+        'PO9'
+        'PO7'
+        'PO5'
+        'PO3'
+        'PO1'
+        'POz'
+        'PO2'
+        'PO4'
+        'PO6'
+        'PO8'
+        'PO10'
+        'O1'
+        'Oz'
+        'O2'
+        'I1'
+        'Iz'
+        'I2'
+        'AFp9h'
+        'AFp7h'
+        'AFp5h'
+        'AFp3h'
+        'AFp1h'
+        'AFp2h'
+        'AFp4h'
+        'AFp6h'
+        'AFp8h'
+        'AFp10h'
+        'AFF9h'
+        'AFF7h'
+        'AFF5h'
+        'AFF3h'
+        'AFF1h'
+        'AFF2h'
+        'AFF4h'
+        'AFF6h'
+        'AFF8h'
+        'AFF10h'
+        'FFT9h'
+        'FFT7h'
+        'FFC5h'
+        'FFC3h'
+        'FFC1h'
+        'FFC2h'
+        'FFC4h'
+        'FFC6h'
+        'FFT8h'
+        'FFT10h'
+        'FTT9h'
+        'FTT7h'
+        'FCC5h'
+        'FCC3h'
+        'FCC1h'
+        'FCC2h'
+        'FCC4h'
+        'FCC6h'
+        'FTT8h'
+        'FTT10h'
+        'TTP9h'
+        'TTP7h'
+        'CCP5h'
+        'CCP3h'
+        'CCP1h'
+        'CCP2h'
+        'CCP4h'
+        'CCP6h'
+        'TTP8h'
+        'TTP10h'
+        'TPP9h'
+        'TPP7h'
+        'CPP5h'
+        'CPP3h'
+        'CPP1h'
+        'CPP2h'
+        'CPP4h'
+        'CPP6h'
+        'TPP8h'
+        'TPP10h'
+        'PPO9h'
+        'PPO7h'
+        'PPO5h'
+        'PPO3h'
+        'PPO1h'
+        'PPO2h'
+        'PPO4h'
+        'PPO6h'
+        'PPO8h'
+        'PPO10h'
+        'POO9h'
+        'POO7h'
+        'POO5h'
+        'POO3h'
+        'POO1h'
+        'POO2h'
+        'POO4h'
+        'POO6h'
+        'POO8h'
+        'POO10h'
+        'OI1h'
+        'OI2h'
+        'Fp1h'
+        'Fp2h'
+        'AF9h'
+        'AF7h'
+        'AF5h'
+        'AF3h'
+        'AF1h'
+        'AF2h'
+        'AF4h'
+        'AF6h'
+        'AF8h'
+        'AF10h'
+        'F9h'
+        'F7h'
+        'F5h'
+        'F3h'
+        'F1h'
+        'F2h'
+        'F4h'
+        'F6h'
+        'F8h'
+        'F10h'
+        'FT9h'
+        'FT7h'
+        'FC5h'
+        'FC3h'
+        'FC1h'
+        'FC2h'
+        'FC4h'
+        'FC6h'
+        'FT8h'
+        'FT10h'
+        'T9h'
+        'T7h'
+        'C5h'
+        'C3h'
+        'C1h'
+        'C2h'
+        'C4h'
+        'C6h'
+        'T8h'
+        'T10h'
+        'TP9h'
+        'TP7h'
+        'CP5h'
+        'CP3h'
+        'CP1h'
+        'CP2h'
+        'CP4h'
+        'CP6h'
+        'TP8h'
+        'TP10h'
+        'P9h'
+        'P7h'
+        'P5h'
+        'P3h'
+        'P1h'
+        'P2h'
+        'P4h'
+        'P6h'
+        'P8h'
+        'P10h'
+        'PO9h'
+        'PO7h'
+        'PO5h'
+        'PO3h'
+        'PO1h'
+        'PO2h'
+        'PO4h'
+        'PO6h'
+        'PO8h'
+        'PO10h'
+        'O1h'
+        'O2h'
+        'I1h'
+        'I2h'
+        'AFp9'
+        'AFp7'
+        'AFp5'
+        'AFp3'
+        'AFp1'
+        'AFpz'
+        'AFp2'
+        'AFp4'
+        'AFp6'
+        'AFp8'
+        'AFp10'
+        'AFF9'
+        'AFF7'
+        'AFF5'
+        'AFF3'
+        'AFF1'
+        'AFFz'
+        'AFF2'
+        'AFF4'
+        'AFF6'
+        'AFF8'
+        'AFF10'
+        'FFT9'
+        'FFT7'
+        'FFC5'
+        'FFC3'
+        'FFC1'
+        'FFCz'
+        'FFC2'
+        'FFC4'
+        'FFC6'
+        'FFT8'
+        'FFT10'
+        'FTT9'
+        'FTT7'
+        'FCC5'
+        'FCC3'
+        'FCC1'
+        'FCCz'
+        'FCC2'
+        'FCC4'
+        'FCC6'
+        'FTT8'
+        'FTT10'
+        'TTP9'
+        'TTP7'
+        'CCP5'
+        'CCP3'
+        'CCP1'
+        'CCPz'
+        'CCP2'
+        'CCP4'
+        'CCP6'
+        'TTP8'
+        'TTP10'
+        'TPP9'
+        'TPP7'
+        'CPP5'
+        'CPP3'
+        'CPP1'
+        'CPPz'
+        'CPP2'
+        'CPP4'
+        'CPP6'
+        'TPP8'
+        'TPP10'
+        'PPO9'
+        'PPO7'
+        'PPO5'
+        'PPO3'
+        'PPO1'
+        'PPOz'
+        'PPO2'
+        'PPO4'
+        'PPO6'
+        'PPO8'
+        'PPO10'
+        'POO9'
+        'POO7'
+        'POO5'
+        'POO3'
+        'POO1'
+        'POOz'
+        'POO2'
+        'POO4'
+        'POO6'
+        'POO8'
+        'POO10'
+        'OI1'
+        'OIz'
+        'OI2'
+        };
+
+      % Add also reference and some alternative labels that might be used
+      label = cat(1, label, {'A1' 'A2' 'M1' 'M2' 'T3' 'T4' 'T5' 'T6'}');
+      
+    case 'ext1020'
+      % start with the eeg1005 list
+      label = {
+        'Fp1'
+        'Fpz'
+        'Fp2'
+        'AF9'
+        'AF7'
+        'AF5'
+        'AF3'
+        'AF1'
+        'AFz'
+        'AF2'
+        'AF4'
+        'AF6'
+        'AF8'
+        'AF10'
+        'F9'
+        'F7'
+        'F5'
+        'F3'
+        'F1'
+        'Fz'
+        'F2'
+        'F4'
+        'F6'
+        'F8'
+        'F10'
+        'FT9'
+        'FT7'
+        'FC5'
+        'FC3'
+        'FC1'
+        'FCz'
+        'FC2'
+        'FC4'
+        'FC6'
+        'FT8'
+        'FT10'
+        'T9'
+        'T7'
+        'C5'
+        'C3'
+        'C1'
+        'Cz'
+        'C2'
+        'C4'
+        'C6'
+        'T8'
+        'T10'
+        'TP9'
+        'TP7'
+        'CP5'
+        'CP3'
+        'CP1'
+        'CPz'
+        'CP2'
+        'CP4'
+        'CP6'
+        'TP8'
+        'TP10'
+        'P9'
+        'P7'
+        'P5'
+        'P3'
+        'P1'
+        'Pz'
+        'P2'
+        'P4'
+        'P6'
+        'P8'
+        'P10'
+        'PO9'
+        'PO7'
+        'PO5'
+        'PO3'
+        'PO1'
+        'POz'
+        'PO2'
+        'PO4'
+        'PO6'
+        'PO8'
+        'PO10'
+        'O1'
+        'Oz'
+        'O2'
+        'I1'
+        'Iz'
+        'I2'
+        'AFp9h'
+        'AFp7h'
+        'AFp5h'
+        'AFp3h'
+        'AFp1h'
+        'AFp2h'
+        'AFp4h'
+        'AFp6h'
+        'AFp8h'
+        'AFp10h'
+        'AFF9h'
+        'AFF7h'
+        'AFF5h'
+        'AFF3h'
+        'AFF1h'
+        'AFF2h'
+        'AFF4h'
+        'AFF6h'
+        'AFF8h'
+        'AFF10h'
+        'FFT9h'
+        'FFT7h'
+        'FFC5h'
+        'FFC3h'
+        'FFC1h'
+        'FFC2h'
+        'FFC4h'
+        'FFC6h'
+        'FFT8h'
+        'FFT10h'
+        'FTT9h'
+        'FTT7h'
+        'FCC5h'
+        'FCC3h'
+        'FCC1h'
+        'FCC2h'
+        'FCC4h'
+        'FCC6h'
+        'FTT8h'
+        'FTT10h'
+        'TTP9h'
+        'TTP7h'
+        'CCP5h'
+        'CCP3h'
+        'CCP1h'
+        'CCP2h'
+        'CCP4h'
+        'CCP6h'
+        'TTP8h'
+        'TTP10h'
+        'TPP9h'
+        'TPP7h'
+        'CPP5h'
+        'CPP3h'
+        'CPP1h'
+        'CPP2h'
+        'CPP4h'
+        'CPP6h'
+        'TPP8h'
+        'TPP10h'
+        'PPO9h'
+        'PPO7h'
+        'PPO5h'
+        'PPO3h'
+        'PPO1h'
+        'PPO2h'
+        'PPO4h'
+        'PPO6h'
+        'PPO8h'
+        'PPO10h'
+        'POO9h'
+        'POO7h'
+        'POO5h'
+        'POO3h'
+        'POO1h'
+        'POO2h'
+        'POO4h'
+        'POO6h'
+        'POO8h'
+        'POO10h'
+        'OI1h'
+        'OI2h'
+        'Fp1h'
+        'Fp2h'
+        'AF9h'
+        'AF7h'
+        'AF5h'
+        'AF3h'
+        'AF1h'
+        'AF2h'
+        'AF4h'
+        'AF6h'
+        'AF8h'
+        'AF10h'
+        'F9h'
+        'F7h'
+        'F5h'
+        'F3h'
+        'F1h'
+        'F2h'
+        'F4h'
+        'F6h'
+        'F8h'
+        'F10h'
+        'FT9h'
+        'FT7h'
+        'FC5h'
+        'FC3h'
+        'FC1h'
+        'FC2h'
+        'FC4h'
+        'FC6h'
+        'FT8h'
+        'FT10h'
+        'T9h'
+        'T7h'
+        'C5h'
+        'C3h'
+        'C1h'
+        'C2h'
+        'C4h'
+        'C6h'
+        'T8h'
+        'T10h'
+        'TP9h'
+        'TP7h'
+        'CP5h'
+        'CP3h'
+        'CP1h'
+        'CP2h'
+        'CP4h'
+        'CP6h'
+        'TP8h'
+        'TP10h'
+        'P9h'
+        'P7h'
+        'P5h'
+        'P3h'
+        'P1h'
+        'P2h'
+        'P4h'
+        'P6h'
+        'P8h'
+        'P10h'
+        'PO9h'
+        'PO7h'
+        'PO5h'
+        'PO3h'
+        'PO1h'
+        'PO2h'
+        'PO4h'
+        'PO6h'
+        'PO8h'
+        'PO10h'
+        'O1h'
+        'O2h'
+        'I1h'
+        'I2h'
+        'AFp9'
+        'AFp7'
+        'AFp5'
+        'AFp3'
+        'AFp1'
+        'AFpz'
+        'AFp2'
+        'AFp4'
+        'AFp6'
+        'AFp8'
+        'AFp10'
+        'AFF9'
+        'AFF7'
+        'AFF5'
+        'AFF3'
+        'AFF1'
+        'AFFz'
+        'AFF2'
+        'AFF4'
+        'AFF6'
+        'AFF8'
+        'AFF10'
+        'FFT9'
+        'FFT7'
+        'FFC5'
+        'FFC3'
+        'FFC1'
+        'FFCz'
+        'FFC2'
+        'FFC4'
+        'FFC6'
+        'FFT8'
+        'FFT10'
+        'FTT9'
+        'FTT7'
+        'FCC5'
+        'FCC3'
+        'FCC1'
+        'FCCz'
+        'FCC2'
+        'FCC4'
+        'FCC6'
+        'FTT8'
+        'FTT10'
+        'TTP9'
+        'TTP7'
+        'CCP5'
+        'CCP3'
+        'CCP1'
+        'CCPz'
+        'CCP2'
+        'CCP4'
+        'CCP6'
+        'TTP8'
+        'TTP10'
+        'TPP9'
+        'TPP7'
+        'CPP5'
+        'CPP3'
+        'CPP1'
+        'CPPz'
+        'CPP2'
+        'CPP4'
+        'CPP6'
+        'TPP8'
+        'TPP10'
+        'PPO9'
+        'PPO7'
+        'PPO5'
+        'PPO3'
+        'PPO1'
+        'PPOz'
+        'PPO2'
+        'PPO4'
+        'PPO6'
+        'PPO8'
+        'PPO10'
+        'POO9'
+        'POO7'
+        'POO5'
+        'POO3'
+        'POO1'
+        'POOz'
+        'POO2'
+        'POO4'
+        'POO6'
+        'POO8'
+        'POO10'
+        'OI1'
+        'OIz'
+        'OI2'
+        };
+      
+      % Add also reference and some alternative labels that might be used
+      label = cat(1, label, {'A1' 'A2' 'M1' 'M2' 'T3' 'T4' 'T5' 'T6'}');
+      
+      % This is to account for all variants of case in 1020 systems
+      label = unique(cat(1, label, upper(label), lower(label)));
+      
+    case 'biosemi64'
+      label = {
+        'A1'
+        'A2'
+        'A3'
+        'A4'
+        'A5'
+        'A6'
+        'A7'
+        'A8'
+        'A9'
+        'A10'
+        'A11'
+        'A12'
+        'A13'
+        'A14'
+        'A15'
+        'A16'
+        'A17'
+        'A18'
+        'A19'
+        'A20'
+        'A21'
+        'A22'
+        'A23'
+        'A24'
+        'A25'
+        'A26'
+        'A27'
+        'A28'
+        'A29'
+        'A30'
+        'A31'
+        'A32'
+        'B1'
+        'B2'
+        'B3'
+        'B4'
+        'B5'
+        'B6'
+        'B7'
+        'B8'
+        'B9'
+        'B10'
+        'B11'
+        'B12'
+        'B13'
+        'B14'
+        'B15'
+        'B16'
+        'B17'
+        'B18'
+        'B19'
+        'B20'
+        'B21'
+        'B22'
+        'B23'
+        'B24'
+        'B25'
+        'B26'
+        'B27'
+        'B28'
+        'B29'
+        'B30'
+        'B31'
+        'B32'
+        };
+      
+    case 'biosemi128'
+      label = {
+        'A1'
+        'A2'
+        'A3'
+        'A4'
+        'A5'
+        'A6'
+        'A7'
+        'A8'
+        'A9'
+        'A10'
+        'A11'
+        'A12'
+        'A13'
+        'A14'
+        'A15'
+        'A16'
+        'A17'
+        'A18'
+        'A19'
+        'A20'
+        'A21'
+        'A22'
+        'A23'
+        'A24'
+        'A25'
+        'A26'
+        'A27'
+        'A28'
+        'A29'
+        'A30'
+        'A31'
+        'A32'
+        'B1'
+        'B2'
+        'B3'
+        'B4'
+        'B5'
+        'B6'
+        'B7'
+        'B8'
+        'B9'
+        'B10'
+        'B11'
+        'B12'
+        'B13'
+        'B14'
+        'B15'
+        'B16'
+        'B17'
+        'B18'
+        'B19'
+        'B20'
+        'B21'
+        'B22'
+        'B23'
+        'B24'
+        'B25'
+        'B26'
+        'B27'
+        'B28'
+        'B29'
+        'B30'
+        'B31'
+        'B32'
+        'C1'
+        'C2'
+        'C3'
+        'C4'
+        'C5'
+        'C6'
+        'C7'
+        'C8'
+        'C9'
+        'C10'
+        'C11'
+        'C12'
+        'C13'
+        'C14'
+        'C15'
+        'C16'
+        'C17'
+        'C18'
+        'C19'
+        'C20'
+        'C21'
+        'C22'
+        'C23'
+        'C24'
+        'C25'
+        'C26'
+        'C27'
+        'C28'
+        'C29'
+        'C30'
+        'C31'
+        'C32'
+        'D1'
+        'D2'
+        'D3'
+        'D4'
+        'D5'
+        'D6'
+        'D7'
+        'D8'
+        'D9'
+        'D10'
+        'D11'
+        'D12'
+        'D13'
+        'D14'
+        'D15'
+        'D16'
+        'D17'
+        'D18'
+        'D19'
+        'D20'
+        'D21'
+        'D22'
+        'D23'
+        'D24'
+        'D25'
+        'D26'
+        'D27'
+        'D28'
+        'D29'
+        'D30'
+        'D31'
+        'D32'
+        };
+      
+    case 'biosemi256'
+      label = {
+        'A1'
+        'A2'
+        'A3'
+        'A4'
+        'A5'
+        'A6'
+        'A7'
+        'A8'
+        'A9'
+        'A10'
+        'A11'
+        'A12'
+        'A13'
+        'A14'
+        'A15'
+     
