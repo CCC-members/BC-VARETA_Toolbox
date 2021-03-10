@@ -21,7 +21,7 @@ if(isequal(properties.analysis_level,1))
     [Svv_channel,~,PSD,Nf,F,Nseg]           = cross_spectra(data,Fs,Fm,deltaf,subject.Ke,varf,Nw,'properties',properties);
     
     %% Adding fieltrip external functions
-    addpath('external/fieldtrip');
+    addpath(genpath('external/fieldtrip'));
     ft_defaults
        
     %% Saving general variables for sensor level
