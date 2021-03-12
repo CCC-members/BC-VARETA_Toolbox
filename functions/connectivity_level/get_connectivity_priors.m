@@ -5,7 +5,7 @@ method_name     = fields{1};
 
 if(analysis_method.(method_name).run)
 disp('=================================================================');
-disp('BC-V-->> Getting activation priors.');
+disp('BC-V-->> Getting connectivity priors.');
 
 Ke                      = subject.Ke;
 Sc                      = subject.Sc;
