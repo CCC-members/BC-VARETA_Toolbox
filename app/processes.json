@@ -1,0 +1,19 @@
+ [{
+        "name":"Lead-Field-Cumputation",
+        "function":"bst_lf_ppl",
+        "root_folder":"bst_lf_ppl",
+        "active":0
+    },
+    {
+        "name":"Lead-Field-HCP-Cumputation",
+        "function":"bst_hcp_lf_ppl",
+        "root_folder":"bst_lf_ppl",
+        "active":0
+    },
+    {
+        "name":"MEEG-Analysis",
+        "function":"BC_VARETA_bash(idnode,count_node)",
+        "root_folder":"functions",
+        "active":1
+    }   
+]
