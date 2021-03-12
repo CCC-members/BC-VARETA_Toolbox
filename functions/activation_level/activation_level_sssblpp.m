@@ -53,7 +53,7 @@ param.parcellation  = subject.parcellation;
 
 if IsCurv == 0
     param.flag          = flag;
-    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Ke,param);
+    [s2j,sigma2j_post,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Ke,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
@@ -68,9 +68,9 @@ if IsCurv == 0
     Jsp(indms)            = J(indms);
 elseif IsCurv == 1
     param.flag    = strcat(flag," Giri compensation");
-    [s2j_giri,sigma2j_post_giri,Tgiri,~,~,scaleSvv_giri,scaleKe_giri] = sSSBLpp(Svv,subject.Ke_giri,param);
+    [s2j_giri,sigma2j_post_giri,Tgiri,~,scaleSvv_giri,scaleKe_giri] = sSSBLpp(Svv,subject.Ke_giri,param);
     param.flag    = strcat(flag," Sulci compensation");
-    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,~,scaleSvv_sulc,scaleKe_sulc] = sSSBLpp(Svv,subject.Ke_sulc,param);
+    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc] = sSSBLpp(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';

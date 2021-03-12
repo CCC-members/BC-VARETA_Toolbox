@@ -1,4 +1,4 @@
-function [Thetajj,s2j,Tjv,llh,properties] = connectivity_level_higgs(subject,properties)
+function [Thetajj,s2j,Tjv,llh] = connectivity_level_higgs(subject,properties)
 
 % Authors:
 % - Deirel Paz Linares
@@ -301,9 +301,29 @@ close(figure_BC_VARETA3);
 %% Saving files
 disp('-->> Saving file.')
 disp(strcat("Path: ",pathname));
-properties.file_name = strcat('MEEG_source_',str_band,'.mat');
-disp(strcat("File: ", properties.file_name));
-parsave(fullfile(pathname ,properties.file_name ),Thetajj,s2j,Tjv,llh,Svv,W,indms);
+file_name = strcat('MEEG_source_',str_band,'.mat');
+disp(strcat("File: ", file_name));
+parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,W,indms);
+
+
+reference_path = strsplit(pathname,subject.name);
+if(properties.general_params.run_by_trial.value) 
+    if(properties.general_params.run_frequency_bin.value)
+        properties.BC_V_info.connectivity_level.(trial_name).(band.name).(band.f_bin).name = file_name;
+        properties.BC_V_info.connectivity_level.(trial_name).(band.name).(band.f_bin).ref_path = reference_path{2};
+    else
+        properties.BC_V_info.connectivity_level.(trial_name).(band.name).name = file_name;
+        properties.BC_V_info.connectivity_level.(trial_name).(band.name).ref_path = reference_path{2};
+    end
+else
+    if(properties.general_params.run_frequency_bin.value)
+        properties.BC_V_info.connectivity_level.(band.name).(band.f_bin).name = file_name;
+        properties.BC_V_info.connectivity_level.(band.name).(band.f_bin).ref_path = reference_path{2};
+    else
+        properties.BC_V_info.connectivity_level.(band.name).name = file_name;
+        properties.BC_V_info.connectivity_level.(band.name).ref_path = reference_path{2};
+    end
+end
 
 pause(1e-12);
 

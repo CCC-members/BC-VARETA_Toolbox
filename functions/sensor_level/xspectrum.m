@@ -50,10 +50,10 @@ Ns          = Nseg*Nt_seg; % sample number
 F           = 0:deltaf:Fm; % frequency vector
 Nf          = length(F);
 Svv         = zeros(Nc,Nc,Nf);
-if(~exist('properties','var'))
-    properties.run_bash_mode.use_gpu = false;
+if(~exist('app_properties','var'))
+    app_properties.run_bash_mode.use_gpu = false;
 end
-use_gpu     = properties.run_bash_mode.use_gpu;
+use_gpu     = app_properties.run_bash_mode.use_gpu;
 use_gpu = false;
 if(use_gpu)
     Svv_gpu = gpuArray(Svv);

@@ -5,7 +5,7 @@ method_name     = fields{1};
 
 if(analysis_method.(method_name).run)
 disp('=================================================================');
-disp('BC-V-->> Getting connectivity priors.');
+disp('BC-V-->> Getting activation priors.');
 
 Ke                      = subject.Ke;
 Sc                      = subject.Sc;
@@ -34,10 +34,8 @@ else
     disp('-->> Creating Laplacian & Normals');
     regLaplacian    = connectivity_params.regLaplacian.value;
     [D,D3D]         = graph_laplacian(Faces,regLaplacian);
-    D               = D + speye(length(D));
     Dinv            = inv(D);
     Dinv            = (Dinv + Dinv)/2;
-    D3D             = D3D + speye(length(D3D));
     D3Dinv          = inv(D3D);
     D3Dinv          = (D3Dinv + D3Dinv)/2;
     if (~IsNeigh)
@@ -72,7 +70,7 @@ end
 %%
 %% curv/field options
 %%
-if (IsCurv == IsCurv_act) && (IsField == IsField_act) && (isfield(subject,'Ke_giri')) && (isfield(subject,'Ke_sulc'))
+if (IsCurv == IsCurv_act) && (IsField == IsField_act)
     disp('-->> Creating curvature compensator');
 else
     disp('-->> Creating curvature compensator');

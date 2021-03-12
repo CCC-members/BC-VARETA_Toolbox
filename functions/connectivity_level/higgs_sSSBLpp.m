@@ -1,4 +1,4 @@
-function [s2j,sigma2j_post,Tjv,Svv,scaleJ,scaleLvj] = sSSBLpp(Svv,Lvj,param)
+function [s2j,sigma2j_post,Tjv,Svv,scaleJ,scaleLvj] = higgs_sSSBLpp(Svv,Lvj,param)
 W             = param.W;
 parcellation  = param.parcellation;
 run_bash_mode = param.run_bash_mode;
@@ -51,8 +51,8 @@ SvvTvj        = Svv*Tjv';
 for count_gen = 1:q
     s2j(count_gen) = abs(Tjv(count_gen,:)*SvvTvj(:,count_gen));
 end
-% scaleJ        = mean(abs(s2j + sigma2j_post))/mean(abs(sigma2j_post));
-scaleJ        = mean(abs(s2j))/max(abs(sigma2j_post));
+scaleJ        = mean(abs(s2j + sigma2j_post))/mean(abs(sigma2j_post));
+% scaleJ        = mean(abs(s2j))/max(abs(sigma2j_post));
 Svv           = Svv/scaleJ;
 
 %% Outer cycle

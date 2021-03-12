@@ -66,11 +66,9 @@ disp('-->> Creating Laplacian & Normals');
 regLaplacian    = activation_params.regLaplacian.value;
 [D,D3D]         = graph_laplacian(Faces,regLaplacian);
 I               = speye(length(D));
-D               = D + I;
 Dinv            = I/D;
 Dinv            = (Dinv + Dinv)/2;
 I               = speye(length(D3D));
-D3D             = D3D + I;
 D3Dinv          = I/D3D;
 D3Dinv          = (D3Dinv + D3Dinv)/2;
 if (~IsNeigh)

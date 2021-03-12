@@ -25,22 +25,22 @@ if(~run_bash_mode)
     process_waitbar = waitbar(0,'Please wait...');
 end
 %% Initialization EM algorithm
-[Svv,Lvj,Ljv,scale,scaleLvj,sigma2xi0,Sigmajj0,llh0,param] = higgs_initial_values(Svv,Lvj,param);
+[Svv,Lvj,scale,scaleLvj,sigma2xi0,Sigmajj0,llh0,param] = higgs_initial_values(Svv,Lvj,param);
 %% Outer loop EM algorithm
 maxiter_outer         = param.maxiter_outer;
 llh                   = zeros(maxiter_outer,1);
 disp(strcat("-->> Running higgs expectation-maximization: 0%"));
 for k_outer = 1:maxiter_outer    
     %% Expectation
-    [Sxixi,Psixixi,Sjj,Psijj,Sigmajj_post,Tjv] = higgs_expectation(Svv,Lvj,Ljv,sigma2xi0,Sigmajj0,param);
+    [Sxixi,Psixixi,Sjj,Psijj,Sigmajj_post,Tjv] = higgs_expectation(Svv,Lvj,sigma2xi0,Sigmajj0,param);
     %%
     %% Maximization
-    [sigma2xi,Sigmajj,Thetajj]            = higgs_maximization(Psixixi,Psijj,Svv,Lvj,Ljv,sigma2xi0,Sigmajj0,llh0,param);
+    [sigma2xi,theta2xi,Sigmajj,Thetajj]        = higgs_maximization(Psixixi,Psijj,Svv,Lvj,sigma2xi0,Sigmajj0,llh0,param);
     %% Compute the global hyperparamters posterior log-likelihood
-    [llh(k_outer)]                        = higgs_likelihood(Sxixi,sigma2xi,Sjj,Thetajj,Sigmajj_post,param);
-    llh0                                  = llh(k_outer);
-    sigma2xi0                             = sigma2xi;
-    Sigmajj0                              = Sigmajj;
+    [llh(k_outer)]                             = higgs_likelihood(Sxixi,theta2xi,Sjj,Thetajj,Sigmajj_post,param);
+    llh0                                       = llh(k_outer);
+    sigma2xi0                                  = sigma2xi;
+    Sigmajj0                                   = Sigmajj;
     %% Stopping criteria
     if (k_outer > 1) && ((abs(llh(k_outer) - llh(k_outer-1))/abs(llh(k_outer-1)) < 1E-4) || (llh(k_outer) < llh(k_outer-1))) 
         llh(k_outer:end) = llh(k_outer-1);
@@ -52,12 +52,11 @@ for k_outer = 1:maxiter_outer
     end
     disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix(k_outer/maxiter_outer*100)),"%"));
 end
-clearvars Sxixi sigma2xi Sjj Sigmajj_post param llh0 sigma2xi0 Sigmajj0 Lvj Ljv Psixixi Psijj Svv;
 %iterations outer loop
 
 %%
 Tjv          = Tjv/scaleLvj;
-Thetajj      = Thetajj*scale;
+Thetajj      = Thetajj.X*scale;
 disp(strcat("-->> Running higgs expectation-maximization: 100%"));
 if(~run_bash_mode)
     waitbar(1,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(100),"%"));

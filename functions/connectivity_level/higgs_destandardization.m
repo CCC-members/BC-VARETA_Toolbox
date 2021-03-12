@@ -36,4 +36,5 @@ if IsField == 2
     Thetajj                  = Thetajj - diag(diag(Thetajj)) + diag(theta2j);
 end
 Thetajj                      = Thetajj(indms,indms);
+Thetajj                      = (Thetajj + Thetajj')/2;
 end

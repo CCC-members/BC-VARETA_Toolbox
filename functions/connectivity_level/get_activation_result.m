@@ -50,7 +50,7 @@ switch variant
         a_ref_file  = fullfile(ref_path,file_name);
 end
 
-if(isequal(properties.general_params.bcv_workspace.BCV_work_dir,'local'))
+if(isequal(properties.general_params.BCV_work_dir,'local'))
     [subject_path,~] = fileparts(subject.subject_path);
 else
     subject_path = subject.subject_path;
@@ -66,3 +66,4 @@ properties.indms        = activation_out.indms;
 
 
 end
+

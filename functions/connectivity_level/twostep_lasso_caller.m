@@ -1,92 +1,60 @@
 function [Thetajj,Sigmajj] = twostep_lasso_caller(Psijj,param)
-m              = param.m;
-q              = param.q;
-aj             = param.aj;
-Ajj            = param.Ajj;
-nu             = param.nu;
-rth1           = param.rth1;
-rth2           = param.rth2;
-eigreg         = param.eigreg;
-maxiter_inner  = param.maxiter_inner;
 %% Compute hg_lasso_lqa
+%  it first corrects the eigenvalues of the effective empirical covariance Psijj and normalize it by the infimun
+%  norm Psijjfix, the scaling guarantees more stable computations of the hg-lasso-lqa, continues with performing
+%  hg-lasso-lqa Thetajj_lasso and the unbiased statistics Thetajj_unb and Thetajj_var
 disp("Compute hg_lasso_lqa. This operation may take a long time.");
-if(~param.use_gpu)
-    [U,D]             = eig(Psijj);
-    V                 = Iq/U;
-    d                 = diag(D);
-    if min(d) < 0
-        d             = d + abs(min(d));
-    end
-    dfix              = d + max(d)*eigreg;
-    [U,dfix,V]        = gather(U,dfix,V);
-    clear D d
-else
-    gpuPsijj          = gpuArray(Psijj);
-    [U,D]             = eig(gpuPsijj);
-    V                 = Iq/U;
-    d                 = diag(D);
-    if min(d) < 0
-        d             = d + abs(min(d));
-    end
-    dfix              = d + max(d)*eigreg;
-    [U,dfix,V]        = gather(U,dfix,V);
-    clear D d
-end
-Psijj_fix      = U*spdiags(dfix,0,q,q)*V;
-Psijj_fix      = (Psijj_fix + Psijj_fix')/2;
-Psijj_fix      = Psijj_fix/sqrt(sum(abs(diag(Psijj_fix*Psijj_fix')))/length(Psijj_fix));
-[Thetajj_lasso,~] = hg_lasso_lqa1(Psijj_fix,m,Ajj,aj,nu,maxiter_inner,param);
-Thetajj_unb    = 2*Thetajj_lasso - Thetajj_lasso*Psijj_fix*Thetajj_lasso;
-Thetajj_unb    = (Thetajj_unb + Thetajj_unb')/2;
-Thetajj_var    = sqrt(abs(diag(Thetajj_lasso))*abs(diag(Thetajj_lasso))' + abs(Thetajj_lasso).^2);
-clearvars Thetajj_lasso Psijjfix;
-Thetajj_var    = (Thetajj_var + Thetajj_var')/2;
+m               = param.m;
+q               = param.q;
+aj              = param.aj;
+Ajj             = param.Ajj;
+Psijj_fix       = Psijj;
+Psijj_fix.X     = Psijj.X/sqrt(sum(Psijj.d.^2)/q);
+Psijj_fix.d     = Psijj.d/sqrt(sum(Psijj.d.^2)/q);
+param.a         = aj;
+param.A         = Ajj;
+param.maxiter   = param.maxiter_inner;
+[Thetajj_lasso] = hg_lasso_lqa(Psijj_fix,param);
+Thetajj_unb     = 2*Thetajj_lasso.X - Thetajj_lasso.X*Psijj_fix.X*Thetajj_lasso.X;
+Thetajj_unb     = abs(Thetajj_unb);
+Thetajj_unb     = (Thetajj_unb + Thetajj_unb')/2;
+Thetajj_var     = sqrt(abs(diag(Thetajj_lasso.X))*abs(diag(Thetajj_lasso.X))' + abs(Thetajj_lasso.X).^2);
+Thetajj_var     = Thetajj_var - diag(diag(Thetajj_var));
+Thetajj_var     = (Thetajj_var + Thetajj_var')/2;
+clear Thetajj_lasso Psijj_fix
 %% Precompute hg_lasso_lqa equivalent to Frobenious solution
-d_frob         = (sqrt(dfix.^2 + 4*aj^2) - dfix)/(2*aj^2);
-Thetajj        = U*spdiags(d_frob,0,q,q)*V;
-clearvars U V;
-Thetajj        = (Thetajj + Thetajj')/2;
+%  this is the closest solution to the hermitian graphical lasso with parameter aj and equivalent to the first
+%  iteration of the lqa with gamma == 1, if for a given iteration the lasso model biases the computations and
+%  the global hyperparameters posterior likelihood does not increases in ntry iterations higgs-lasso still goes
+%  on with higgs-ridge prewarming, this approximation is a result of the empirical study of higgs-ridge with
+%  parameter aj^2 (aj same as lasso aj = sqrt(log(q)/m)) in terms of stability and similarity to the unbiased
+%  statistics given by Jankova conditions,
+Thetajj.U       = Psijj.U;
+Thetajj.d       = (sqrt(Psijj.d.^2 + 4*aj^2) - Psijj.d)/(2*aj^2);
+Thetajj.X       = Thetajj.U*spdiags(Thetajj.d,0,q,q)*Thetajj.U';
 %% try likelihood evolution for the mask given by all thresholds
-
+% evaluate performance of Rayleigh thresholds in terms of the global hyperparameters posterior likelihood, the 
+% overlapping of the distributions for null hypothesis values (Rayleigh) and the alternative introduces ambiguity 
+% in the decision for a given Rayleigh threshold we move rth between the value corresponding to the peak of the 
+% Rayleigh distribution (rth1)
 run_bash_mode       = param.run_bash_mode;
 if(~run_bash_mode)
     process_waitbar = waitbar(0,'Please wait...');
 end
 %% check only partial likelihood
+rth1             = param.rth1;
+rth2             = param.rth2;
 rth_grid         = rth1:0.1:rth2;
 llhjj_grid       = zeros(length(rth_grid),1);
 fprintf(1,'-->> Computing optimal Ryleigh threshold: %3d%%\n',0);
 for rth_count = 1:length(rth_grid)    
     %% Zeros mask
     rth                   = rth_grid(rth_count);
-    mask                  = find(abs(Thetajj_unb) < (rth/sqrt(m))*(Thetajj_var - diag(diag(Thetajj_var))));
-    Thetajj_mask          = Thetajj;
+    mask                  = find(Thetajj_unb < (rth/sqrt(m))*Thetajj_var);
+    Thetajj_mask          = Thetajj.X;
     Thetajj_mask(mask)    = 0;
-    if(~param.use_gpu)
-        [U,D]             = eig(Thetajj_mask);
-        V                 = Iq/U;
-        d                 = diag(D);
-        if min(d) < 0
-            d             = d + abs(min(d));
-        end
-        dfix              = d + max(d)*eigreg;
-        [U,dfix,V]        = gather(U,dfix,V);
-        clear D d
-    else
-        gpuThetajj_mask   = gpuArray(Thetajj_mask);
-        [U,D]             = eig(gpuThetajj_mask);
-        V                 = Iq/U;
-        d                 = diag(D);
-        if min(d) < 0
-            d             = d + abs(min(d));
-        end
-        dfix              = d + max(d)*eigreg;
-        [U,dfix,V]        = gather(U,dfix,V);
-        clear D d
-    end
-    Thetajj_mask          = U*spdiags(dfix,0,q,q)*V;
-    Thetajj_mask          = (Thetajj_mask + Thetajj_mask')/2;
-    llhjj_grid(rth_count) = sum(log(abs(dfix))) - sum(abs(diag(Thetajj_mask*Psijj_fix))) - aj*sum(abs(Thetajj_mask(:)));
+    [Thetajj_mask]        = higgs_eigendecomposition(Thetajj_mask,param);
+    llhjj_grid(rth_count) = sum(log(Thetajj_mask.d)) - sum(abs(sum(Thetajj_mask.X.*transpose(Psijj.X),2))) - aj*sum(abs(Ajj(:).*Thetajj.X(:)));
     fprintf(1,'\b\b\b\b%3.0f%%',(rth_count/length(rth_grid))*100 - 1);
     if(~run_bash_mode)
            waitbar(rth_count/length(rth_grid),process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(fix((rth_count/length(rth_grid))*100)-1),"%"));
@@ -96,39 +64,18 @@ end
 clearvars llhjj_grid;
 id_rth           = min(id_rth);
 rth              = rth_grid(id_rth);
-Thetajj(abs(Thetajj_unb) < (rth/sqrt(m))*(Thetajj_var - diag(diag(Thetajj_var)))) = 0;
-clearvars Thetajj_var Thetajj_unb;
-if(~param.use_gpu)
-    [U,D]             = eig(Thetajj);
-    V                 = Iq/U;
-    d                 = diag(D);
-    if min(d) < 0
-        d             = d + abs(min(d));
-    end
-    dfix              = d + max(d)*eigreg;
-    [U,dfix,V]        = gather(U,dfix,V);
-    clear D d
-else
-    gpuThetajj        = gpuArray(Thetajj);
-    [U,D]             = eig(gpuThetajj);
-    V                 = Iq/U;
-    d                 = diag(D);
-    if min(d) < 0
-        d             = d + abs(min(d));
-    end
-    dfix              = d + max(d)*eigreg;
-    [U,dfix,V]        = gather(U,dfix,V);
-    clear D d
-end
-Thetajj          = U*spdiags(dfix,0,q,q)*V;
-Sigmajj          = V*spdiags(1./dfix,0,q,q)*U;
-clearvars U D V;
-Thetajj          = (Thetajj + Thetajj')/2;
-Sigmajj          = (Sigmajj + Sigmajj')/2;
+mask             = find(Thetajj_unb < (rth/sqrt(m))*Thetajj_var);
+Thetajj.X(mask)  = 0;
+[Thetajj]        = higgs_eigendecomposition(Thetajj.X,param);
+Sigmajj.U        = Thetajj.U;
+Sigmajj.d        = 1./Thetajj.d;
+Sigmajj.X        = Sigmajj.U*spdiags(Sigmajj.d,0,q,q)*Sigmajj.U';
+
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
 if(~run_bash_mode)
     waitbar(1,process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(100),"%"));
     delete(process_waitbar)
 end
+
 end
