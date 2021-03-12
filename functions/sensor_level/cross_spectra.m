@@ -22,7 +22,7 @@ warning off;
 rmpath(genpath(fullfile('external/fieldtrip')));
 warning on;
 % estimates the Cross Spectrum of the input M/EEG data
-if(exist('app_properties','var'))
+if(exist('app_properties','var'))    
     [Svv_channel,F,Nseg,PSD] = xspectrum(data, Fs, Fm , deltaf, varf, Nw, 'app_properties', app_properties); 
 else
     [Svv_channel,F,Nseg,PSD] = xspectrum(data, Fs, Fm , deltaf, varf, Nw);

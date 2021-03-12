@@ -45,7 +45,7 @@ IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (g
 %%
 disp('BC-V-->> sSSBL++ activation leakage module.');
 flag = "-->> Running source activation level.";
-param.Nsamp         = length(peak_pos)*Nseg;
+param.Nsamp         = Nseg;
 param.run_bash_mode = run_bash_mode;
 param.str_band      = str_band;
 param.W             = W;

@@ -42,7 +42,7 @@ for k_outer = 1:maxiter_outer
     sigma2xi0                                  = sigma2xi;
     Sigmajj0                                   = Sigmajj;
     %% Stopping criteria
-    if (k_outer > 1) && ((abs(llh(k_outer) - llh(k_outer-1))/abs(llh(k_outer-1)) < 1E-4) || (llh(k_outer) < llh(k_outer-1))) 
+    if (k_outer > 1) && ((abs(llh(k_outer) - llh(k_outer-1))/abs(llh(k_outer-1)) < 1E-2) || (llh(k_outer) < llh(k_outer-1))) 
         llh(k_outer:end) = llh(k_outer-1);
         disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix((maxiter_outer-10)/maxiter_outer*100)),"%"));
         if(~run_bash_mode)

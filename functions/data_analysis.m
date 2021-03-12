@@ -18,7 +18,7 @@ if(isequal(properties.analysis_level,1))
     %% Estimating cross-spectra
     %%
     disp('BC-V-->> Estimating cross-spectra for M/EEG data.');
-    [Svv_channel,~,PSD,Nf,F,Nseg]           = cross_spectra(data,Fs,Fm,deltaf,subject.Ke,varf,Nw,'properties',properties);
+    [Svv_channel,~,PSD,Nf,F,Nseg]           = cross_spectra(data,Fs,Fm,deltaf,subject.Ke,varf,Nw,'app_properties',properties);
     
     %% Adding fieltrip external functions
     addpath(genpath('external/fieldtrip'));
