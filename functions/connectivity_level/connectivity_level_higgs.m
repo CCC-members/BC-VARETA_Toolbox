@@ -76,7 +76,7 @@ end
 %% HIGGS parameters
 %%
 param.use_gpu         = properties.run_bash_mode.use_gpu;
-m                     = length(peak_pos)*Nseg;
+m                     = Nseg;
 param.run_bash_mode   = run_bash_mode;
 param.m               = m;
 param.nu              = m;

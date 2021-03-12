@@ -8,8 +8,8 @@
                             "description":"",
                             "run":true,
                             "sssblpp_th":{
-                                "description":"default <<1>>. Threshold for the sSSBL++ F-scores, it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
-                                "value":1
+                                "description":"default <<1 to sqrt(3)=1.7321>>. Threshold for the sSSBL++ F-scores, lower threshold <<1>> (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded), upper threshold <<sqrt(3)>> (if <<sqrt(3)>> responses whose posterior variance is larger than 3 times the posterior mean are discarded)",
+                                "value":1.7321
                             }
                         }
                     },
@@ -60,7 +60,7 @@
         ],
         "IsCurv":{
             "description":"default <<true>>. Depth compensation factor for the Lead Field of giri and sulci <<false>> (no compensation) <<true>> (compensation)",
-            "value":1
+            "value":0
         },
         "IsParcel":{
             "description":"default <<true>>. Structured sparsity with smoothness of the responses within areas <<false>> (no smoothness) <<true>> (parcel smoothness)",
@@ -72,7 +72,7 @@
         },
         "IsField":{
             "description":"default <<2>>. Use projected Lead Field or 3D profile with prior of rotational invariance <<1>> (projected Lead Field) <<2>> (2D field isotropy) <<3>> (3D field isotropy)",
-            "value":3
+            "value":2
         },
         "aGiri":{
             "description":"default <<5>>. Baseline of giri curvature factor",
