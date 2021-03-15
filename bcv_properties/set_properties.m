@@ -45,12 +45,17 @@ pred_folder = strcat('bcv_predefinition/',properties.run_bash_mode.predefinition
 if(~isfolder(pred_folder))
    mkdir(pred_folder); 
 end
-properties.general_params_file.file_path = strcat(pred_folder,'/general_params.json');
-properties.module_param_files(1).file_path = strcat(pred_folder,'/sensor_params.json');
-properties.module_param_files(2).file_path = strcat(pred_folder,'/activation_params.json');
-properties.module_param_files(3).file_path = strcat(pred_folder,'/connectivity_params.json');
-properties.module_param_files(4).file_path = strcat(pred_folder,'/spectral_params.json');
-saveJSON(properties,strcat('bcv_predefinition/properties.json'));
+properties.general_params_file.file_path    = strcat(pred_folder,'/general_params.json');
+properties.module_param_files(1).file_path  = strcat(pred_folder,'/sensor_params.json');
+properties.module_param_files(2).file_path  = strcat(pred_folder,'/activation_params.json');
+properties.module_param_files(3).file_path  = strcat(pred_folder,'/connectivity_params.json');
+properties.module_param_files(4).file_path  = strcat(pred_folder,'/spectral_params.json');
+pred_options                                = jsondecode(fileread(strcat('bcv_predefinition/pred_properties.json')));
+pred_options.params.predefinition.option    = properties.run_bash_mode.predefinition_params;
+
+% saving property files
+saveJSON(pred_options,strcat('bcv_predefinition/pred_properties.json'));
+saveJSON(properties,strcat(pred_folder,'/properties.json'));
 saveJSON(properties.general_params,strcat(pred_folder,'/general_params.json'));
 saveJSON(properties.sensor_params,strcat(pred_folder,'/sensor_params.json'));
 saveJSON(properties.activation_params,strcat(pred_folder,'/activation_params.json'));
