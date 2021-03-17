@@ -1,7 +1,7 @@
 function [properties] = get_properties()
 try
     pred_options = jsondecode(fileread(strcat('bcv_predefinition/pred_properties.json')));
-    if(~isequal(pred_options.params.predefinition.option,"default"))
+    if(~isequal(pred_options.params.predefinition.option,'default'))
         properties = jsondecode(fileread(strcat('bcv_predefinition/',pred_options.params.predefinition.option,'/properties.json')));
     else
         properties = jsondecode(fileread(strcat('app/properties.json')));

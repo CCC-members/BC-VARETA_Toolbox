@@ -19,7 +19,6 @@ function [Thetajj,s2j,Tjv,llh] = connectivity_level_higgs(subject,properties)
 Ke                  = subject.Ke;
 W                   = subject.W;
 Winv                = subject.Winv;
-Cdata               = subject.Cdata;
 cmap                = load(properties.general_params.colormap_path);
 cmap_a              = cmap.cmap_a;
 cmap_c              = cmap.cmap_c;
@@ -34,16 +33,28 @@ run_bash_mode       = properties.run_bash_mode.value;
 sensor_level_out    = properties.sensor_level_out;
 Svv                 = sensor_level_out.Svv;
 Nseg                = sensor_level_out.Nseg;
-peak_pos            = sensor_level_out.peak_pos;
 band                = sensor_level_out.band;
 
 %%
 %% Activation level Outputs
 %%
 activation_level_out    = properties.activation_level_out;
-% s2j                     = activation_level_out.s2j;
-% sigma2j_post            = activation_level_out.sigma2j_post;
-   
+actv_method             = activation_level_out.method;
+actv_methods            = properties.activation_params.methods;
+for i=1:length(actv_methods)
+    field_names = fieldnames(actv_methods{i});
+    if(isequal(field_names{1},actv_method))
+        switch actv_method
+            case 'sssblpp'
+                actv_th = actv_methods{i}.(field_names{1}).sssblpp_th.value;
+            case 'eloreta'
+                actv_th = actv_methods{i}.(field_names{1}).eloreta_th.value;
+            case 'lcmv'
+                actv_th = actv_methods{i}.(field_names{1}).lcmv_th.value;
+        end
+    end
+end
+
 %%
 %% HIGGS parameters
 %%
@@ -96,46 +107,49 @@ param.rth1            = connectivity_params.rth1.value;
 param.rth2            = connectivity_params.rth2.value;
 param.eigreg          = connectivity_params.eigreg.value;
 param.str_band        = str_band;
-
+param.W               = W;
+param.parcellation    = subject.parcellation;
 %% Connectivity Leakage Module
 disp('BC-V-->> Connectivity leakage module...');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%Check%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% if IsCurv == 0    
-%     if IsField == 2 || IsField == 3
-%         s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
-%         sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
-%     end
-%     stat                  = sqrt(s2j./sigma2j_post);
-%     indms                 = find(stat > higgs_th);    
-% elseif IsCurv == 1
-%     Ke_giri                          = subject.Ke_giri;
-%     Ke_sulc                          = subject.Ke_sulc;
-%     Ke_giri                          = Ke_giri*W;
-%     Ke_sulc                          = Ke_sulc*W;
-%     if IsField == 2 || IsField == 3
-%         s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-%         sigma2j_post_giri      = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
-%         s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
-%         sigma2j_post_sulc      = sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1)';
-%     end
-%     stat_giri             = sqrt(s2j_giri./sigma2j_post_giri);
-%     indms_giri            = find(stat_giri > sssblpp_th);
-%     stat_sulc             = sqrt(s2j_sulc./sigma2j_post_sulc);
-%     indms_sulc            = find(stat_sulc > sssblpp_th);
-%     s2j                   = [s2j_giri s2j_sulc];
-%     sigma2j_post          = [sigma2j_post_giri sigma2j_post_sulc];
-%     clearvars sigma2j_post_giri sigma2j_post_sulc;
-%     scaleSvv              = [scaleSvv_giri scaleSvv_sulc];
-%     scaleKe               = [scaleKe_giri scaleKe_sulc];
-%     stat                  = [stat_giri stat_sulc];
-%     clearvars stat_giri stat_sulc;
-%     indms                 = unique([indms_giri;indms_sulc]);
-% end
+if(isequal(actv_th,higgs_th))
+    indms                 = activation_level_out.indms;
+else    
+    if IsCurv == 0
+        s2j                    = activation_level_out.s2j;
+        sigma2j_post           = activation_level_out.sigma2j_post;
+        
+        if IsField == 2 || IsField == 3
+            s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
+            sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
+        end
+        stat                  = sqrt(s2j./sigma2j_post);
+        indms                 = find(stat > higgs_th);
+    elseif IsCurv == 1
+        flag = "-->> Running source connectivity level.";
+        param.flag                              = strcat(flag," Giri compensation");
+        [s2j_giri,sigma2j_post_giri,~,~,~,~]    = sSSBLpp(Svv,subject.Ke_giri,param);
+        param.flag                              = strcat(flag," Sulci compensation");
+        [s2j_sulc,sigma2j_post_sulc,~,~,~,~]    = sSSBLpp(Svv,subject.Ke_sulc,param);       
+        if IsField == 2 || IsField == 3
+            s2j_giri                            = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
+            sigma2j_post_giri                   = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
+            s2j_sulc                            = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
+            sigma2j_post_sulc                   = sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1)';
+        end
+        stat_giri                               = sqrt(s2j_giri./sigma2j_post_giri);
+        indms_giri                              = find(stat_giri > higgs_th);
+        stat_sulc                               = sqrt(s2j_sulc./sigma2j_post_sulc);
+        indms_sulc                              = find(stat_sulc > higgs_th);
+        clearvars sigma2j_post_giri sigma2j_post_sulc;
+        clearvars stat_giri stat_sulc;
+        indms                                   = unique([indms_giri;indms_sulc]);
+    end
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-indms                 = activation_level_out.indms;
+% indms                 = activation_level_out.indms;
 q                     = length(indms);
 param.q               = q;
 param.Iq              = eye(q);
@@ -297,33 +311,12 @@ saveas(figure_BC_VARETA3,fullfile(pathname,file_name));
 
 close(figure_BC_VARETA3);
 
-
 %% Saving files
 disp('-->> Saving file.')
 disp(strcat("Path: ",pathname));
 file_name = strcat('MEEG_source_',str_band,'.mat');
 disp(strcat("File: ", file_name));
-parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,W,indms);
-
-
-reference_path = strsplit(pathname,subject.name);
-if(properties.general_params.run_by_trial.value) 
-    if(properties.general_params.run_frequency_bin.value)
-        properties.BC_V_info.connectivity_level.(trial_name).(band.name).(band.f_bin).name = file_name;
-        properties.BC_V_info.connectivity_level.(trial_name).(band.name).(band.f_bin).ref_path = reference_path{2};
-    else
-        properties.BC_V_info.connectivity_level.(trial_name).(band.name).name = file_name;
-        properties.BC_V_info.connectivity_level.(trial_name).(band.name).ref_path = reference_path{2};
-    end
-else
-    if(properties.general_params.run_frequency_bin.value)
-        properties.BC_V_info.connectivity_level.(band.name).(band.f_bin).name = file_name;
-        properties.BC_V_info.connectivity_level.(band.name).(band.f_bin).ref_path = reference_path{2};
-    else
-        properties.BC_V_info.connectivity_level.(band.name).name = file_name;
-        properties.BC_V_info.connectivity_level.(band.name).ref_path = reference_path{2};
-    end
-end
+parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,indms);
 
 pause(1e-12);
 
