@@ -21,9 +21,51 @@ IsField                 = connectivity_params.IsField.value; % 1 (projected Lead
 IsCurv_act              = activation_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
 IsNeigh_act             = activation_params.IsNeigh.value;
 IsField_act             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
+IsParcel                = activation_params.IsParcel.value; % 0 (no smoothness) 1 (parcel smoothness)
 GridOrient              = subject.GridOrient;
 GridAtlas               = subject.GridAtlas;
+Atlas                   = Sc.Atlas(Sc.iAtlas).Scouts;
 Faces                   = Sc.Faces; 
+
+%%
+%% parcel/field options
+%%
+if(isempty(Atlas))
+   IsParcel = 0; 
+end
+
+disp('-->> Creating parcel smoother');
+if IsParcel == 0
+    if (IsField == 1) || (IsField == 2)
+        parcellation   = cell(length(Ke)/3,1);
+        for area = 1:length(Ke)/3
+            parcellation{area}      = area;
+        end
+    elseif IsField == 3
+        parcellation = cell(length(Ke)/3,1);
+        for area = 1:length(Ke)/3
+            q0                      = 3*(area-1);
+            parcellation{area}      = [q0+1;q0+2;q0+3];
+        end
+    end
+elseif IsParcel == 1
+    if (IsField == 1) || (IsField == 2)
+        parcellation        = cell(length(Atlas),1);
+        for area = 1:length(Atlas)
+            parcellation{area}      = Atlas(area).Vertices;
+        end
+    elseif IsField == 3
+        parcellation      = cell(length(Atlas),1);
+        for area = 1:length(Atlas)
+            for node = 1:length(Atlas(area).Vertices)
+                q0                  = 3*(Atlas(area).Vertices(node)-1);
+                tmp_parcellation    = [q0+1;q0+2;q0+3];
+                parcellation{area} = cat(1,parcellation{area},tmp_parcellation);
+            end
+        end
+    end
+end
+subject.parcellation  = parcellation;
 
 %%
 %% neigh/field options

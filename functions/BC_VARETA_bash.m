@@ -109,23 +109,41 @@ subjects                        = subjects([start_ind:end_ind]);
 %% Starting subjects analysis
 %%
 if(~isempty(subjects))
-    [properties]                                        = define_frequency_bands(properties);
-    color_map                                           = load(properties.general_params.colormap_path);
-    properties.cmap                                     = color_map.cmap;
-    properties.cmap_a                                   = color_map.cmap_a;
-    properties.cmap_c                                   = color_map.cmap_c;
+    [properties]                                                            = define_frequency_bands(properties);
+    color_map                                                               = load(properties.general_params.colormap_path);
+    properties.cmap                                                         = color_map.cmap;
+    properties.cmap_a                                                       = color_map.cmap_a;
+    properties.cmap_c                                                       = color_map.cmap_c;
     %% Starting analysis
     for i=1:length(subjects)
-        subject_file                                    = subjects(i);
-        [subject,checked,error_msg_array]               = ischecked_subject_data(subject_file,properties);
+        subject_file                                                        = subjects(i);
+        [subject,checked,error_msg_array]                                   = ischecked_subject_data(subject_file,properties);
         if(checked)
             if(isequal(properties.general_params.bcv_workspace.BCV_work_dir,'local'))
-                subject.subject_path                    = fullfile(subject_file.folder,'BC-V_Result');
+                subject.subject_path                                        = fullfile(subject_file.folder,'BC-V_Result');
             else
-                subject.subject_path                    = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
+                subject.subject_path                                        = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
             end
             if(~isfolder(subject.subject_path))
                 mkdir(subject.subject_path);
+            end
+            %% Saving general variables for sensor level
+            file_name                                                       = strcat('Atlas.mat');
+            disp(strcat("File: ", file_name));
+            pathname_generals                                               = fullfile(subject.subject_path,'Generals');
+            if(~isfolder(pathname_generals))
+                mkdir(pathname_generals);
+            end
+            atlas = subject.Sc.Atlas(subject.Sc.iAtlas);
+            parsave(fullfile(pathname_generals ,file_name ),atlas);
+            reference_path                                                  = strsplit(pathname_generals,subject.name);
+            if(properties.general_params.run_by_trial.value)
+                trial_name                                                  = properties.trial_name;
+                properties.BC_V_info.(trial_name).generals.atlas.name       = file_name;
+                properties.BC_V_info.(trial_name).generals.atlas.ref_path   = reference_path{2};
+            else
+                properties.BC_V_info.generals.atlas.name                    = file_name;
+                properties.BC_V_info.generals.atlas.ref_path                = reference_path{2};
             end
             %%
             %% Data analysis for sensor level
@@ -138,9 +156,14 @@ if(~isempty(subjects))
                 properties.analysis_level               = 1;
                 if(properties.general_params.run_by_trial.value)
                     %% Data analysis for sensor and activation level by trials
-                    for m=1:length(subject.trials)
-                        properties.trial_name           = ['trial_',num2str(m)];
-                        subject.data                    = subject.trials{1,m};
+                    if(iscell(subject.data))
+                        for m=1:length(subject.data)
+                            properties.trial_name       = ['trial_',num2str(m)];
+                            subject.data                = subject.trials{1,m};
+                            [subject,properties]        = data_analysis(subject,properties);
+                        end
+                    else
+                        %% Data analysis for sensor and activation level by complete data
                         [subject,properties]            = data_analysis(subject,properties);
                     end
                 else
@@ -169,9 +192,14 @@ if(~isempty(subjects))
                 if(properties.general_params.run_by_trial.value)
                     if((isfield(properties.BC_V_info.trial_1,'sensor_level')))
                         %% Data analysis for sensor and activation level by trials
-                        for m=1:length(subject.trials)
-                            properties.trial_name       = ['trial_',num2str(m)];
-                            subject.data                = subject.trials{1,m};
+                        if(iscell(subject.data))
+                            for m=1:length(subject.data)
+                                properties.trial_name   = ['trial_',num2str(m)];
+                                subject.data            = subject.trials{1,m};
+                                [subject,properties]    = data_analysis(subject,properties);
+                            end
+                        else
+                            %% Data analysis for sensor and activation level by complete data
                             [subject,properties]        = data_analysis(subject,properties);
                         end
                     else
@@ -212,9 +240,14 @@ if(~isempty(subjects))
                 if(properties.general_params.run_by_trial.value)
                     if((isfield(properties.BC_V_info.trial_1,'sensor_level') && isfield(properties.BC_V_info.trial_1,'activation_level')))
                         %% Data analysis for connectivity level by trials
-                        for m=1:length(subject.trials)
-                            properties.trial_name       = ['trial_',num2str(m)];
-                            subject.data                = subject.trials{1,m};
+                        if(iscell(subject.data))
+                            for m=1:length(subject.data)
+                                properties.trial_name   = ['trial_',num2str(m)];
+                                subject.data            = subject.trials{1,m};
+                                [subject,properties]    = data_analysis(subject,properties);
+                            end
+                        else
+                            %% Data analysis for connectivity level by complete data
                             [subject,properties]        = data_analysis(subject,properties);
                         end
                     else

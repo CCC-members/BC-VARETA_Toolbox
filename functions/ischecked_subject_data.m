@@ -159,19 +159,8 @@ if(isempty(error_msg_array))
     if(isequal(subject.modality,'EEG'))
         subject.data = MEEG.data;
     else
-        if(properties.general_params.run_by_trial.value)
-            real_trials = MEEG;
-            trials = cell(1,4);
-            count = 0;
-            for i = 1:4
-                if i < 4
-                    trials{i} = cell2mat(real_trials.trials(1,(count+1):(count+floor(length(real_trials.trials)/4))));
-                elseif i == 4
-                    trials{i} = cell2mat(real_trials.trials(1,(count+1):length(real_trials.trials)));
-                end
-                count = count + floor(length(real_trials.trials)/4);
-            end
-            subject.data = trials;            
+        if(properties.general_params.run_by_trial.value)           
+            subject.data = MEEG.data;          
         else
             subject.data = MEEG.data;
             if(iscell(MEEG.data))
