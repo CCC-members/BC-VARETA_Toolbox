@@ -25,7 +25,7 @@
         "description":"default <<true>>. Run on server <<true>>  or Run with visual interface <<false>>",
         "value":true,
         "disabled_graphics":false,
-        "use_gpu":true,
+        "use_gpu":false,
         "predefinition_params":"default"
     },    
     "general_params_file":{
