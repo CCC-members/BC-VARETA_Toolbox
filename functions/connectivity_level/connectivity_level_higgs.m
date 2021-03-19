@@ -24,6 +24,7 @@ cmap_a              = cmap.cmap_a;
 cmap_c              = cmap.cmap_c;
 cmap                = cmap.cmap;
 Sc                  = subject.Sc;
+sub_to_FSAve        = subject.sub_to_FSAve;
 Atlas               = Sc.Atlas(Sc.iAtlas).Scouts;
 run_bash_mode       = properties.run_bash_mode.value;
 
@@ -114,12 +115,11 @@ disp('BC-V-->> Connectivity leakage module...');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%Check%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if(isequal(actv_th,higgs_th))
-    indms                 = activation_level_out.indms;
-else    
+    indms                     = activation_level_out.indms;
+else
     if IsCurv == 0
-        s2j                    = activation_level_out.s2j;
-        sigma2j_post           = activation_level_out.sigma2j_post;
-        
+        s2j                   = activation_level_out.s2j;
+        sigma2j_post          = activation_level_out.sigma2j_post;
         if IsField == 2 || IsField == 3
             s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
             sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
@@ -127,11 +127,12 @@ else
         stat                  = sqrt(s2j./sigma2j_post);
         indms                 = find(stat > higgs_th);
     elseif IsCurv == 1
-        flag = "-->> Running source connectivity level.";
-        param.flag                              = strcat(flag," Giri compensation");
-        [s2j_giri,sigma2j_post_giri,~,~,~,~]    = sSSBLpp(Svv,subject.Ke_giri,param);
-        param.flag                              = strcat(flag," Sulci compensation");
-        [s2j_sulc,sigma2j_post_sulc,~,~,~,~]    = sSSBLpp(Svv,subject.Ke_sulc,param);       
+        s2j                   = activation_level_out.s2j;
+        s2j_giri              = s2j(:,1);
+        s2j_sulc              = s2j(:,2);
+        sigma2j_post          = activation_level_out.sigma2j_post;
+        sigma2j_post_giri     = sigma2j_post(:,1);
+        sigma2j_post_sulc     = sigma2j_post(:,2);
         if IsField == 2 || IsField == 3
             s2j_giri                            = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
             sigma2j_post_giri                   = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
@@ -178,6 +179,21 @@ elseif IsCurv == 1
     llh                              = [llh_giri llh_sulc];
     Tjv                              = cat(3,Tjv_giri,Tjv_sulc);
 end
+% Ordering results by FSAve indices
+Msub_to_FSAve   = zeros(length(sub_to_FSAve),size(Ke,2));
+for h = 1:length(sub_to_FSAve)
+    indices = sub_to_FSAve(h,:);
+    Msub_to_FSAve(h,[indices(1) indices(2) indices(3)]) = 1/3;
+end
+Msub_to_FSAve              = sparse(Msub_to_FSAve);
+Thetajj_FSAve              = zeros(size(Ke,2));
+Thetajj_FSAve(indms,indms) = Thetajj;
+Thetajj_FSAve              = sparse(Thetajj_FSAve);
+Thetajj_FSAve              = Msub_to_FSAve*Thetajj_FSAve;
+Thetajj_FSAve              = Thetajj_FSAve*Thetajj_FSAve';
+Thetajj_FSAve              = full(Thetajj_FSAve);
+indms_FSAve                = find(diag(Thetajj_FSAve) > 0);
+Thetajj_FSAve              = Thetajj_FSAve(indms_FSAve,indms_FSAve);
 
 %%
 %% Plotting results
@@ -316,7 +332,7 @@ disp('-->> Saving file.')
 disp(strcat("Path: ",pathname));
 file_name = strcat('MEEG_source_',str_band,'.mat');
 disp(strcat("File: ", file_name));
-parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,indms);
+parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,indms,Thetajj_FSAve,indms_FSAve);
 
 pause(1e-12);
 
