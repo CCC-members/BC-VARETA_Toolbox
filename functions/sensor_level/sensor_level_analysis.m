@@ -141,7 +141,7 @@ else
 end
 define_ico(figure_scalp_3D);
 scatter3(X,Y,Z,100,C.^1,'filled');
-patch('Faces',Sh.Faces,'Vertices',Sh.Vertices,'FaceVertexCData',0.01*(ones(length(Sh.Vertices),1)),'FaceColor','interp','EdgeColor','none','FaceAlpha',.35);
+patch('Faces',Sh.Faces,'Vertices',Sh.Vertices,'FaceVertexCData',0.01*(ones(length(Sh.Vertices),1)),'FaceColor','interp','EdgeColor','none','FaceAlpha',.99);
 colormap(gca,cmap_a);
 az = 0; el = 0;
 view(az, el);
