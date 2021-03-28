@@ -57,7 +57,9 @@ Svv           = Svv/scaleJ;
 
 %% Outer cycle
 if(~run_bash_mode)
-    process_waitbar = waitbar(0,'Please wait...');
+    process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
+    frames = java.awt.Frame.getFrames();
+    frames(end).setAlwaysOnTop(1);
 end
 disp(flag);
 fprintf(1,strcat('-->> sSSBL++ (',param.str_band,') process: %3d%%\n'),0);
@@ -131,7 +133,7 @@ for count_gen = 1:size(Lvj,2)
     s2j(count_gen)         = abs(Tjv(count_gen,:)*SvvTvj(:,count_gen));
 end
 fprintf(1,'\n');
-if(~run_bash_mode)
+if(~run_bash_mode && exist('process_waitbar','var'))
     delete(process_waitbar);
 end
 end

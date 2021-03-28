@@ -57,10 +57,12 @@ Svv           = Svv/scaleJ;
 
 %% Outer cycle
 if(~run_bash_mode)
-    process_waitbar = waitbar(0,'Please wait...');
+    process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
+    frames = java.awt.Frame.getFrames();
+    frames(end).setAlwaysOnTop(1);
 end
 disp(flag);
-fprintf(1,strcat('-->> sSSBL++ (',param.str_band,') process: %3d%%\n'),0);
+fprintf(1,strcat("-->> Running sSSBL++ (",param.str_band,") process: %3d%%\n"),0);
 for cont1 = 1:maxiter_outer
     %% Inner cycle
     for cont11 = 1:maxiter_inner
@@ -99,13 +101,17 @@ for cont1 = 1:maxiter_outer
     
     if(~run_bash_mode)
         text = replace(param.str_band,'_','-');
-        waitbar((cont1)/(maxiter_outer),process_waitbar,strcat("sSSBL++ (",text,") process: ",num2str(fix((cont1/maxiter_outer)*100)-1),"%"));
+        waitbar((cont1)/(maxiter_outer),process_waitbar,strcat("Running sSSBL++ (",text,") process: ",num2str(fix((cont1/maxiter_outer)*100)-1),"%"));
     end
     fprintf(1,'\b\b\b\b%3.0f%%',(cont1)/(maxiter_outer)*100);
 end
 fprintf(1,'\n');
 %% Destandardization using a final pass solution
 disp("-->> Running sSSBL++ destandardization.");
+if(~run_bash_mode)
+    text = replace(param.str_band,'_','-');
+    waitbar(1,process_waitbar,strcat("sSSBL++ destandardization. Process: ",num2str(100),"%"));
+end
 sigmajW                     = spdiags(sqrt(2*sigma2j),0,q,q)*W';
 Wsigma2jW                   = sum(sigmajW.^2,1)';
 sigma2jWLjv                 = spdiags(2*sigma2j,0,q,q)*WLjv;
@@ -122,7 +128,7 @@ end
 Tjv                        = (1/sigma2x).*(W*sigma2jWLjv-sigma2j_post0*(LvjWsigma2j*WLjv));
 if(~run_bash_mode)
     text = replace(param.str_band,'_','-');
-    waitbar(1,process_waitbar,strcat("sSSBL++ (",text,") process: ",num2str(100),"%"));
+    waitbar(1,process_waitbar,strcat("Running sSSBL++ (",text,") process: ",num2str(100),"%"));
 end
 
 % Compute 'miu' for all slices of 'V'
@@ -131,7 +137,7 @@ for count_gen = 1:size(Lvj,2)
     s2j(count_gen)         = abs(Tjv(count_gen,:)*SvvTvj(:,count_gen));
 end
 fprintf(1,'\n');
-if(~run_bash_mode)
+if(~run_bash_mode && exist('process_waitbar','var'))
     delete(process_waitbar);
 end
 end

@@ -13,8 +13,8 @@ if(~isempty(BC_V_file))
         files = dir(subject_path);
         dirFlags = [files.isdir];
         subFolders = files(dirFlags);
-        for k =3:length(subFolders)
-            rmdir(fullfile(subFolders(k).folder,subFolders(k).name),'s');
+        for k =3:length(subFolders)            
+                rmdir(fullfile(subFolders(k).folder,subFolders(k).name),'s');            
         end
         reseted = true;
     end

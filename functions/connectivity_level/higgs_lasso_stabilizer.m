@@ -8,7 +8,9 @@ ntry      = param.ntry;
 rth_grid  = rth1:0.1:rth2;
 run_bash_mode  = param.run_bash_mode;
 if(~run_bash_mode)
-    process_waitbar = waitbar(0,'Please wait...');
+    process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
+    frames = java.awt.Frame.getFrames();
+    frames(end).setAlwaysOnTop(1);
 end
 fprintf(1,'-->> Computing optimal Ryleigh threshold: %3d%%\n',0);
 if ntry == 0
@@ -48,7 +50,7 @@ else
 end
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
-if(~run_bash_mode)
+if(~run_bash_mode && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(100),"%"));
     delete(process_waitbar)
 end

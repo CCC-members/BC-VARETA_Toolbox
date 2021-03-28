@@ -55,16 +55,6 @@ properties.sensor_params        = properties.sensor_params.params;
 properties.activation_params    = properties.activation_params.params;
 properties.connectivity_params  = properties.connectivity_params.params;
 properties.spectral_params      = properties.spectral_params.params;
-
-if(~properties.run_bash_mode.value)
-    [result,properties]         = define_input_parameters(properties);
-    if(isequal(result,'canceled'))
-        disp("BC-V-->> Process canceled for the user.");
-        disp("BC-V-->> Process stoped.");
-        return;
-    end
-end
-
 root_path                       = properties.general_params.bcv_workspace.BCV_input_dir;
 subjects                        = dir(fullfile(root_path,'**','subject.mat'));
 predef_folder                   = properties.run_bash_mode.predefinition_params;
@@ -109,97 +99,99 @@ subjects                        = subjects([start_ind:end_ind]);
 %% Starting subjects analysis
 %%
 if(~isempty(subjects))
-    [properties]                                                            = define_frequency_bands(properties);
-    color_map                                                               = load(properties.general_params.colormap_path);
-    properties.cmap                                                         = color_map.cmap;
-    properties.cmap_a                                                       = color_map.cmap_a;
-    properties.cmap_c                                                       = color_map.cmap_c;
+    [properties]                                            = define_frequency_bands(properties);
+    color_map                                               = load(properties.general_params.colormap_path);
+    properties.cmap                                         = color_map.cmap;
+    properties.cmap_a                                       = color_map.cmap_a;
+    properties.cmap_c                                       = color_map.cmap_c;
     %% Starting analysis
     for i=1:length(subjects)
-        subject_file                                                        = subjects(i);
-        [subject,checked,error_msg_array]                                   = ischecked_subject_data(subject_file,properties);
+        subject_file                                        = subjects(i);
+        [subject,checked,error_msg_array]                   = ischecked_subject_data(subject_file,properties);
         if(checked)
             if(isequal(properties.general_params.bcv_workspace.BCV_work_dir,'local'))
-                subject.subject_path                                        = fullfile(subject_file.folder,'BC-V_Result');
+                subject.subject_path                        = fullfile(subject_file.folder,'BC-V_Result');
             else
-                subject.subject_path                                        = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
+                subject.subject_path                        = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
             end
             if(~isfolder(subject.subject_path))
                 mkdir(subject.subject_path);
             end
-            %% Saving general variables for sensor level
-            file_name                                                       = strcat('Atlas.mat');
-            disp(strcat("File: ", file_name));
-            pathname_generals                                               = fullfile(subject.subject_path,'Generals');
-            if(~isfolder(pathname_generals))
-                mkdir(pathname_generals);
-            end
-            atlas = subject.Sc.Atlas(subject.Sc.iAtlas);
-            parsave(fullfile(pathname_generals ,file_name ),atlas);
-            reference_path                                                  = strsplit(pathname_generals,subject.name);
-            if(properties.general_params.run_by_trial.value)
-                trial_name                                                  = properties.trial_name;
-                properties.BC_V_info.(trial_name).generals.atlas.name       = file_name;
-                properties.BC_V_info.(trial_name).generals.atlas.ref_path   = reference_path{2};
-            else
-                properties.BC_V_info.generals.atlas.name                    = file_name;
-                properties.BC_V_info.generals.atlas.ref_path                = reference_path{2};
-            end
+            
             %%
             %% Data analysis for sensor level
             %%
-            if(isequal(properties.general_params.analysis_level.value,1) || isequal(properties.general_params.analysis_level.value,12) || isequal(properties.general_params.analysis_level.value,'all'))
-                [properties,canceled]                   = check_BC_V_info(properties,subject,1);
+            if(isequal(properties.general_params.analysis_level.value,'1') || isequal(properties.general_params.analysis_level.value,'12') || isequal(properties.general_params.analysis_level.value,'all'))
+                [properties,canceled]                       = check_BC_V_info(properties,subject,1);
                 if(canceled)
                     continue;
                 end
-                properties.analysis_level               = 1;
+                %% Saving general variables for sensor level
+                file_name                                   = strcat('Atlas.mat');
+                disp(strcat("File: ", file_name));
+                pathname_common                             = fullfile(subject.subject_path,'Common');
+                if(~isfolder(pathname_common))
+                    mkdir(pathname_common);
+                end
+                atlas = subject.Sc.Atlas(subject.Sc.iAtlas);
+                parsave(fullfile(pathname_common ,file_name ),atlas);
+                reference_path                              = strsplit(pathname_common,subject.name);
+                properties.BC_V_info.common.Comment         = 'Commont';
+                properties.BC_V_info.common.Ref_path        = reference_path{2};
+                properties.BC_V_info.common.Name            = file_name;
+                
+                properties.analysis_level                   = 1;
                 if(properties.general_params.run_by_trial.value)
                     %% Data analysis for sensor and activation level by trials
                     if(iscell(subject.data))
-                        for m=1:length(subject.data)
-                            properties.trial_name       = ['trial_',num2str(m)];
-                            subject.data                = subject.trials{1,m};
-                            [subject,properties]        = data_analysis(subject,properties);
+                        data = subject.data;
+                        for m=1:length(data)
+                            properties.trial_name           = ['trial_',num2str(m)];
+                            subject.data                    = data{1,m};
+                            [subject,properties]            = data_analysis(subject,properties);
                         end
+                        subject.data = data;
                     else
                         %% Data analysis for sensor and activation level by complete data
-                        [subject,properties]            = data_analysis(subject,properties);
+                        [subject,properties]                = data_analysis(subject,properties);
                     end
                 else
                     %% Data analysis for sensor and activation level by complete data
-                    [subject,properties]                = data_analysis(subject,properties);
+                    [subject,properties]                    = data_analysis(subject,properties);
                 end
                 disp('=================================================================');
                 disp('-->> Saving BC-VARETA Information file.')
-                BC_V_info                               = properties.BC_V_info;
-                BC_V_info.subjectID                     = subject.name;
-                BC_V_info.properties.general_params     = properties.general_params;
-                BC_V_info.properties.spectral_params    = properties.spectral_params;
+                BC_V_info                                   = properties.BC_V_info;
+                BC_V_info.subjectID                         = subject.name;
+                BC_V_info.properties.general_params         = properties.general_params;
+                BC_V_info.properties.spectral_params        = properties.spectral_params;
                 disp(strcat("File: ", "BC_V_info.mat"));
                 parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
             end
             %%
             %% Data analysis for activation level
             %%
-            if(isequal(properties.general_params.analysis_level.value,2) || isequal(properties.general_params.analysis_level.value,12) || isequal(properties.general_params.analysis_level.value,23) || isequal(properties.general_params.analysis_level.value,'all'))
+            if(isequal(properties.general_params.analysis_level.value,'2') || isequal(properties.general_params.analysis_level.value,'12') || isequal(properties.general_params.analysis_level.value,'23') || isequal(properties.general_params.analysis_level.value,'all'))
                 [properties,canceled]                   = check_BC_V_info(properties,subject,2);
                 if(canceled)
                     continue;
-                end
-                [subject,properties]                    = get_activation_priors(subject,properties);
+                end                
                 properties.analysis_level               = 2;
                 if(properties.general_params.run_by_trial.value)
-                    if((isfield(properties.BC_V_info.trial_1,'sensor_level')))
+                    if((isfield(properties.BC_V_info,'sensor_level')))
                         %% Data analysis for sensor and activation level by trials
                         if(iscell(subject.data))
-                            for m=1:length(subject.data)
+                            data = subject.data;
+                            for m=1:length(data)
                                 properties.trial_name   = ['trial_',num2str(m)];
-                                subject.data            = subject.trials{1,m};
+                                subject.data            = data{1,m};
+                                [subject,properties]    = get_activation_priors(subject,properties);
                                 [subject,properties]    = data_analysis(subject,properties);
                             end
+                            subject.data = data;
                         else
                             %% Data analysis for sensor and activation level by complete data
+                            [subject,properties]        = get_activation_priors(subject,properties);
                             [subject,properties]        = data_analysis(subject,properties);
                         end
                     else
@@ -212,6 +204,7 @@ if(~isempty(subjects))
                 else
                     if((isfield(properties.BC_V_info,'sensor_level')))
                         %% Data analysis for sensor and activation level by complete data
+                        [subject,properties]            = get_activation_priors(subject,properties);
                         [subject,properties]            = data_analysis(subject,properties);
                     else
                         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
@@ -230,24 +223,27 @@ if(~isempty(subjects))
             %%
             %% Data analysis for connectivity level
             %%
-            if(isequal(properties.general_params.analysis_level.value,3) || isequal(properties.general_params.analysis_level.value,23) || isequal(properties.general_params.analysis_level.value,'all'))
+            if(isequal(properties.general_params.analysis_level.value,'3') || isequal(properties.general_params.analysis_level.value,'23') || isequal(properties.general_params.analysis_level.value,'all'))
                 [properties,canceled]                   = check_BC_V_info(properties,subject,3);
                 if(canceled)
                     continue;
-                end
-                [subject,properties]                    = get_connectivity_priors(subject,properties);
+                end                
                 properties.analysis_level               = 3;
                 if(properties.general_params.run_by_trial.value)
-                    if((isfield(properties.BC_V_info.trial_1,'sensor_level') && isfield(properties.BC_V_info.trial_1,'activation_level')))
+                    if(isfield(properties.BC_V_info,'sensor_level') && isfield(properties.BC_V_info,'activation_level'))
                         %% Data analysis for connectivity level by trials
                         if(iscell(subject.data))
-                            for m=1:length(subject.data)
+                            data = subject.data;
+                            for m=1:length(data)
                                 properties.trial_name   = ['trial_',num2str(m)];
-                                subject.data            = subject.trials{1,m};
+                                subject.data            = data{1,m};
+                                [subject,properties]    = get_connectivity_priors(subject,properties);
                                 [subject,properties]    = data_analysis(subject,properties);
                             end
+                            subject.data = data;
                         else
                             %% Data analysis for connectivity level by complete data
+                            [subject,properties]        = get_connectivity_priors(subject,properties);
                             [subject,properties]        = data_analysis(subject,properties);
                         end
                     else
@@ -260,6 +256,7 @@ if(~isempty(subjects))
                 else
                     if((isfield(properties.BC_V_info,'sensor_level') && isfield(properties.BC_V_info,'activation_level')))
                         %% Data analysis for connectivity level by complete data
+                        [subject,properties]            = get_connectivity_priors(subject,properties);
                         [subject,properties]            = data_analysis(subject,properties);
                     else
                         fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));

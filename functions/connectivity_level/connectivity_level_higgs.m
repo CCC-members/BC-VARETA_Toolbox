@@ -164,7 +164,7 @@ param.Ajj             = Ajj;
 if IsCurv == 0
     Ke                               = Ke*W;   
     [Thetajj,Tjv,llh]                = higgs(Svv,Ke(:,indms),param);
-    [Thetajj,s2j,Tjv]                = higgs_destandardization(Thetajj,Svv,Tjv,Winv,W,indms,IsField);
+    [Thetajj,s2j,Tjv]                = higgs_destandardization(Thetajj,Svv,Tjv,Winv,W,indms,IsField,run_bash_mode);
 elseif IsCurv == 1
     Ke_giri                          = subject.Ke_giri;
     Ke_sulc                          = subject.Ke_sulc;
@@ -172,18 +172,36 @@ elseif IsCurv == 1
     Ke_sulc                          = Ke_sulc*W;
     [Thetajj_sulc,Tjv_sulc,llh_sulc] = higgs(Svv,Ke_sulc(:,indms),param);
     [Thetajj_giri,Tjv_giri,llh_giri] = higgs(Svv,Ke_giri(:,indms),param);
-    [Thetajj_giri,s2j_giri,Tjv_giri] = higgs_destandardization(Thetajj_giri,Svv,Tjv_giri,Winv,W,indms,IsField);
-    [Thetajj_sulc,s2j_sulc,Tjv_sulc] = higgs_destandardization(Thetajj_sulc,Svv,Tjv_sulc,Winv,W,indms,IsField);
+    [Thetajj_giri,s2j_giri,Tjv_giri] = higgs_destandardization(Thetajj_giri,Svv,Tjv_giri,Winv,W,indms,IsField,run_bash_mode);
+    [Thetajj_sulc,s2j_sulc,Tjv_sulc] = higgs_destandardization(Thetajj_sulc,Svv,Tjv_sulc,Winv,W,indms,IsField,run_bash_mode);
     Thetajj                          = (Thetajj_giri + Thetajj_sulc)/2;
+    clearvars Thetajj_sulc Thetajj_giri Ke_sulc Ke_giri;
     s2j                              = (s2j_giri + s2j_sulc)/2;
     llh                              = [llh_giri llh_sulc];
     Tjv                              = cat(3,Tjv_giri,Tjv_sulc);
+    clearvars Tjv_giri Tjv_sulc s2j_giri s2j_sulc;
 end
+clearvars param W Winv;
+
 % Ordering results by FSAve indices
+disp("-->> Ordering connectivity results by FSAve indices");
 Msub_to_FSAve   = zeros(length(sub_to_FSAve),size(Ke,2));
 for h = 1:length(sub_to_FSAve)
     indices = sub_to_FSAve(h,:);
     Msub_to_FSAve(h,[indices(1) indices(2) indices(3)]) = 1/3;
+end
+if(~run_bash_mode)
+    f = dialog('Position',[300 300 250 80]);
+    movegui(f,'center')
+    iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
+    iconsSizeEnums = javaMethod('values',iconsClassName);
+    SIZE_32x32 = iconsSizeEnums(2);  % (1) = 16x16,  (2) = 32x32
+    jObj = com.mathworks.widgets.BusyAffordance(SIZE_32x32, 'Getting FSAve indices for connectivity');  % icon, label
+    jObj.setPaintsWhenStopped(true);  % default = false
+    jObj.useWhiteDots(false);         % default = false (true is good for dark backgrounds)
+    javacomponent(jObj.getComponent, [20,10,200,80], f);
+    jObj.start;
+    pause(1);
 end
 Msub_to_FSAve              = sparse(Msub_to_FSAve);
 Thetajj_FSAve              = zeros(size(Ke,2));
@@ -194,7 +212,13 @@ Thetajj_FSAve              = Thetajj_FSAve*Thetajj_FSAve';
 Thetajj_FSAve              = full(Thetajj_FSAve);
 indms_FSAve                = find(diag(Thetajj_FSAve) > 0);
 Thetajj_FSAve              = Thetajj_FSAve(indms_FSAve,indms_FSAve);
-
+if(~run_bash_mode)
+    jObj.stop;
+    jObj.setBusyText('All done!');
+    disp('All done....');
+    pause(2);
+    delete(f);
+end
 %%
 %% Plotting results
 %%
