@@ -1,4 +1,4 @@
-function [Thetajj,Tjv,llh] = higgs(Svv,Lvj,param)
+function [Thetajj,Tjv,llh,Sjj,Psijj,Sigmajj] = higgs(Svv,Lvj,param)
 % Hidden Gaussian Grpahical Source-Model (HIGGS) solver. Computes the Source Empirical Covariance (Sjj) and Source Partial Correlations (Thetajj) by two sequential steps.
 % First: Unhides (Expectation) the Type II Likelihood approximated representation which shapes a pair of Hermitian Gaussian Graphical Model (HGGM), one of the state equation
 % (with empirical covariance Psijj) and another of the observation equation residuals (with empirical covariance Psixixi). The Hyperparameters are computed by maximum posterior
@@ -60,8 +60,12 @@ end
 %iterations outer loop
 
 %%
-Tjv          = Tjv/scaleLvj;
-Thetajj      = Thetajj.X*scale;
+Tjv         = Tjv/scaleLvj;
+Thetajj     = Thetajj.X*scale;
+Sjj         = Sjj/scale;
+Psijj       = Psijj/scale;
+Sigmajj     = Sigmajj/scale;
+
 disp(strcat("-->> Running higgs expectation-maximization: 100%"));
 if(~run_bash_mode && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(100),"%"));

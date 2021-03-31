@@ -170,12 +170,15 @@ elseif IsCurv == 1
     Ke_sulc                          = subject.Ke_sulc;
     Ke_giri                          = Ke_giri*W;
     Ke_sulc                          = Ke_sulc*W;
-    [Thetajj_sulc,Tjv_sulc,llh_sulc] = higgs(Svv,Ke_sulc(:,indms),param);
-    [Thetajj_giri,Tjv_giri,llh_giri] = higgs(Svv,Ke_giri(:,indms),param);
+    [Thetajj_sulc,Tjv_sulc,llh_sulc,Sjj_sulc,Psijj_sulc,Sigmajj_sulc] = higgs(Svv,Ke_sulc(:,indms),param);
+    [Thetajj_giri,Tjv_giri,llh_giri,Sjj_giri,Psijj_giri,Sigmajj_giri] = higgs(Svv,Ke_giri(:,indms),param);
     [Thetajj_giri,s2j_giri,Tjv_giri] = higgs_destandardization(Thetajj_giri,Svv,Tjv_giri,Winv,W,indms,IsField,run_bash_mode);
     [Thetajj_sulc,s2j_sulc,Tjv_sulc] = higgs_destandardization(Thetajj_sulc,Svv,Tjv_sulc,Winv,W,indms,IsField,run_bash_mode);
     Thetajj                          = (Thetajj_giri + Thetajj_sulc)/2;
-    clearvars Thetajj_sulc Thetajj_giri Ke_sulc Ke_giri;
+    Sjj                              = (Sjj_giri + Sjj_sulc)/2;
+    Psijj                            = (Psijj_giri + Psijj_sulc)/2;
+    Sigmajj                          = (Sigmajj_giri + Sigmajj_sulc)/2;
+    clearvars Thetajj_sulc Thetajj_giri Ke_sulc Ke_giri Sjj_giri Sjj_sulc Psijj_giri Psijj_sulc Sigmajj_giri Sigmajj_sulc;
     s2j                              = (s2j_giri + s2j_sulc)/2;
     llh                              = [llh_giri llh_sulc];
     Tjv                              = cat(3,Tjv_giri,Tjv_sulc);
@@ -356,7 +359,8 @@ disp('-->> Saving file.')
 disp(strcat("Path: ",pathname));
 file_name = strcat('MEEG_source_',str_band,'.mat');
 disp(strcat("File: ", file_name));
-parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,indms,Thetajj_FSAve,indms_FSAve);
+
+parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,indms,Thetajj_FSAve,indms_FSAve,Sjj,Psijj,Sigmajj);
 
 pause(1e-12);
 
