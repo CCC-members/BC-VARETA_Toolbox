@@ -145,6 +145,7 @@ patch('Faces',Sh.Faces,'Vertices',Sh.Vertices,'FaceVertexCData',0.01*(ones(lengt
 colormap(gca,cmap_a);
 az = 0; el = 0;
 view(az, el);
+rotate3d on;
 title('Scalp','Color','k','FontSize',16);
 axis equal;
 axis off;
@@ -210,7 +211,7 @@ properties.BC_V_info.sensor_level(iter).Comment     = 'Sensor_level';
 [~,band_name,~]                                     = fileparts(reference_path{2});
 properties.BC_V_info.sensor_level(iter).Band        = band_name;
 properties.BC_V_info.sensor_level(iter).Freq        = char(str_band);
-properties.BC_V_info.sensor_level(iter).Ref_path    = reference_path{2};
+properties.BC_V_info.sensor_level(iter).Ref_path    = strrep(reference_path{2},'\','/');
 properties.BC_V_info.sensor_level(iter).Name        = file_name;
 
     

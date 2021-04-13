@@ -83,7 +83,7 @@ for m=1:length(properties.activation_params.methods)
         [~,method,~]                                            = fileparts(base_path);
         properties.BC_V_info.activation_level(iter).Method      = lower(method);
         properties.BC_V_info.activation_level(iter).Freq        = char(properties.str_band);
-        properties.BC_V_info.activation_level(iter).Ref_path    = reference_path{2};
+        properties.BC_V_info.activation_level(iter).Ref_path    = strrep(reference_path{2},'\','/');
         properties.BC_V_info.activation_level(iter).Name        = properties.file_name;
     end
 end

@@ -134,6 +134,7 @@ patch('Faces',Sc.Faces,'Vertices',Vertices,'FaceVertexCData',Sc.SulciMap*0.06+..
 set(gca,'xcolor','w','ycolor','w','zcolor','w');
 az = 0; el = 0;
 view(az,el);
+rotate3d on;
 colormap(gca,cmap);
 title('BC-VARETA-activation','Color','k','FontSize',16);
 

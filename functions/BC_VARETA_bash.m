@@ -121,24 +121,36 @@ if(~isempty(subjects))
             %%
             %% Data analysis for sensor level
             %%
-            if(isequal(properties.general_params.analysis_level.value,'1') || isequal(properties.general_params.analysis_level.value,'12') || isequal(properties.general_params.analysis_level.value,'all'))
+            if(isequal(properties.general_params.analysis_level.value,'1')...
+                    || isequal(properties.general_params.analysis_level.value,'12')...
+                    || isequal(properties.general_params.analysis_level.value,'all'))
                 [properties,canceled]                       = check_BC_V_info(properties,subject,1);
                 if(canceled)
                     continue;
                 end
-                %% Saving general variables for sensor level
-                file_name                                   = strcat('Atlas.mat');
-                disp(strcat("File: ", file_name));
+                %% Saving general variables for sensor level                
                 pathname_common                             = fullfile(subject.subject_path,'Common');
                 if(~isfolder(pathname_common))
                     mkdir(pathname_common);
                 end
                 atlas = subject.Sc.Atlas(subject.Sc.iAtlas);
+                cortex = subject.Sc;
+                
+                file_name                                   = strcat('Atlas.mat');
+                disp(strcat("File: ", file_name));                                
                 parsave(fullfile(pathname_common ,file_name ),atlas);
                 reference_path                              = strsplit(pathname_common,subject.name);
-                properties.BC_V_info.common.Comment         = 'Commont';
-                properties.BC_V_info.common.Ref_path        = reference_path{2};
+                properties.BC_V_info.common.Comment         = 'Common Atlas';
+                properties.BC_V_info.common.Ref_path        = strrep(reference_path{2},'\','/');
                 properties.BC_V_info.common.Name            = file_name;
+                
+                file_name                                   = strcat('Cortex.mat');
+                disp(strcat("File: ", file_name));                                
+                parsave(fullfile(pathname_common ,file_name ),cortex);
+                reference_path                              = strsplit(pathname_common,subject.name);
+                properties.BC_V_info.common.Comment         = 'Common Cortex';
+                properties.BC_V_info.common.Ref_path        = strrep(reference_path{2},'\','/');
+                properties.BC_V_info.common.Name            = file_name;               
                 
                 properties.analysis_level                   = 1;
                 if(properties.general_params.run_by_trial.value)
@@ -165,13 +177,19 @@ if(~isempty(subjects))
                 BC_V_info.subjectID                         = subject.name;
                 BC_V_info.properties.general_params         = properties.general_params;
                 BC_V_info.properties.spectral_params        = properties.spectral_params;
+                if(isequal(properties.general_params.analysis_level.value,'1'))
+                    BC_V_info.completed = true;
+                end
                 disp(strcat("File: ", "BC_V_info.mat"));
                 parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
             end
             %%
             %% Data analysis for activation level
             %%
-            if(isequal(properties.general_params.analysis_level.value,'2') || isequal(properties.general_params.analysis_level.value,'12') || isequal(properties.general_params.analysis_level.value,'23') || isequal(properties.general_params.analysis_level.value,'all'))
+            if(isequal(properties.general_params.analysis_level.value,'2')...
+                    || isequal(properties.general_params.analysis_level.value,'12')...
+                    || isequal(properties.general_params.analysis_level.value,'23')...
+                    || isequal(properties.general_params.analysis_level.value,'all'))
                 [properties,canceled]                   = check_BC_V_info(properties,subject,2);
                 if(canceled)
                     continue;
@@ -217,13 +235,19 @@ if(~isempty(subjects))
                 disp('-->> Saving file.')
                 BC_V_info                               = properties.BC_V_info;
                 BC_V_info.properties.activation_params  = properties.activation_params;
+                if(isequal(properties.general_params.analysis_level.value,'2')...
+                        || isequal(properties.general_params.analysis_level.value,'12'))
+                    BC_V_info.completed = true;
+                end
                 disp(strcat("File: ", "BC_V_info.mat"));
                 parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
             end
             %%
             %% Data analysis for connectivity level
             %%
-            if(isequal(properties.general_params.analysis_level.value,'3') || isequal(properties.general_params.analysis_level.value,'23') || isequal(properties.general_params.analysis_level.value,'all'))
+            if(isequal(properties.general_params.analysis_level.value,'3')...
+                    || isequal(properties.general_params.analysis_level.value,'23')...
+                    || isequal(properties.general_params.analysis_level.value,'all'))
                 [properties,canceled]                   = check_BC_V_info(properties,subject,3);
                 if(canceled)
                     continue;
@@ -269,6 +293,11 @@ if(~isempty(subjects))
                 disp('-->> Saving file.')
                 BC_V_info                                = properties.BC_V_info;
                 BC_V_info.properties.connectivity_params = properties.connectivity_params;
+                if(isequal(properties.general_params.analysis_level.value,'3')...
+                        || isequal(properties.general_params.analysis_level.value,'23')...
+                        || isequal(properties.general_params.analysis_level.value,'all'))
+                    BC_V_info.completed = true;
+                end
                 disp(strcat("File: ", "BC_V_info.mat"));
                 parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
             end
