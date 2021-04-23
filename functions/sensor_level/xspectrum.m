@@ -32,6 +32,7 @@ function [Svv,F,Ns,PSD] = xspectrum(data, Fs, Fm, deltaf, varf, Nw, varargin)
 for i=1:2:length(varargin)
     eval([varargin{i} '=  varargin{(i+1)};'])
 end
+run_bash_mode = app_properties.run_bash_mode.value;
 use_seg     = true;
 [Nc,Nt]     = size(data);
 deltat      = 1/(2*varf); % sliding window for hilbert envelope (adjusted by the response of the gaussian filter)
@@ -66,6 +67,11 @@ else
     W = fft(data,[],2);
 end
 W   = cat(2,W,conj(flip(W,2)));
+if(~run_bash_mode)
+    process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
+    frames = java.awt.Frame.getFrames();
+    frames(end).setAlwaysOnTop(1);
+end
 for freq = 1:Nf
     deltaFilt               = filt_data(W,Fs,F(freq),varf,'use_gpu',use_gpu);
     dataEnv                 = envelope_data(deltaFilt,Fs,deltat,'use_seg',use_seg,'use_gpu',use_gpu);
@@ -81,6 +87,9 @@ for freq = 1:Nf
     end
     clearvars dataEnv;
     fprintf(1,'\b\b\b\b%3.0f%%',(freq/Nf)*100);
+    if(~run_bash_mode)
+        waitbar((freq)/(Nf),process_waitbar,strcat("Computing cross-spectra: ",num2str(fix((freq/Nf)*100)),"%"));
+    end
 end
 fprintf(1,'\n');
 if(use_gpu)
@@ -92,5 +101,7 @@ PSD = zeros(Nc,Nf);
 for freq = 1:Nf
     PSD(:,freq) = diag(squeeze(abs(Svv(:,:,freq))));
 end
-
+if(~run_bash_mode)
+    delete(process_waitbar);
+end
 end

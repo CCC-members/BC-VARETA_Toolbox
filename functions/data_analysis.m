@@ -3,11 +3,11 @@ function [subject,properties] = data_analysis(subject,properties)
 %%
 %% Running sensor level
 %%
-if(isequal(properties.analysis_level,1))    
+if(isequal(properties.analysis_level,1))
     %%
     %% Preparing params
     %%
-    data    = subject.data; 
+    data    = subject.data;
     Fs      = properties.spectral_params.samp_freq.value;       % sampling frequency
     Fm      = properties.spectral_params.max_freq.value;        % maximum frequency
     deltaf  = properties.spectral_params.freq_resol.value;      % frequency resolution
@@ -23,13 +23,20 @@ if(isequal(properties.analysis_level,1))
     %% Adding fieltrip external functions
     addpath(genpath('external/fieldtrip'));
     ft_defaults
-       
+    
     %% Saving general variables for sensor level
     file_name                               = strcat('Data_spectrum.mat');
     disp(strcat("File: ", file_name));
-    pathname                                = fullfile(subject.subject_path,'Sensor_level');
-    pathname_generals                       = fullfile(subject.subject_path,'Generals');
-    pathname_funtional                      = fullfile(subject.subject_path,'Generals','Funtional');
+    if(properties.general_params.run_by_trial.value)
+        trial_name  = properties.trial_name;
+        pathname              = fullfile(subject.subject_path,trial_name,'Sensor_level');
+        pathname_generals     = fullfile(subject.subject_path,trial_name,'Generals');
+        pathname_funtional    = fullfile(subject.subject_path,trial_name,'Generals','Funtional');
+    else
+        pathname              = fullfile(subject.subject_path,'Sensor_level');
+        pathname_generals     = fullfile(subject.subject_path,'Generals');
+        pathname_funtional    = fullfile(subject.subject_path,'Generals','Funtional');
+    end
     if(~isfolder(pathname))
         mkdir(pathname);
         mkdir(pathname_generals);
@@ -37,143 +44,133 @@ if(isequal(properties.analysis_level,1))
     end
     parsave(fullfile(pathname_funtional ,file_name ),Svv_channel);
     reference_path                          = strsplit(pathname_funtional,subject.name);
-    if(properties.general_params.run_by_trial.value) 
-        trial_name                          = properties.trial_name;
-        properties.BC_V_info.(trial_name).generals.funtional.spectrum_data.name         = file_name;
-        properties.BC_V_info.(trial_name).generals.funtional.spectrum_data.ref_path     = reference_path{2};        
-    else        
-        properties.BC_V_info.generals.funtional.spectrum_data.name                      = file_name;
-        properties.BC_V_info.generals.funtional.spectrum_data.ref_path                  = reference_path{2};        
+    if(~isfield(properties.BC_V_info,'generals'))
+        iter = 1;
+    else
+        iter = length(properties.BC_V_info.generals) + 1;
     end
+    properties.BC_V_info.generals(iter).Comment   = 'Generals';
+    properties.BC_V_info.generals(iter).Ref_path  = reference_path{2};
+    properties.BC_V_info.generals(iter).Name      = file_name;
+    
     properties.Nseg = Nseg;
     for h=1:length(properties.spectral_params.frequencies)
         band                                = properties.spectral_params.frequencies(h);
-        if(band.run)            
+        if(band.run)
             properties.band                 = band;
             [subject,properties]            = sensor_level_analysis(Svv_channel,PSD,Nf,F,subject,properties);
         end
     end
+    return;
 end
 %%
 %% Running activation level
 %%
 if(isequal(properties.analysis_level,2))
     % Saving general variables for activation level
-    file_name                                                                   = strcat('W.mat');
-    disp(strcat("File: ", file_name));
-    pathname                                                                    = fullfile(subject.subject_path,'Generals','Structural','sSSBL');
-    if(~isfolder(pathname))
-        mkdir(pathname);
-    end
-    W                                                                           = subject.W;
-    parsave(fullfile(pathname ,file_name ),W);
-    reference_path                                                              = strsplit(pathname,subject.name);
-    if(properties.general_params.run_by_trial.value) 
-        trial_name = properties.trial_name;
-        properties.BC_V_info.(trial_name).generals.structural.sssbl.W.name      = file_name;
-        properties.BC_V_info.(trial_name).generals.structural.sssbl.W.ref_path  = reference_path{2};        
-    else        
-        properties.BC_V_info.generals.structural.sssbl.W.name                   = file_name;
-        properties.BC_V_info.generals.structural.sssbl.W.ref_path               = reference_path{2};        
-    end
+    file_name                                       = strcat('W.mat');
+    W                                               = subject.W;
+    
     if(properties.general_params.run_by_trial.value)
-        sensor_level                                                            = properties.BC_V_info.(properties.trial_name).sensor_level;
-    else
-        sensor_level                                                            = properties.BC_V_info.sensor_level;
-    end    
-    band_fields = fieldnames(sensor_level);
-    for h=1:length(band_fields)
-        band_name = band_fields{h};
-        if(properties.general_params.run_frequency_bin.value)
-            bin_fields                                                          = fieldnames(sensor_level.(band_name));
-            for k=1:length(bin_fields)
-                bin_name                                                        = bin_fields{k};
-                properties.sensor_level_out                                     = load(fullfile(subject.subject_path,...
-                                                                                    sensor_level.(band_name).(bin_name).ref_path,sensor_level.(band_name).(bin_name).name));
-                [subject,properties]                                            = activation_level_interface(subject,properties);
-            end
-        else
-            properties.sensor_level_out                                         = load(fullfile(subject.subject_path,...
-                                                                                    sensor_level.(band_name).ref_path,sensor_level.(band_name).name));
-            [subject,properties]                                                = activation_level_interface(subject,properties);
+        trial_name = properties.trial_name;
+        pathname                                    = fullfile(subject.subject_path,trial_name,'Generals','Structural','sSSBL');
+        reference_path                              = strsplit(pathname,subject.name);
+        if(~isfolder(pathname))
+            mkdir(pathname);
         end
+        sensor_level                                = properties.BC_V_info.sensor_level(contains({properties.BC_V_info.sensor_level.Ref_path},properties.trial_name));
+    else
+        pathname                                    = fullfile(subject.subject_path,'Generals','Structural','sSSBL');
+        reference_path                              = strsplit(pathname,subject.name);
+        if(~isfolder(pathname))
+            mkdir(pathname);
+        end
+        sensor_level                                = properties.BC_V_info.sensor_level;
     end
+    if(~isfield(properties.BC_V_info,'generals'))
+        iter                                        = 1;
+    else
+        iter                                        = length(properties.BC_V_info.generals) + 1;
+    end
+    properties.BC_V_info.generals(iter).Comment     = 'Generals';
+    properties.BC_V_info.generals(iter).Ref_path    = reference_path{2};
+    properties.BC_V_info.generals(iter).Name        = file_name;    
+    disp(strcat("File: ", file_name));
+    parsave(fullfile(pathname ,file_name ),W);
+    
+    for h=1:length(sensor_level)
+        ref_path                                    = sensor_level(h).Ref_path;
+        file_name                                   = sensor_level(h).Name;
+        properties.sensor_level_out                 = load(fullfile(subject.subject_path,ref_path,file_name));
+        [subject,properties]                        = activation_level_interface(subject,properties);
+    end
+    return;
 end
 %%
 %% Running connectivity level
 %%
-if(isequal(properties.analysis_level,3))    
+if(isequal(properties.analysis_level,3))
     %%
     %% Getting system response
     %%
     if(properties.general_params.system_response.value)
-        [syst_resp_out]                                                         = get_system_response(subject,properties);
+        [syst_resp_out]                             = get_system_response(subject,properties);
     end
     %%
     %% Band Analysis, connectivity level
-    %% 
+    %%
     % Saving general variables for connectivity level
-    file_name                                                                   = strcat('W.mat');
-    disp(strcat("File: ", file_name));
-    pathname                                                                    = fullfile(subject.subject_path,'Generals','Structural','HIGGS');
-    if(~isfolder(pathname))
-        mkdir(pathname);
-    end
-    W                                                                           = subject.W;
-    parsave(fullfile(pathname ,file_name ),W);
-    reference_path                                                              = strsplit(pathname,subject.name);
-    if(properties.general_params.run_by_trial.value) 
-        trial_name = properties.trial_name;
-        properties.BC_V_info.(trial_name).generals.structural.higgs.W.name      = file_name;
-        properties.BC_V_info.(trial_name).generals.structural.higgs.W.ref_path  = reference_path{2};        
-    else        
-        properties.BC_V_info.generals.structural.higgs.W.name                   = file_name;
-        properties.BC_V_info.generals.structural.higgs.W.ref_path               = reference_path{2};        
-    end
-   
+    file_name                                       = strcat('W.mat');
+    W                                               = subject.W;
     if(properties.general_params.run_by_trial.value)
-        sensor_level                                                            = properties.BC_V_info.(properties.trial_name).sensor_level;
-        activation_level                                                        = properties.BC_V_info.(properties.trial_name).activation_level;
+        trial_name                                  = properties.trial_name;
+        pathname                                    = fullfile(subject.subject_path,trial_name,'Generals','Structural','HIGGS');
+        reference_path                              = strsplit(pathname,subject.name);
+        if(~isfolder(pathname))
+            mkdir(pathname);
+        end
+        sensor_level                                = properties.BC_V_info.sensor_level(contains({properties.BC_V_info.sensor_level.Ref_path},properties.trial_name));
+        activation_level                            = properties.BC_V_info.activation_level(contains({properties.BC_V_info.activation_level.Ref_path},properties.trial_name));
     else
-        sensor_level                                                            = properties.BC_V_info.sensor_level;
-        activation_level                                                        = properties.BC_V_info.activation_level;
+        pathname                                    = fullfile(subject.subject_path,'Generals','Structural','HIGGS');
+        reference_path                              = strsplit(pathname,subject.name);
+        if(~isfolder(pathname))
+            mkdir(pathname);
+        end
+        sensor_level                                = properties.BC_V_info.sensor_level;
+        activation_level                            = properties.BC_V_info.activation_level;
     end
-    activ_fields = fieldnames(activation_level);
-    for i=1:length(activ_fields)
-        act_method                                                              = activ_fields{i};        
-        band_fields                                                             = fieldnames(sensor_level);
-        for h=1:length(band_fields)
-            band_name                                                           = band_fields{h};
-            if(properties.general_params.run_frequency_bin.value)
-                bin_fields                                                      = fieldnames(sensor_level.(band_name));
-                for k=1:length(bin_fields)
-                    bin_name                                                    = bin_fields{k};
-                    properties.sensor_level_out                                 = load(fullfile(subject.subject_path,...
-                                                                                    sensor_level.(band_name).(bin_name).ref_path,sensor_level.(band_name).(bin_name).name));
-                    properties.activation_level_out                             = load(fullfile(subject.subject_path,...
-                                                                                    activation_level.(act_method).(band_name).(bin_name).ref_path,...
-                                                                                    activation_level.(act_method).(band_name).(bin_name).name));
-                    if(properties.general_params.system_response.value)
-                        properties.activation_level_out.indms                   = syst_resp_out.(act_method).indms;
-                        properties.activation_level_out.stat                    = syst_resp_out.(act_method).ave_stat;
-                        properties.activation_level_out.method                  = act_method;
-                    end
-                    [subject,properties]                                        = connectivity_level_interface(subject,properties);
-                end
+    if(~isfield(properties.BC_V_info,'generals'))
+        iter = 1;
+    else
+        iter = length(properties.BC_V_info.generals) + 1;
+    end
+    properties.BC_V_info.generals(iter).Comment     = 'Generals';
+    properties.BC_V_info.generals(iter).Ref_path    = reference_path{2};
+    properties.BC_V_info.generals(iter).Name        = file_name;
+    disp(strcat("File: ", file_name));
+    parsave(fullfile(pathname ,file_name ),W);
+    
+    for i=1:length(activation_level)
+        activ_file                                      = activation_level(i);
+        sensor_file                                     = sensor_level(contains({sensor_level.Freq},activ_file.Freq));        
+        properties.sensor_level_out                     = load(fullfile(subject.subject_path,sensor_file.Ref_path,sensor_file.Name));
+        properties.activation_level_out                 = load(fullfile(subject.subject_path,activ_file.Ref_path,activ_file.Name));
+        if(properties.general_params.system_response.value)
+            if(properties.general_params.run_by_trial.value)
+                properties.activation_level_out.indms   = syst_resp_out.(trial_name).(activ_file.Method).indms;
+                properties.activation_level_out.stat    = syst_resp_out.(trial_name).(activ_file.Method).ave_stat;
+                properties.activation_level_out.method  = activ_file.Method;
             else
-                properties.sensor_level_out                                     = load(fullfile(subject.subject_path,...
-                                                                                    sensor_level.(band_name).ref_path,sensor_level.(band_name).name));
-                properties.activation_level_out                                 = load(fullfile(subject.subject_path,...
-                                                                                    activation_level.(act_method).(band_name).ref_path,activation_level.(act_method).(band_name).name));
-                if(properties.general_params.system_response.value)
-                    properties.activation_level_out.indms                       = syst_resp_out.(act_method).indms;
-                    properties.activation_level_out.stat                        = syst_resp_out.(act_method).ave_stat;
-                    properties.activation_level_out.method                      = act_method;
-                end
-                [subject,properties]                                            = connectivity_level_interface(subject,properties);
+                properties.activation_level_out.indms   = syst_resp_out.(activ_file.Method).indms;
+                properties.activation_level_out.stat    = syst_resp_out.(activ_file.Method).ave_stat;
+                properties.activation_level_out.method  = activ_file.Method;
             end
         end
+        [subject,properties]                            = connectivity_level_interface(subject,properties);
+        
     end
+    return;
 end
 % catch ME
 %     if (strcmp(ME.identifier,'MATLAB:catenate:dimensionMismatch'))

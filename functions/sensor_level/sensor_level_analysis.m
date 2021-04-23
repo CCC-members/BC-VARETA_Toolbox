@@ -141,7 +141,7 @@ else
 end
 define_ico(figure_scalp_3D);
 scatter3(X,Y,Z,100,C.^1,'filled');
-patch('Faces',Sh.Faces,'Vertices',Sh.Vertices,'FaceVertexCData',0.01*(ones(length(Sh.Vertices),1)),'FaceColor','interp','EdgeColor','none','FaceAlpha',.35);
+patch('Faces',Sh.Faces,'Vertices',Sh.Vertices,'FaceVertexCData',0.01*(ones(length(Sh.Vertices),1)),'FaceColor','interp','EdgeColor','none','FaceAlpha',.99);
 colormap(gca,cmap_a);
 az = 0; el = 0;
 view(az, el);
@@ -199,29 +199,21 @@ file_name = strcat('Sensor_level_',str_band,'.mat');
 disp(strcat("File: ", file_name));
 peak_pos = properties.peak_pos;
 parsave(fullfile(properties.pathname ,file_name ),Svv,peak_pos,Nseg,band);
-
 reference_path = strsplit(properties.pathname,subject.name);
-if(properties.general_params.run_by_trial.value)
-    if(properties.general_params.run_frequency_bin.value)
-        f_bin = replace(num2str(band.f_bin),'.','_');
-        f_bin = strcat(band.name,'_',f_bin);
-        properties.BC_V_info.(trial_name).sensor_level.(band.name).(f_bin).name         = file_name;
-        properties.BC_V_info.(trial_name).sensor_level.(band.name).(f_bin).ref_path     = reference_path{2};
-    else
-        properties.BC_V_info.(properties.trial_name).sensor_level.(band.name).name      = file_name;
-        properties.BC_V_info.(properties.trial_name).sensor_level.(band.name).ref_path  = reference_path{2};
-    end
+
+if(~isfield(properties.BC_V_info,'sensor_level'))
+    iter = 1;
 else
-    if(properties.general_params.run_frequency_bin.value)
-        f_bin = replace(num2str(band.f_bin),'.','_');
-        f_bin = strcat(band.name,'_',f_bin);
-        properties.BC_V_info.sensor_level.(band.name).(f_bin).name      = file_name;
-        properties.BC_V_info.sensor_level.(band.name).(f_bin).ref_path  = reference_path{2};
-    else
-        properties.BC_V_info.sensor_level.(band.name).name              = file_name;
-        properties.BC_V_info.sensor_level.(band.name).ref_path          = reference_path{2};
-    end
+    iter = length(properties.BC_V_info.sensor_level) + 1;
 end
+properties.BC_V_info.sensor_level(iter).Comment     = 'Sensor_level';
+[~,band_name,~]                                     = fileparts(reference_path{2});
+properties.BC_V_info.sensor_level(iter).Band        = band_name;
+properties.BC_V_info.sensor_level(iter).Freq        = char(str_band);
+properties.BC_V_info.sensor_level(iter).Ref_path    = reference_path{2};
+properties.BC_V_info.sensor_level(iter).Name        = file_name;
+
+    
 pause(1e-12);
 
 end

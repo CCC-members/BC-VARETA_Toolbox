@@ -1,4 +1,4 @@
-function [Thetajj,Tjv,llh] = higgs(Svv,Lvj,param)
+function [Thetajj,Tjv,llh,Sjj,Psijj,Sigmajj] = higgs(Svv,Lvj,param)
 % Hidden Gaussian Grpahical Source-Model (HIGGS) solver. Computes the Source Empirical Covariance (Sjj) and Source Partial Correlations (Thetajj) by two sequential steps.
 % First: Unhides (Expectation) the Type II Likelihood approximated representation which shapes a pair of Hermitian Gaussian Graphical Model (HGGM), one of the state equation
 % (with empirical covariance Psijj) and another of the observation equation residuals (with empirical covariance Psixixi). The Hyperparameters are computed by maximum posterior
@@ -22,7 +22,9 @@ function [Thetajj,Tjv,llh] = higgs(Svv,Lvj,param)
 
 run_bash_mode       = param.run_bash_mode;
 if(~run_bash_mode)
-    process_waitbar = waitbar(0,'Please wait...');
+    process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
+    frames = java.awt.Frame.getFrames();
+    frames(end).setAlwaysOnTop(1)
 end
 %% Initialization EM algorithm
 [Svv,Lvj,scale,scaleLvj,sigma2xi0,Sigmajj0,llh0,param] = higgs_initial_values(Svv,Lvj,param);
@@ -44,21 +46,28 @@ for k_outer = 1:maxiter_outer
     %% Stopping criteria
     if (k_outer > 1) && ((abs(llh(k_outer) - llh(k_outer-1))/abs(llh(k_outer-1)) < 1E-2) || (llh(k_outer) < llh(k_outer-1))) 
         llh(k_outer:end) = llh(k_outer-1);
-        disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix((maxiter_outer-10)/maxiter_outer*100)),"%"));
+        disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix((maxiter_outer)/maxiter_outer*100)),"%"));
         if(~run_bash_mode)
-           waitbar((maxiter_outer-10)/(maxiter_outer),process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)-10),"%"));
+           waitbar((maxiter_outer)/(maxiter_outer),process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
         end
         break;
     end
-    disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix(k_outer/maxiter_outer*100)),"%"));
+    if(~run_bash_mode)
+        waitbar(k_outer/maxiter_outer,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
+    end
+    disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
 end
 %iterations outer loop
 
 %%
-Tjv          = Tjv/scaleLvj;
-Thetajj      = Thetajj.X*scale;
+Tjv         = Tjv/scaleLvj;
+Thetajj     = Thetajj.X*scale;
+Sjj         = Sjj/scale;
+Psijj       = Psijj/scale;
+Sigmajj     = Sigmajj/scale;
+
 disp(strcat("-->> Running higgs expectation-maximization: 100%"));
-if(~run_bash_mode)
+if(~run_bash_mode && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(100),"%"));
     delete(process_waitbar)
 end

@@ -71,21 +71,19 @@ if(app_properties.check_app_update)
     end
 end
 %%               Upload the actived processes
-if (app_properties.run_bash_mode.value)
-    %----- Finding proccess for run ---------
-    processes = jsondecode(fileread(strcat('processes.json')));
-    for i = 1: length(processes)
-        process = processes(i);
-        if(process.active)
-            disp("=================================================================");
-            disp(strcat('=============== Running process: ' , process.name, ' ===============' ))
-            addpath(process.root_folder);
-            eval(process.function);
-        end
+
+%----- Finding proccess for run ---------
+processes = jsondecode(fileread(strcat('processes.json')));
+for i = 1: length(processes)
+    process = processes(i);
+    if(process.active)
+        disp("=================================================================");
+        disp(strcat('=============== Running process: ' , process.name, ' ===============' ))
+        addpath(process.root_folder);
+        eval(process.function);
     end
-else
-    BC_VARETA_guide;
 end
+
 if(isfile('bcv_predefinition/properties.json'))
     delete('bcv_predefinition/properties.json');
 end

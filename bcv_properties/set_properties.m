@@ -55,12 +55,14 @@ pred_options.params.predefinition.option    = properties.run_bash_mode.predefini
 
 % saving property files
 saveJSON(pred_options,strcat('bcv_predefinition/pred_properties.json'));
-saveJSON(properties,strcat(pred_folder,'/properties.json'));
 saveJSON(properties.general_params,strcat(pred_folder,'/general_params.json'));
 saveJSON(properties.sensor_params,strcat(pred_folder,'/sensor_params.json'));
 saveJSON(properties.activation_params,strcat(pred_folder,'/activation_params.json'));
 saveJSON(properties.connectivity_params,strcat(pred_folder,'/connectivity_params.json'));
 saveJSON(properties.spectral_params,strcat(pred_folder,'/spectral_params.json'));
+
+properties = rmfield(properties,{'general_params','sensor_params','activation_params','connectivity_params','spectral_params'});
+saveJSON(properties,strcat(pred_folder,'/properties.json'));
 
 end
 

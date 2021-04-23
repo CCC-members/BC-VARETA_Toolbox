@@ -72,31 +72,19 @@ for m=1:length(properties.activation_params.methods)
         disp(strcat("-->> End time: ",datestr(now,'mmmm dd, yyyy HH:MM:SS AM')));
         
         reference_path = strsplit(properties.pathname,subject.name);
-        if(properties.BC_V_info.properties.general_params.run_by_trial.value)
-            if(properties.BC_V_info.properties.general_params.run_frequency_bin.value)
-                f_bin                                                           = replace(num2str(band.f_bin),'.','_');
-                f_bin                                                           = strcat(band.name,'_',f_bin);
-                activation_level.(method_name).(band.name).(f_bin).name         = properties.file_name;
-                activation_level.(method_name).(band.name).(f_bin).ref_path     = reference_path{2};
-                properties.BC_V_info.(trial_name).activation_level = activation_level;
-            else
-                activation_level.(method_name).(band.name).name                 = properties.file_name;
-                activation_level.(method_name).(band.name).ref_path             = reference_path{2};
-                properties.BC_V_info.(trial_name).activation_level              = activation_level;
-            end
+        if(~isfield(properties.BC_V_info,'activation_level'))
+            iter = 1;
         else
-            if(properties.BC_V_info.properties.general_params.run_frequency_bin.value)
-                f_bin                                                           = replace(num2str(band.f_bin),'.','_');
-                f_bin                                                           = strcat(band.name,'_',f_bin);
-                activation_level.(method_name).(band.name).(f_bin).name         = properties.file_name;
-                activation_level.(method_name).(band.name).(f_bin).ref_path     = reference_path{2};
-                properties.BC_V_info.activation_level = activation_level;
-            else
-                activation_level.(method_name).(band.name).name                 = properties.file_name;
-                activation_level.(method_name).(band.name).ref_path             = reference_path{2};
-                properties.BC_V_info.activation_level                           = activation_level;
-            end
+            iter = length(properties.BC_V_info.activation_level) + 1;
         end
+        properties.BC_V_info.activation_level(iter).Comment     = 'Activation_level';
+        [base_path,band_name,~]                                 = fileparts(reference_path{2});
+        properties.BC_V_info.activation_level(iter).Band        = band_name;
+        [~,method,~]                                            = fileparts(base_path);
+        properties.BC_V_info.activation_level(iter).Method      = lower(method);
+        properties.BC_V_info.activation_level(iter).Freq        = char(properties.str_band);
+        properties.BC_V_info.activation_level(iter).Ref_path    = reference_path{2};
+        properties.BC_V_info.activation_level(iter).Name        = properties.file_name;
     end
 end
 
