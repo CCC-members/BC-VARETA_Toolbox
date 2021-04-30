@@ -63,8 +63,8 @@ end
 Tjv         = Tjv/scaleLvj;
 Thetajj     = Thetajj.X*scale;
 Sjj         = Sjj/scale;
-Psijj       = Psijj/scale;
-Sigmajj     = Sigmajj/scale;
+Psijj       = Psijj.X/scale;
+Sigmajj     = Sigmajj.X/scale;
 
 disp(strcat("-->> Running higgs expectation-maximization: 100%"));
 if(~run_bash_mode && exist('process_waitbar','var'))

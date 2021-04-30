@@ -70,13 +70,17 @@ cfg     = [];
 topo    = [];
 if(isequal(subject.modality,'MEG'))
     %% MEG topography
-    cfg.layout          = '4D248_helmet.mat';
-    cfg.channel         = 'meg';
-    cfg.markers         = '.';
-    cfg.markersymbol    = '.';
-    cfg.colormap        = cmap_a;
-    cfg.markersize      = 3;
-    cfg.markercolor     = [1 1 1];
+    if(isequal(properties.sensor_params.fieldtrip.layout.value,'4D248_helmet.mat'))
+        cfg.layout          = properties.sensor_params.fieldtrip.layout.value;
+        cfg.channel         = 'meg';
+        cfg.markers         = '.';
+        cfg.markersymbol    = '.';
+        cfg.colormap        = cmap_a;
+        cfg.markersize      = 3;
+        cfg.markercolor     = [1 1 1];
+    elseif(isequal(properties.sensor_params.fieldtrip.layout.value,'4D248_helmet.mat'))
+        
+    end
     topo.sens           = elec_data;
     topo.tra            = elec_data.pos;
     topo.coilpos        = elec_data.pos;
