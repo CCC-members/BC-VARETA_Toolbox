@@ -65,7 +65,7 @@ for m=1:length(properties.connectivity_params.methods)
         properties.BC_V_info.connectivity_level(iter).Method    = lower(method);
         properties.BC_V_info.connectivity_level(iter).Freq      = properties.str_band;
         properties.BC_V_info.connectivity_level(iter).Ref_path  = strrep(reference_path{2},'\','/');
-        properties.BC_V_info.connectivity_level(iter).Name      = file_name;
+        properties.BC_V_info.connectivity_level(iter).Name      = properties.file_name;
     end
 end
 
