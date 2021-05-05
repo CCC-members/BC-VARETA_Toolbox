@@ -70,13 +70,17 @@ cfg     = [];
 topo    = [];
 if(isequal(subject.modality,'MEG'))
     %% MEG topography
-    cfg.layout          = '4D248_helmet.mat';
-    cfg.channel         = 'meg';
-    cfg.markers         = '.';
-    cfg.markersymbol    = '.';
-    cfg.colormap        = cmap_a;
-    cfg.markersize      = 3;
-    cfg.markercolor     = [1 1 1];
+    if(isequal(properties.sensor_params.fieldtrip.layout.value,'4D248_helmet.mat'))
+        cfg.layout          = properties.sensor_params.fieldtrip.layout.value;
+        cfg.channel         = 'meg';
+        cfg.markers         = '.';
+        cfg.markersymbol    = '.';
+        cfg.colormap        = cmap_a;
+        cfg.markersize      = 3;
+        cfg.markercolor     = [1 1 1];
+    elseif(isequal(properties.sensor_params.fieldtrip.layout.value,'4D248_helmet.mat'))
+        
+    end
     topo.sens           = elec_data;
     topo.tra            = elec_data.pos;
     topo.coilpos        = elec_data.pos;
@@ -145,6 +149,7 @@ patch('Faces',Sh.Faces,'Vertices',Sh.Vertices,'FaceVertexCData',0.01*(ones(lengt
 colormap(gca,cmap_a);
 az = 0; el = 0;
 view(az, el);
+rotate3d on;
 title('Scalp','Color','k','FontSize',16);
 axis equal;
 axis off;
@@ -210,7 +215,7 @@ properties.BC_V_info.sensor_level(iter).Comment     = 'Sensor_level';
 [~,band_name,~]                                     = fileparts(reference_path{2});
 properties.BC_V_info.sensor_level(iter).Band        = band_name;
 properties.BC_V_info.sensor_level(iter).Freq        = char(str_band);
-properties.BC_V_info.sensor_level(iter).Ref_path    = reference_path{2};
+properties.BC_V_info.sensor_level(iter).Ref_path    = strrep(reference_path{2},'\','/');
 properties.BC_V_info.sensor_level(iter).Name        = file_name;
 
     

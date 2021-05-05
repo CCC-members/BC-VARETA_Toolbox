@@ -50,7 +50,7 @@ if(isequal(properties.analysis_level,1))
         iter = length(properties.BC_V_info.generals) + 1;
     end
     properties.BC_V_info.generals(iter).Comment   = 'Generals';
-    properties.BC_V_info.generals(iter).Ref_path  = reference_path{2};
+    properties.BC_V_info.generals(iter).Ref_path  = strrep(reference_path{2},'\','/');
     properties.BC_V_info.generals(iter).Name      = file_name;
     
     properties.Nseg = Nseg;
@@ -93,7 +93,7 @@ if(isequal(properties.analysis_level,2))
         iter                                        = length(properties.BC_V_info.generals) + 1;
     end
     properties.BC_V_info.generals(iter).Comment     = 'Generals';
-    properties.BC_V_info.generals(iter).Ref_path    = reference_path{2};
+    properties.BC_V_info.generals(iter).Ref_path    = strrep(reference_path{2},'\','/');
     properties.BC_V_info.generals(iter).Name        = file_name;    
     disp(strcat("File: ", file_name));
     parsave(fullfile(pathname ,file_name ),W);
@@ -146,7 +146,7 @@ if(isequal(properties.analysis_level,3))
         iter = length(properties.BC_V_info.generals) + 1;
     end
     properties.BC_V_info.generals(iter).Comment     = 'Generals';
-    properties.BC_V_info.generals(iter).Ref_path    = reference_path{2};
+    properties.BC_V_info.generals(iter).Ref_path    = strrep(reference_path{2},'\','/');
     properties.BC_V_info.generals(iter).Name        = file_name;
     disp(strcat("File: ", file_name));
     parsave(fullfile(pathname ,file_name ),W);

@@ -34,22 +34,22 @@
     },
     "module_param_files":[
         {
-            "description":"Define bcv_sensor_params. you can change the file and save different conbinations.",
+            "description":"Define sensor_params. you can change the file and save different conbinations.",
             "module_id":"sensor_params",
             "file_path":"bcv_properties/sensor_params.json"
         },
         {
-            "description":"Define bcv_activation_params. you can change the file and save different conbinations.",
+            "description":"Define activation_params. you can change the file and save different conbinations.",
             "module_id":"activation_params",
             "file_path":"bcv_properties/activation_params.json"
         },
         {
-            "description":"Define bcv_connectivity_params. you can change the file and save different conbinations.",
+            "description":"Define connectivity_params. you can change the file and save different conbinations.",
             "module_id":"connectivity_params",
             "file_path":"bcv_properties/connectivity_params.json"
         },
         {
-            "description":"Define bcv_spectral_params. you can change the file and save different conbinations.",
+            "description":"Define spectral_params. you can change the file and save different conbinations.",
             "module_id":"spectral_params",
             "file_path":"bcv_properties/spectral_params.json"
         }

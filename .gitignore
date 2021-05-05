@@ -1,0 +1,10 @@
+*.asv
+data/
+results/
+tmp/
+bcv_predefinition/all_analysis
+bcv_predefinition/sensor
+bcv_predefinition/activation
+bcv_predefinition/connectivity
+bcv_predefinition/sen_activ
+bcv_predefinition/activ_conn
