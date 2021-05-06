@@ -31,7 +31,7 @@ end
 %% Outer loop EM algorithm
 maxiter_outer         = param.maxiter_outer;
 llh                   = zeros(maxiter_outer,1);
-disp(strcat("-->> Running higgs expectation-maximization: 0%"));
+fprintf(1,strcat("-->> Running higgs expectation-maximization (",param.str_band,") band: %3d%%\n"),0);
 for k_outer = 1:maxiter_outer    
     %% Expectation
     [Sxixi,Psixixi,Sjj,Psijj,Sigmajj_post,Tjv] = higgs_expectation(Svv,Lvj,sigma2xi0,Sigmajj0,param);
@@ -46,7 +46,7 @@ for k_outer = 1:maxiter_outer
     %% Stopping criteria
     if (k_outer > 1) && ((abs(llh(k_outer) - llh(k_outer-1))/abs(llh(k_outer-1)) < 1E-2) || (llh(k_outer) < llh(k_outer-1))) 
         llh(k_outer:end) = llh(k_outer-1);
-        disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix((maxiter_outer)/maxiter_outer*100)),"%"));
+        fprintf(1,'\b\b\b\b%3.0f%%',fix((k_outer/maxiter_outer)*100)); 
         if(~run_bash_mode)
            waitbar((maxiter_outer)/(maxiter_outer),process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
         end
@@ -55,7 +55,7 @@ for k_outer = 1:maxiter_outer
     if(~run_bash_mode)
         waitbar(k_outer/maxiter_outer,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
     end
-    disp(strcat("-->> Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
+     fprintf(1,'\b\b\b\b%3.0f%%',fix((k_outer/maxiter_outer)*100));    
 end
 %iterations outer loop
 
@@ -65,8 +65,7 @@ Thetajj     = Thetajj.X*scale;
 Sjj         = Sjj/scale;
 Psijj       = Psijj.X/scale;
 Sigmajj     = Sigmajj.X/scale;
-
-disp(strcat("-->> Running higgs expectation-maximization: 100%"));
+fprintf(1,'\b\b\b\b%3.0f%%',100);
 if(~run_bash_mode && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(100),"%"));
     delete(process_waitbar)

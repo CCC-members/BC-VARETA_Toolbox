@@ -36,7 +36,7 @@ for m=1:length(properties.connectivity_params.methods)
                     mkdir(properties.pathname);
                 end
                 properties.connectivity_params.higgs_th         = analysis_method.(method_name).higgs_th;
-                [Thetajj,s2j,Tjv,llh]                           = connectivity_level_higgs(subject,properties);
+                [Thetajj,s2j,Tjv,llh,properties]                = connectivity_level_higgs(subject,properties);
             case 'hg_lasso'
                 if(properties.BC_V_info.properties.general_params.run_by_trial.value)
                     trial_name                                  = properties.trial_name;
