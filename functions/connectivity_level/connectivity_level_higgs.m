@@ -1,4 +1,4 @@
-function [Thetajj,s2j,Tjv,llh] = connectivity_level_higgs(subject,properties)
+function [Thetajj,s2j,Tjv,llh,properties] = connectivity_level_higgs(subject,properties)
 
 % Authors:
 % - Deirel Paz Linares
@@ -358,10 +358,10 @@ close(figure_BC_VARETA3);
 %% Saving files
 disp('-->> Saving file.')
 disp(strcat("Path: ",pathname));
-file_name = strcat('MEEG_source_',str_band,'.mat');
-disp(strcat("File: ", file_name));
+properties.file_name = strcat('MEEG_source_',str_band,'.mat');
+disp(strcat("File: ", properties.file_name));
 
-parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Tjv,llh,Svv,indms,Thetajj_FSAve,indms_FSAve,Sjj,Psijj,Sigmajj);
+parsave(fullfile(pathname ,properties.file_name ),Thetajj,s2j,Tjv,llh,Svv,indms,Thetajj_FSAve,indms_FSAve,Sjj,Psijj,Sigmajj);
 
 pause(1e-12);
 
