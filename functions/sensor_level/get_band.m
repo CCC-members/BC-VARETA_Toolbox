@@ -20,11 +20,9 @@ function [Svv,subject,properties] = get_band(Svv,PSD,Nf,F,subject,properties)
 band = properties.band;
 
 %%
-if(isequal(subject.modality,'EEG'))
-    PSD_log = 10*log10(abs(PSD));
-else
-    PSD_log = abs(PSD);
-end
+
+PSD_log = 10*log10(abs(PSD));
+
 min_psd = min(PSD_log(:));
 max_psd = max(PSD_log(:));
 plot_peak = min_psd*ones(Nf,1);

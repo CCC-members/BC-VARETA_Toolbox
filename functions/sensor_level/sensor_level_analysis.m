@@ -32,7 +32,7 @@ properties.pathname = pathname;
 
 Ke           = subject.Ke;
 Cdata        = subject.Cdata;
-Sh           = subject.Sh;
+Sh           = subject.Shead;
 cmap_a       = properties.cmap_a;
 cmap_c       = properties.cmap_c;
 str_band     = properties.str_band;

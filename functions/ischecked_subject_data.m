@@ -1,7 +1,7 @@
 function [subject,checked,error_msg_array] = ischecked_subject_data(subject_file_info,properties)
 checked = true;
 subject = struct;
-load(fullfile(subject_file_info.folder,subject_file_info.name));
+subject_info = load(fullfile(subject_file_info.folder,subject_file_info.name));
 subject.name = subject_info.name;
 root_dir = subject_file_info.folder;
 error_msg_array = [];
@@ -81,7 +81,7 @@ if(isempty(error_msg_array))
     sources = properties.general_params.data_resolution.sources;    
     method = properties.general_params.data_resolution.method;
     if(isequal(sources,'default'))
-        subject.Sc              = surf.Sc(surf.iCortex);        
+        subject.Scortex     = surf.Sc(surf.iCortex);        
         for i=1:length(subject_info.leadfield_dir)
             leadfield = load(fullfile(root_dir,subject_info.leadfield_dir(i).path));
             if(isequal(leadfield.iHeadModel,i))
@@ -104,10 +104,10 @@ if(isempty(error_msg_array))
         end
         for i=1:length(surf.Sc)
             if(isequal(size(surf.Sc(i).Vertices,1),sources))
-                subject.Sc = surf.Sc(i);
+                subject.Scortex = surf.Sc(i);
             end           
         end
-        if(isfield(subject,'Sc'))
+        if(isfield(subject,'Scortex'))
             for i=1:length(subject_info.leadfield_dir)                
                 leadfield = load(fullfile(root_dir,subject_info.leadfield_dir(i).path));
                 if(isequal(size(leadfield.Ke,2)/3,sources) && contains(leadfield.Comment,method))
@@ -135,25 +135,25 @@ if(isempty(error_msg_array))
     
     subject.sub_to_FSAve    = surf.sub_to_FSAve;  
     
-    if(~isequal(size(subject.Ke,2)/3,size(subject.Sc.Vertices,1)))
+    if(~isequal(size(subject.Ke,2)/3,size(subject.Scortex.Vertices,1)))
         checked = false;
         error_msg = strcat("The selected cortex and leadfield do not have the same number of vertices.");
         error_msg_array = [error_msg_array; error_msg];
         return;
     end
-    if(isempty(subject.Sc.Atlas(subject.Sc.iAtlas).Scouts) && properties.activation_params.IsParcel)        
+    if(isempty(subject.Scortex.Atlas(subject.Scortex.iAtlas).Scouts) && properties.activation_params.IsParcel)        
         checked = false;
         error_msg = strcat("The selected cortex do not have Atlas or the iAtlas is wrong and IsParcel activation param is true.");
         error_msg_array = [error_msg_array; error_msg];
         return;
     end
     
-    subject.Sh      = scalp.Sh;
+    subject.Shead   = scalp.Shead;
     subject.Cdata   = scalp.Cdata;
     
-    subject.Sinn    = innerskull.Sinn;
+    subject.Sinn    = innerskull;
     
-    subject.Sout    = outerskull.Sout;
+    subject.Sout    = outerskull;
     
     load(fullfile(root_dir,subject_info.meeg_dir));
     if(isequal(subject.modality,'EEG'))

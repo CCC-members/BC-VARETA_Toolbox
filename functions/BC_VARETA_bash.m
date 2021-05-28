@@ -133,8 +133,8 @@ if(~isempty(subjects))
                 if(~isfolder(pathname_common))
                     mkdir(pathname_common);
                 end
-                atlas = subject.Sc.Atlas(subject.Sc.iAtlas);
-                cortex = subject.Sc;
+                atlas = subject.Scortex.Atlas(subject.Scortex.iAtlas);
+                cortex = subject.Scortex;
                 
                 file_name                                   = strcat('Atlas.mat');
                 disp(strcat("File: ", file_name));                                
