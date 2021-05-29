@@ -8,7 +8,7 @@ if(analysis_method.(method_name).run)
     disp('BC-V-->> Getting connectivity priors.');
     
     Ke                      = subject.Ke;
-    Sc                      = subject.Sc;
+    Sc                      = subject.Scortex;
     activation_params       = properties.activation_params;
     connectivity_params     = properties.connectivity_params;
     aSulc                   = connectivity_params.aSulc.value; % baseline of sulci curvature factor

@@ -4,7 +4,7 @@ disp('=================================================================');
 disp('BC-V-->> Getting activation priors.');
 
 Ke                      = subject.Ke;
-Sc                      = subject.Sc;
+Sc                      = subject.Scortex;
 activation_params       = properties.activation_params;
 aSulc                   = activation_params.aSulc.value; % baseline of sulci curvature factor
 aGiri                   = activation_params.aGiri.value; % baseline of giri curvature factor

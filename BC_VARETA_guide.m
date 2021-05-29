@@ -1774,7 +1774,7 @@ classdef BC_VARETA_guide < matlab.apps.AppBase
 
             % Create spect_sample_freqEditField
             app.spect_sample_freqEditField = uieditfield(app.spect_OtherparamsPanel, 'numeric');
-            app.spect_sample_freqEditField.Limits = [200 600];
+            app.spect_sample_freqEditField.Limits = [100 600];
             app.spect_sample_freqEditField.Position = [305 38 38 22];
             app.spect_sample_freqEditField.Value = 200;
 
