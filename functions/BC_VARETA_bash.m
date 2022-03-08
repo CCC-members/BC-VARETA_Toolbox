@@ -175,13 +175,12 @@ if(~isempty(subjects))
                 disp('-->> Saving BC-VARETA Information file.')
                 BC_V_info                                   = properties.BC_V_info;
                 BC_V_info.subjectID                         = subject.name;
+                properties.level_process.name               = 'Sensor_level';
+                properties.level_process.completed          = true;
                 BC_V_info.properties.general_params         = properties.general_params;
                 BC_V_info.properties.spectral_params        = properties.spectral_params;
-                if(isequal(properties.general_params.analysis_level.value,'1'))
-                    BC_V_info.completed = true;
-                end
                 disp(strcat("File: ", "BC_V_info.mat"));
-                parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
+                save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
             end
             %%
             %% Data analysis for activation level
@@ -234,13 +233,11 @@ if(~isempty(subjects))
                 end
                 disp('-->> Saving file.')
                 BC_V_info                               = properties.BC_V_info;
-                BC_V_info.properties.activation_params  = properties.activation_params;
-                if(isequal(properties.general_params.analysis_level.value,'2')...
-                        || isequal(properties.general_params.analysis_level.value,'12'))
-                    BC_V_info.completed = true;
-                end
+                properties.level_process.name           = 'Activation_level';
+                properties.level_process.completed      = true;
+                BC_V_info.properties.activation_params  = properties.activation_params; 
                 disp(strcat("File: ", "BC_V_info.mat"));
-                parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
+                save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
             end
             %%
             %% Data analysis for connectivity level
@@ -280,8 +277,8 @@ if(~isempty(subjects))
                 else
                     if((isfield(properties.BC_V_info,'sensor_level') && isfield(properties.BC_V_info,'activation_level')))
                         %% Data analysis for connectivity level by complete data
-                        [subject,properties]            = get_connectivity_priors(subject,properties);
-                        [subject,properties]            = data_analysis(subject,properties);
+                        [subject,properties]                = get_connectivity_priors(subject,properties);
+                        [subject,properties]                = data_analysis(subject,properties);
                     else
                         fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
                         disp(subject.name);
@@ -291,15 +288,12 @@ if(~isempty(subjects))
                     end
                 end
                 disp('-->> Saving file.')
-                BC_V_info                                = properties.BC_V_info;
-                BC_V_info.properties.connectivity_params = properties.connectivity_params;
-                if(isequal(properties.general_params.analysis_level.value,'3')...
-                        || isequal(properties.general_params.analysis_level.value,'23')...
-                        || isequal(properties.general_params.analysis_level.value,'all'))
-                    BC_V_info.completed = true;
-                end
+                BC_V_info                                   = properties.BC_V_info;
+                properties.level_process.name               = 'Connectivity_level';
+                properties.level_process.completed          = true;
+                BC_V_info.properties.connectivity_params    = properties.connectivity_params;               
                 disp(strcat("File: ", "BC_V_info.mat"));
-                parsave(fullfile(subject.subject_path ,'BC_V_info.mat'),BC_V_info);
+                save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
             end
         else
             fprintf(2,strcat('\nBC-V-->> Error: The folder structure for subject: ',subject.name,' \n'));

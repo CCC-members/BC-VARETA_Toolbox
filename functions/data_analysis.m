@@ -44,7 +44,7 @@ if(isequal(properties.analysis_level,1))
         mkdir(pathname_generals);
         mkdir(pathname_funtional);
     end
-    parsave(fullfile(pathname_funtional ,file_name ),Svv_channel);
+    parsave(fullfile(pathname_funtional ,file_name ),Svv_channel,PSD);
     reference_path                          = strsplit(pathname_funtional,subject.name);
     if(~isfield(properties.BC_V_info,'generals'))
         iter = 1;

@@ -1,4 +1,4 @@
-function [s2j,sigma2j_post,Tjv,Svv,scaleJ,scaleLvj] = sSSBLpp(Svv,Lvj,param)
+function [s2j,sigma2j,Tjv,Svv,scaleJ,scaleLvj] = sSSBLpp(Svv,Lvj,param)
 W             = param.W;
 parcellation  = param.parcellation;
 run_bash_mode = param.run_bash_mode;
@@ -20,21 +20,19 @@ r_alpha       = q;
 s_rho         = 1;
 r_rho         = 1;
 
-%% Declaring dinamic variables
-sigma2j_post  = zeros(q,1);
-s2j           = zeros(q,1);
-etha          = zeros(q,1);
-
-%% Initial values
-sigma2j       = 1E0*ones(q,1);
-sigma2x       = 1E0;
-alpha         = 1E0;
-rho           = 1E0;
-
 %% Scaling Lead Field
 scaleLvj      = sqrt(trace(LvjW*WLjv)/p);
 LvjW          = LvjW/scaleLvj;
 WLjv          = WLjv/scaleLvj;
+
+%% Initial values
+sigma2j_post  = zeros(q,1);
+s2j           = zeros(q,1);
+etha          = zeros(q,1);
+sigma2j       = 1E0*ones(q,1);
+sigma2x       = 1E0;
+alpha         = 1E0;
+rho           = 1E0;
 
 %% Scaling data using a first pass solution
 sigma2jWLjv   = spdiags(2*sigma2j,0,q,q)*WLjv;
@@ -51,18 +49,40 @@ SvvTvj        = Svv*Tjv';
 for count_gen = 1:q
     s2j(count_gen) = abs(Tjv(count_gen,:)*SvvTvj(:,count_gen));
 end
+% Update Gammas
+for area = 1:a
+    idx_area                = parcellation{area};
+    etha(idx_area)          = sqrt((1./4).^2+(alpha*rho).*sum(s2j(idx_area) + sigma2j_post(idx_area)))-1./4;
+end
+idx_etha                    = find((s2j + sigma2j_post)<0);
+etha(idx_etha)              = 0;
+gamma                       = rho + etha;
+sigma2j_bar                 = etha./gamma;
+sigma2j                     = (1/(2*alpha))*sigma2j_bar;
+% Update alpha
+idx_alpha     = find(sigma2j_bar > 0);
+alpha         = (length(idx_alpha)/2 + s_alpha)/(sum((s2j(idx_alpha) + sigma2j_post(idx_alpha))./(sigma2j_bar(idx_alpha))) + r_alpha);
+    
 % scaleJ        = mean(abs(s2j + sigma2j_post))/mean(abs(sigma2j_post));
-scaleJ        = mean(abs(s2j))/max(abs(sigma2j_post));
+% scaleJ        = mean(abs(s2j))/max(abs(sigma2j_post));
+scaleJ        = mean(sigma2j);
 Svv           = Svv/scaleJ;
+
+%% Initial values
+sigma2j_post  = zeros(q,1);
+s2j           = zeros(q,1);
+etha          = zeros(q,1);
+sigma2j       = 1E0*ones(q,1);
+sigma2x       = 1E0;
+alpha         = 1E0;
+rho           = 1E0;
 
 %% Outer cycle
 if(~run_bash_mode)
-    process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
-    frames = java.awt.Frame.getFrames();
-    frames(end).setAlwaysOnTop(1);
+    process_waitbar = waitbar(0,'Please wait...');
 end
 disp(flag);
-fprintf(1,strcat("-->> Running sSSBL++ (",param.str_band,") process: %3d%%\n"),0);
+fprintf(1,strcat('-->> sSSBL++ (',param.str_band,') process: %3d%%\n'),0);
 for cont1 = 1:maxiter_outer
     %% Inner cycle
     for cont11 = 1:maxiter_inner
@@ -101,17 +121,13 @@ for cont1 = 1:maxiter_outer
     
     if(~run_bash_mode)
         text = replace(param.str_band,'_','-');
-        waitbar((cont1)/(maxiter_outer),process_waitbar,strcat("Running sSSBL++ (",text,") process: ",num2str(fix((cont1/maxiter_outer)*100)-1),"%"));
+        waitbar((cont1)/(maxiter_outer),process_waitbar,strcat("sSSBL++ (",text,") process: ",num2str(fix((cont1/maxiter_outer)*100)-1),"%"));
     end
     fprintf(1,'\b\b\b\b%3.0f%%',(cont1)/(maxiter_outer)*100);
 end
 fprintf(1,'\n');
 %% Destandardization using a final pass solution
 disp("-->> Running sSSBL++ destandardization.");
-if(~run_bash_mode)
-    text = replace(param.str_band,'_','-');
-    waitbar(1,process_waitbar,strcat("sSSBL++ destandardization. Process: ",num2str(100),"%"));
-end
 sigmajW                     = spdiags(sqrt(2*sigma2j),0,q,q)*W';
 Wsigma2jW                   = sum(sigmajW.^2,1)';
 sigma2jWLjv                 = spdiags(2*sigma2j,0,q,q)*WLjv;
@@ -128,7 +144,7 @@ end
 Tjv                        = (1/sigma2x).*(W*sigma2jWLjv-sigma2j_post0*(LvjWsigma2j*WLjv));
 if(~run_bash_mode)
     text = replace(param.str_band,'_','-');
-    waitbar(1,process_waitbar,strcat("Running sSSBL++ (",text,") process: ",num2str(100),"%"));
+    waitbar(1,process_waitbar,strcat("sSSBL++ (",text,") process: ",num2str(100),"%"));
 end
 
 % Compute 'miu' for all slices of 'V'
@@ -137,7 +153,7 @@ for count_gen = 1:size(Lvj,2)
     s2j(count_gen)         = abs(Tjv(count_gen,:)*SvvTvj(:,count_gen));
 end
 fprintf(1,'\n');
-if(~run_bash_mode && exist('process_waitbar','var'))
+if(~run_bash_mode)
     delete(process_waitbar);
 end
 end

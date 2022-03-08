@@ -53,38 +53,38 @@ param.parcellation  = subject.parcellation;
 
 if IsCurv == 0
     param.flag          = flag;
-    [s2j,sigma2j_post,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Ke,param);
+    [s2j,sigma2j,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Ke,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
-        sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
+%         sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
     end
     clearvars Ke;
-    stat                  = sqrt(s2j./sigma2j_post);
+    stat                  = sqrt(s2j./sigma2j);
     indms                 = find(stat > sssblpp_th);
     J                     = s2j;
     J                     = J*scaleSvv/scaleKe^2;
     Jsp                   = zeros(length(stat),1);
     Jsp(indms)            = J(indms);
 elseif IsCurv == 1
-    param.flag    = strcat(flag," Giri compensation");
-    [s2j_giri,sigma2j_post_giri,Tgiri,~,scaleSvv_giri,scaleKe_giri] = sSSBLpp(Svv,subject.Ke_giri,param);
-    param.flag    = strcat(flag," Sulci compensation");
-    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc] = sSSBLpp(Svv,subject.Ke_sulc,param);
+    param.flag                                                  = strcat(flag," Giri compensation");
+    [s2j_giri,sigma2j_giri,Tgiri,~,scaleSvv_giri,scaleKe_giri]  = sSSBLpp(Svv,subject.Ke_giri,param);
+    param.flag                                                  = strcat(flag," Sulci compensation");
+    [s2j_sulc,sigma2j_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc]  = sSSBLpp(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-        sigma2j_post_giri      = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
+%         sigma2j_post_giri      = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
         s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
-        sigma2j_post_sulc      = sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1)';
+%         sigma2j_post_sulc      = sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1)';
     end
     clearvars Ke;
-    stat_giri             = sqrt(s2j_giri./sigma2j_post_giri);
+    stat_giri             = sqrt(s2j_giri./sigma2j_giri);
     indms_giri            = find(stat_giri > sssblpp_th);
-    stat_sulc             = sqrt(s2j_sulc./sigma2j_post_sulc);
+    stat_sulc             = sqrt(s2j_sulc./sigma2j_sulc);
     indms_sulc            = find(stat_sulc > sssblpp_th);
     s2j                   = [s2j_giri s2j_sulc];
-    sigma2j_post          = [sigma2j_post_giri sigma2j_post_sulc];
+    sigma2j               = [sigma2j_giri sigma2j_sulc];
     clearvars sigma2j_post_giri sigma2j_post_sulc;
     scaleSvv              = [scaleSvv_giri scaleSvv_sulc];
     scaleKe               = [scaleKe_giri scaleKe_sulc];
@@ -107,8 +107,8 @@ J_FSAve   = zeros(length(J),1);
 Jsp_FSAve = zeros(length(J),1);
 for h=1:length(sub_to_FSAve)
     indices           = sub_to_FSAve(h,:);    
-    J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(2)))/3;
-    Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(2)))/3; 
+    J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(3)))/3;
+    Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(3)))/3; 
 end
 
 %%
@@ -150,7 +150,7 @@ close(figure_BC_VARETA1);
 disp('-->> Saving file')
 properties.file_name = strcat('MEEG_source_',str_band,'.mat');
 disp(strcat("File: ", properties.file_name));
-parsave(fullfile(properties.pathname ,properties.file_name ),s2j,sigma2j_post,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
+parsave(fullfile(properties.pathname ,properties.file_name ),s2j,sigma2j,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
 
 
 end

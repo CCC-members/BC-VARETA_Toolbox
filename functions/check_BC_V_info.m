@@ -6,7 +6,7 @@ subject_path = subject.subject_path;
 %%
 BC_V_file = dir(fullfile(subject_path ,'BC_V_info.mat'));
 if(~isempty(BC_V_file))
-    load(fullfile(BC_V_file.folder,BC_V_file.name));
+    BC_V_info = load(fullfile(BC_V_file.folder,BC_V_file.name));
     reseted = false;
     if(~isequal(properties.general_params.run_by_trial.value,BC_V_info.properties.general_params.run_by_trial.value))
         BC_V_info = struct;
