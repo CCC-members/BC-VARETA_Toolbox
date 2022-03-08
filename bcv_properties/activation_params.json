@@ -72,7 +72,7 @@
         },
         "IsField":{
             "description":"default <<2>>. Use projected Lead Field or 3D profile with prior of rotational invariance <<1>> (projected Lead Field) <<2>> (2D field isotropy) <<3>> (3D field isotropy)",
-            "value":2
+            "value":3
         },
         "aGiri":{
             "description":"default <<5>>. Baseline of giri curvature factor",

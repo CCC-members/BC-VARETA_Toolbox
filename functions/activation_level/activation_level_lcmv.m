@@ -116,8 +116,8 @@ J_FSAve   = zeros(length(J),1);
 Jsp_FSAve = zeros(length(J),1);
 for h=1:length(sub_to_FSAve)
     indices           = sub_to_FSAve(h,:);    
-    J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(2)))/3;
-    Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(2)))/3; 
+    J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(3)))/3;
+    Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(3)))/3; 
 end
 
 %%
