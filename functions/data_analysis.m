@@ -4,21 +4,12 @@ function [subject,properties] = data_analysis(subject,properties)
 %% Running sensor level
 %%
 if(isequal(properties.analysis_level,1))
-    %%
-    %% Preparing params
-    %%
-    data    = subject.data;
-    Fs      = properties.spectral_params.samp_freq.value;       % sampling frequency
-    Fm      = properties.spectral_params.max_freq.value;        % maximum frequency
-    deltaf  = properties.spectral_params.freq_resol.value;      % frequency resolution
-    varf    = properties.spectral_params.freq_gfiltvar.value;   % gaussian filter variance
-    Nw      = properties.spectral_params.win_order.value;       % Slepian windows
-    
+   
     %%
     %% Estimating cross-spectra
     %%
     disp('BC-V-->> Estimating cross-spectra for M/EEG data.');
-    [Svv_channel,~,PSD,Nf,F,Nseg]           = cross_spectra(data,Fs,Fm,deltaf,subject.Ke,varf,Nw,'app_properties',properties);
+    [Svv_channel,~,PSD,Nseg] = cross_spectra(subject, properties);
     
     %% Adding fieltrip external functions
     f_path          = mfilename('fullpath');
@@ -27,7 +18,7 @@ if(isequal(properties.analysis_level,1))
     ft_defaults
     
     %% Saving general variables for sensor level
-    file_name                               = strcat('Data_spectrum.mat');
+    file_name      = strcat('Data_spectrum.mat');
     disp(strcat("File: ", file_name));
     if(properties.general_params.run_by_trial.value)
         trial_name  = properties.trial_name;
@@ -44,7 +35,11 @@ if(isequal(properties.analysis_level,1))
         mkdir(pathname_generals);
         mkdir(pathname_funtional);
     end
-    parsave(fullfile(pathname_funtional ,file_name ),Svv_channel,PSD);
+    if(~properties.general_params.run_frequency_bin.value &&  properties.general_params.run_frequency_bin.band_mean)
+        parsave(fullfile(pathname_funtional ,file_name ),Svv_channel);
+    else
+        parsave(fullfile(pathname_funtional ,file_name ),Svv_channel,PSD);
+    end
     reference_path                          = strsplit(pathname_funtional,subject.name);
     if(~isfield(properties.BC_V_info,'generals'))
         iter = 1;
@@ -55,12 +50,19 @@ if(isequal(properties.analysis_level,1))
     properties.BC_V_info.generals(iter).Ref_path  = strrep(reference_path{2},'\','/');
     properties.BC_V_info.generals(iter).Name      = file_name;
     
+    %% Sensor analysis
     properties.Nseg = Nseg;
     for h=1:length(properties.spectral_params.frequencies)
         band                                = properties.spectral_params.frequencies(h);
         if(band.run)
-            properties.band                 = band;
-            [subject,properties]            = sensor_level_analysis(Svv_channel,PSD,Nf,F,subject,properties);
+            % Get band
+            if(~isempty(PSD))
+                [Svv,subject,properties]    = get_band(Svv_channel,PSD,band,subject,properties);
+            else
+                Svv = Svv_channel(:,:,h);
+                properties.peak_pos = h;
+            end            
+            [subject,properties]            = sensor_level_analysis(Svv,band,subject,properties);
         end
     end
     return;

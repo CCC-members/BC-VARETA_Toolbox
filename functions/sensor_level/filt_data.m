@@ -23,4 +23,3 @@ else
     dataFilt        = real(dataFilt(:,1:(Nf/2),:));
 end
 end
-

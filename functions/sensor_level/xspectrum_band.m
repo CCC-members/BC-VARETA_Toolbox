@@ -1,4 +1,4 @@
-function [Svv,Nf,Ns,PSD] = xspectrum(data, Fs, Fm, deltaf, varf, Nw, properties)
+function [Svv,Nf,Ns] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
 % xspectrum estimates the Cross Spectrum of the input M/EEG data by Hilbert Transform
 %%
 % =============================================================================
@@ -45,9 +45,10 @@ data        = data.*e;
 Nseg        = Nseg*2*Nw; % augmented number of segments 
 data        = reshape(data,Nc,Nt_seg,Nseg);
 Ns          = Nseg*Nt_seg; % sample number
-F           = 0:deltaf:Fm; % frequency vector
-Nf          = length(F);
+freqs       = properties.spectral_params.frequencies;
+Nf          = length(freqs);
 Svv         = zeros(Nc,Nc,Nf);
+
 use_gpu     = properties.run_bash_mode.use_gpu;
 if(use_gpu)
     Svv_gpu = gpuArray(Svv);
@@ -65,9 +66,10 @@ if(~bash_mode)
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
 end
-for freq = 1:Nf
-    deltaFilt               = filt_data(W,Fs,F(freq),varf,'use_gpu',use_gpu);
-    dataEnv                 = envelope_data(deltaFilt,Fs,deltat,'use_seg',use_seg,'use_gpu',use_gpu);
+for freq=1:Nf
+    band = freqs(freq);
+    dataFilt                = filt_data_band(W,Fs,band.f_start,band.f_end,varf,'use_gpu',use_gpu);
+    dataEnv                 = envelope_data(dataFilt,Fs,deltat,'use_seg',use_seg,'use_gpu',use_gpu);
     clearvars deltaFilt;
     if(use_gpu)
         dataEnv             = reshape(dataEnv,Nc,Nt_seg*Nseg).';
@@ -89,12 +91,4 @@ if(use_gpu)
     Svv = gather(Svv_gpu);
 end
 
-%% Estimation of Power Spectral Density (PSD)...
-PSD = zeros(Nc,Nf);
-for freq = 1:Nf
-    PSD(:,freq) = diag(squeeze(abs(Svv(:,:,freq))));
-end
-if(~bash_mode)
-    delete(process_waitbar);
-end
 end

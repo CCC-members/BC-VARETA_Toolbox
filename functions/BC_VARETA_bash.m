@@ -107,7 +107,7 @@ if(~isempty(subjects))
     %% Starting analysis
     for i=1:length(subjects)
         subject_file                                        = subjects(i);
-        [subject,checked,error_msg_array]                   = ischecked_subject_data(subject_file,properties);
+        [subject,checked,error_msg_array]                   = checked_subject_data(subject_file,properties);
         if(checked)
             if(isequal(properties.general_params.bcv_workspace.BCV_work_dir,'local'))
                 subject.subject_path                        = fullfile(subject_file.folder,'BC-V_Result');

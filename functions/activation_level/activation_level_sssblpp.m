@@ -57,7 +57,7 @@ if IsCurv == 0
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
-%         sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
+        sigma2j           = sum(reshape(abs(sigma2j),3,length(Ke)/3),1)';
     end
     clearvars Ke;
     stat                  = sqrt(s2j./sigma2j);
@@ -73,10 +73,10 @@ elseif IsCurv == 1
     [s2j_sulc,sigma2j_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc]  = sSSBLpp(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-%         sigma2j_post_giri      = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
-        s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
-%         sigma2j_post_sulc      = sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1)';
+        s2j_giri          = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
+        sigma2j_giri      = sum(reshape(abs(sigma2j_giri),3,length(Ke)/3),1)';
+        s2j_sulc          = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
+        sigma2j_sulc      = sum(reshape(abs(sigma2j_sulc),3,length(Ke)/3),1)';
     end
     clearvars Ke;
     stat_giri             = sqrt(s2j_giri./sigma2j_giri);
@@ -85,7 +85,7 @@ elseif IsCurv == 1
     indms_sulc            = find(stat_sulc > sssblpp_th);
     s2j                   = [s2j_giri s2j_sulc];
     sigma2j               = [sigma2j_giri sigma2j_sulc];
-    clearvars sigma2j_post_giri sigma2j_post_sulc;
+    clearvars sigma2j__giri sigma2j_sulc;
     scaleSvv              = [scaleSvv_giri scaleSvv_sulc];
     scaleKe               = [scaleKe_giri scaleKe_sulc];
     stat                  = [stat_giri stat_sulc];
