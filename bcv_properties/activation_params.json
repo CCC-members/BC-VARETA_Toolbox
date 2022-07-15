@@ -16,7 +16,7 @@
                     {
                         "eloreta":{
                             "description":"",
-                            "run":true,
+                            "run":false,
                             "gamma1":{
                                 "description":"",
                                 "value":0
@@ -38,7 +38,7 @@
                     {
                         "lcmv":{
                             "description":"",
-                            "run":true,
+                            "run":false,
                             "gamma1":{
                                 "description":"",
                                 "value":0

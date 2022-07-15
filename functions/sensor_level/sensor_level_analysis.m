@@ -1,7 +1,7 @@
-function [subject,properties] = sensor_level_analysis(Svv_channel,PSD,Nf,F,subject,properties)
+function [subject,properties] = sensor_level_analysis(Svv,band,subject,properties)
 
 disp('=================================================================');
-band = properties.band;
+
 if(properties.general_params.run_frequency_bin.value)
     disp(strcat( 'BC-V-->> Sensor level for frequency band: (' , band.name , ') bin ->>>' , string(band.f_bin), 'Hz') );
     properties.str_band =  strcat( band.name,'_',string(band.f_bin),'Hz');
@@ -20,11 +20,6 @@ if(~isfolder(pathname))
     mkdir(pathname);
 end
 properties.pathname = pathname;
-
-%%
-%% Get band
-%%
-[Svv,subject,properties] = get_band(Svv_channel,PSD,Nf,F,subject,properties);
 
 %%
 %% Preparing params
