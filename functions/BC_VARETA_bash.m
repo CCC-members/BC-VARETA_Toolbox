@@ -1,4 +1,4 @@
-function BC_VARETA_bash(varargin)
+de afunction BC_VARETA_bash(varargin)
 %% BC_VARETA_bash Summary of this function goes here
 %   Detailed explanation goes here
 %
@@ -44,7 +44,7 @@ properties                      = get_properties();
 if(isequal(properties,'canceled'))
     return;
 end
-status                          = check_properties(properties);
+[status,reject_subjects]        = check_properties(properties);
 if(~status)
     fprintf(2,strcat('\nBC-V-->> Error: The current configuration files are wrong \n'));
     disp('Please check the configuration files.');
@@ -133,36 +133,27 @@ if(~isempty(subjects))
                 if(~isfolder(pathname_common))
                     mkdir(pathname_common);
                 end
-                atlas = subject.Scortex.Atlas(subject.Scortex.iAtlas);
-                cortex = subject.Scortex;
-                
-                file_name                                   = strcat('Atlas.mat');
-                disp(strcat("File: ", file_name));                                
-                parsave(fullfile(pathname_common ,file_name ),atlas);
-                reference_path                              = strsplit(pathname_common,subject.name);
-                properties.BC_V_info.common.Comment         = 'Common Atlas';
-                properties.BC_V_info.common.Ref_path        = strrep(reference_path{2},'\','/');
-                properties.BC_V_info.common.Name            = file_name;
-                
+                cortex = subject.Scortex.Sc;              
+                            
                 file_name                                   = strcat('Cortex.mat');
                 disp(strcat("File: ", file_name));                                
                 parsave(fullfile(pathname_common ,file_name ),cortex);
                 reference_path                              = strsplit(pathname_common,subject.name);
-                properties.BC_V_info.common.Comment         = 'Common Cortex';
+                properties.BC_V_info.common.Comment         = 'Surfaces Cortex';
                 properties.BC_V_info.common.Ref_path        = strrep(reference_path{2},'\','/');
                 properties.BC_V_info.common.Name            = file_name;               
                 
                 properties.analysis_level                   = 1;
                 if(properties.general_params.run_by_trial.value)
                     %% Data analysis for sensor and activation level by trials
-                    if(iscell(subject.data))
-                        data = subject.data;
+                    if(iscell(subject.MEEG.data))
+                        data = subject.MEEG.data;
                         for m=1:length(data)
                             properties.trial_name           = ['trial_',num2str(m)];
-                            subject.data                    = data{1,m};
+                            subject.MEEG.data               = data{1,m};
                             [subject,properties]            = data_analysis(subject,properties);
                         end
-                        subject.data = data;
+                        subject.MEEG.data = data;
                     else
                         %% Data analysis for sensor and activation level by complete data
                         [subject,properties]                = data_analysis(subject,properties);
