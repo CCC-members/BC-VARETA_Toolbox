@@ -57,35 +57,83 @@ if IsCurv == 0
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
-        sigma2j           = sum(reshape(abs(sigma2j),3,length(Ke)/3),1)';
     end
     clearvars Ke;
-    stat                  = sqrt(s2j./sigma2j);
-    indms                 = find(stat > sssblpp_th);
+    figure_name = strcat('BC-VARETA-stat - ',str_band);
+    if(properties.run_bash_mode.disabled_graphics)
+        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
+    else
+        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
+    end
+    stat             = sqrt(2)*s2j./sqrt(var(s2j));
+    indms            = find(stat > sssblpp_th);
+    h                = histogram(stat,1000,'Normalization','pdf');
+    bins             = h.BinEdges;
+    pdf              = (1/(sqrt(2*pi)))*(bins.^(-1/2)).*exp(-bins/2);
+    hold on
+    plot(bins,pdf,'LineWidth',2,'Color','r')
+    legend('Empirical','Chi2');
+    title('BC-VARETA-stat','Color','k','FontSize',16);
+    disp('-->> Saving figure');
+    file_name = strcat('BC_VARETA_stat','_',str_band,'.fig');
+    saveas(figure_BC_VARETA_stat,fullfile(pathname,file_name));
+    pause(1e-12);
+    close(figure_BC_VARETA_stat);
+    
     J                     = s2j;
     J                     = J*scaleSvv/scaleKe^2;
     Jsp                   = zeros(length(stat),1);
     Jsp(indms)            = J(indms);
 elseif IsCurv == 1
-    param.flag                                                  = strcat(flag," Giri compensation");
-    [s2j_giri,sigma2j_giri,Tgiri,~,scaleSvv_giri,scaleKe_giri]  = sSSBLpp(Svv,subject.Ke_giri,param);
-    param.flag                                                  = strcat(flag," Sulci compensation");
-    [s2j_sulc,sigma2j_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc]  = sSSBLpp(Svv,subject.Ke_sulc,param);
+    param.flag    = strcat(flag," Giri compensation");
+    [s2j_giri,sigma2j_giri,Tgiri,~,scaleSvv_giri,scaleKe_giri] = sSSBLpp(Svv,subject.Ke_giri,param);
+    param.flag    = strcat(flag," Sulci compensation");
+    [s2j_sulc,sigma2j_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc] = sSSBLpp(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j_giri          = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-        sigma2j_giri      = sum(reshape(abs(sigma2j_giri),3,length(Ke)/3),1)';
-        s2j_sulc          = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
-        sigma2j_sulc      = sum(reshape(abs(sigma2j_sulc),3,length(Ke)/3),1)';
+        s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
+        s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
     end
     clearvars Ke;
-    stat_giri             = sqrt(s2j_giri./sigma2j_giri);
+    figure_name = strcat('BC-VARETA-stat - ',str_band);
+    if(properties.run_bash_mode.disabled_graphics)
+        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
+    else
+        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
+    end
+    subplot(1,2,1);
+    stat_giri             = sqrt(2)*s2j_giri/sqrt(var(s2j_giri));
     indms_giri            = find(stat_giri > sssblpp_th);
-    stat_sulc             = sqrt(s2j_sulc./sigma2j_sulc);
+    h                     = histogram(stat_giri,1000,'Normalization','pdf');
+    bins                  = h.BinEdges;
+    pdf                   = (1/(sqrt(2*pi)))*(bins.^(-1/2)).*exp(-bins/2);
+    hold on
+    plot(bins,pdf,'LineWidth',2,'Color','r')
+    legend('Empirical','Chi2');
+    xlabel('amplitude');
+    ylabel('probabilities');
+    title('BC-VARETA-stat-giri','Color','k','FontSize',16);
+    subplot(1,2,2);
+    stat_sulc             = sqrt(2)*s2j_sulc/sqrt(var(s2j_sulc));
     indms_sulc            = find(stat_sulc > sssblpp_th);
+    h = histogram(stat_sulc,1000,'Normalization','pdf');
+    bins = h.BinEdges;
+    pdf = (1/(sqrt(2*pi)))*(bins.^(-1/2)).*exp(-bins/2);
+    hold on
+    plot(bins,pdf,'LineWidth',2,'Color','r')
+    legend('Empirical','Chi2');
+    xlabel('amplitude');
+    ylabel('probabilities');
+    title('BC-VARETA-stat-sulc','Color','k','FontSize',16);
+    disp('-->> Saving figure');
+    file_name = strcat('BC_VARETA_stat','_',str_band,'.fig');
+    saveas(figure_BC_VARETA_stat,fullfile(pathname,file_name));
+    pause(1e-12);   
+    close(figure_BC_VARETA_stat);
+    
     s2j                   = [s2j_giri s2j_sulc];
     sigma2j               = [sigma2j_giri sigma2j_sulc];
-    clearvars sigma2j__giri sigma2j_sulc;
+    clearvars sigma2j_post_giri sigma2j_post_sulc;
     scaleSvv              = [scaleSvv_giri scaleSvv_sulc];
     scaleKe               = [scaleKe_giri scaleKe_sulc];
     stat                  = [stat_giri stat_sulc];

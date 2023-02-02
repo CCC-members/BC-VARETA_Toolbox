@@ -16,7 +16,7 @@ function [Svv_channel,K_vK,PSD,Nseg] = cross_spectra(subject, properties)
 %%
 %% Preparing params
 %%
-data    = subject.data;
+data    = subject.MEEG.data;
 K_vK    = subject.Ke;
 Fs      = properties.spectral_params.samp_freq.value;       % sampling frequency
 Fmax    = properties.spectral_params.max_freq.value;        % maximum frequency
