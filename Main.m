@@ -15,7 +15,6 @@ function Main(varargin)
 % - Eduardo Gonzalez Moreira
 % - Pedro A. Valdes Sosa
 
-% Updated: May 5, 2019
 
 
 %% Preparing WorkSpace

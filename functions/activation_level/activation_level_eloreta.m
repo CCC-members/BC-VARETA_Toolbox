@@ -16,7 +16,7 @@ function [stat,J,T,indms,properties] = activation_level_eloreta(subject,properti
 %%
 %% BC-VARETA Toolbox...
 %% Preparing params
-Ke            = subject.Ke;
+Lvj           = subject.Ke;
 W             = subject.W;
 cmap_a        = properties.cmap_a;
 Sc            = subject.Scortex;
@@ -61,11 +61,11 @@ param.Winv          = subject.Winv;
 
 %%
 if IsCurv == 0    
-    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleKe] = eloreta(Svv,Ke,param);
+    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleKe] = eloreta(Svv,Lvj,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j               = sqrt(sum(reshape(abs(s2j),3,length(Ke)/3),1))';
-        sigma2j_post      = sqrt(sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1))';
+        s2j               = sqrt(sum(reshape(abs(s2j),3,length(Lvj)/3),1))';
+        sigma2j_post      = sqrt(sum(reshape(abs(sigma2j_post),3,length(Lvj)/3),1))';
     end
     clearvars Ke;
     stat                  = s2j./sigma2j_post;
@@ -82,10 +82,10 @@ elseif IsCurv == 1
     clearvars param Svv;
     disp("-->> Applying giri and sulci compensation.");
     if IsField == 2 || IsField == 3
-        s2j_giri               = sqrt(sum(reshape(abs(s2j_giri),3,length(Ke)/3),1))';
-        sigma2j_post_giri      = sqrt(sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1))';
-        s2j_sulc               = sqrt(sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1))';
-        sigma2j_post_sulc      = sqrt(sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1))';
+        s2j_giri               = sqrt(sum(reshape(abs(s2j_giri),3,length(Lvj)/3),1))';
+        sigma2j_post_giri      = sqrt(sum(reshape(abs(sigma2j_post_giri),3,length(Lvj)/3),1))';
+        s2j_sulc               = sqrt(sum(reshape(abs(s2j_sulc),3,length(Lvj)/3),1))';
+        sigma2j_post_sulc      = sqrt(sum(reshape(abs(sigma2j_post_sulc),3,length(Lvj)/3),1))';
     end
     clearvars Ke;
     stat_giri             = s2j_giri./sigma2j_post_giri;

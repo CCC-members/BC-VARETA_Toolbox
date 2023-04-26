@@ -1,4 +1,4 @@
-function [Svv_channel,K_vK,PSD,Nseg] = cross_spectra(subject, properties)
+function [Svv_channel,Lvj,PSD,Nseg] = cross_spectra(subject, properties)
 
 
 % Authors:
@@ -17,7 +17,7 @@ function [Svv_channel,K_vK,PSD,Nseg] = cross_spectra(subject, properties)
 %% Preparing params
 %%
 data    = subject.MEEG.data;
-K_vK    = subject.Ke;
+Lvj     = subject.Headmodel.Ke;
 Fs      = properties.spectral_params.samp_freq.value;       % sampling frequency
 Fmax    = properties.spectral_params.max_freq.value;        % maximum frequency
 deltaf  = properties.spectral_params.freq_resol.value;      % frequency resolution
@@ -45,7 +45,7 @@ else
 end
 disp('-->> Applying average reference.');
 for jj = 1:Nf
-    [Svv_channel(:,:,jj),K_vK] = applying_reference(Svv_channel(:,:,jj),K_vK);    % applying average reference...
+    [Svv_channel(:,:,jj),Lvj] = applying_reference(Svv_channel(:,:,jj),Lvj);    % applying average reference...
 end
 
 

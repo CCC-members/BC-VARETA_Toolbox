@@ -14,7 +14,7 @@ function [stat,J,T,indms,properties] = activation_level_sssblpp(subject,properti
 %%
 %% BC-VARETA Toolbox...
 %% Preparing params
-Ke            = subject.Ke;
+Lvj           = subject.Ke;
 W             = subject.W;
 cmap_a        = properties.cmap_a;
 cmap          = properties.cmap;
@@ -53,10 +53,10 @@ param.parcellation  = subject.parcellation;
 
 if IsCurv == 0
     param.flag          = flag;
-    [s2j,sigma2j,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Ke,param);
+    [s2j,sigma2j,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Lvj,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
+        s2j               = sum(reshape(abs(s2j),3,length(Lvj)/3),1)';
     end
     clearvars Ke;
     figure_name = strcat('BC-VARETA-stat - ',str_band);
@@ -91,8 +91,8 @@ elseif IsCurv == 1
     [s2j_sulc,sigma2j_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc] = sSSBLpp(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-        s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
+        s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Lvj)/3),1)';
+        s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Lvj)/3),1)';
     end
     clearvars Ke;
     figure_name = strcat('BC-VARETA-stat - ',str_band);

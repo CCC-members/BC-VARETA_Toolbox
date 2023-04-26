@@ -1,4 +1,4 @@
-de afunction BC_VARETA_bash(varargin)
+function BC_VARETA_bash(varargin)
 %% BC_VARETA_bash Summary of this function goes here
 %   Detailed explanation goes here
 %
@@ -133,7 +133,7 @@ if(~isempty(subjects))
                 if(~isfolder(pathname_common))
                     mkdir(pathname_common);
                 end
-                cortex = subject.Scortex.Sc;              
+                cortex = subject.Scortex;              
                             
                 file_name                                   = strcat('Cortex.mat');
                 disp(strcat("File: ", file_name));                                
@@ -303,5 +303,4 @@ else
     disp("Please verify the configuration of the input data and start the process again.");
     return;
 end
-
 end

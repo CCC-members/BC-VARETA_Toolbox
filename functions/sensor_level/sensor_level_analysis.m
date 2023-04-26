@@ -25,7 +25,7 @@ properties.pathname = pathname;
 %% Preparing params
 %%
 
-Ke           = subject.Ke;
+Lvj          = subject.Headmodel.Ke;
 Cdata        = subject.Cdata;
 Sh           = subject.Shead;
 cmap_a       = properties.cmap_a;
@@ -117,7 +117,7 @@ close(figure_scalp_2D);
 %%
 %% topography...
 %%
-Nelec = size(Ke,1);
+Nelec = size(Lvj,1);
 Svv_inv = sqrtm(Svv*Svv+4*eye(Nelec))-Svv;
 Loc = [Cdata.Channel.Loc];
 if(isequal(subject.modality,'MEG'))

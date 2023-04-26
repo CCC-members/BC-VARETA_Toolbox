@@ -7,11 +7,11 @@ function [Svv,Nf,Ns] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
 % =============================================================================@
 %
 %% Authors:
-%   Pedro A. Valdes-Sosa, 2010-2021
+%   Pedro A. Valdes-Sosa, 2010-2023
 %   Alberto Taboada-Crispi, 2016
-%   Deirel Paz-Linares, 2017-2021
+%   Deirel Paz-Linares, 2017-2023
 %   Eduardo Gonzalez-Moreira, 2017-2018
-%   Ariosky Areces-Gonzalez, 2018-2021
+%   Ariosky Areces-Gonzalez, 2018-2023
 %
 %
 %% Inputs:

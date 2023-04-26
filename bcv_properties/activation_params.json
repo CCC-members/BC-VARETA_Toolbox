@@ -9,7 +9,7 @@
                             "run":true,
                             "sssblpp_th":{
                                 "description":"default <<1 to sqrt(3)=1.7321>>. Threshold for the sSSBL++ F-scores. lower threshold <<1>> (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded). upper threshold <<sqrt(3)>> (if <<sqrt(3)>> responses whose posterior variance is larger than 3 times the posterior mean are discarded)",
-                                "value":1
+                                "value":0
                             }
                         }
                     },

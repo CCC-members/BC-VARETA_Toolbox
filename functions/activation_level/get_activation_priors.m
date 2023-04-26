@@ -3,7 +3,7 @@ function [subject,properties] = get_activation_priors(subject,properties)
 disp('=================================================================');
 disp('BC-V-->> Getting activation priors.');
 
-Ke                      = subject.Ke;
+Lvj                     = subject.Headmodel.Ke;
 Sc                      = subject.Scortex;
 activation_params       = properties.activation_params;
 aSulc                   = activation_params.aSulc.value; % baseline of sulci curvature factor
@@ -14,8 +14,8 @@ IsCurv                  = activation_params.IsCurv.value; % 0 (no compensation) 
 IsParcel                = activation_params.IsParcel.value; % 0 (no smoothness) 1 (parcel smoothness)
 IsNeigh                 = activation_params.IsNeigh.value;
 IsField                 = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
-GridOrient              = subject.GridOrient;
-GridAtlas               = subject.GridAtlas;
+GridOrient              = subject.Headmodel.GridOrient;
+GridAtlas               = subject.Headmodel.GridAtlas;
 Atlas                   = Sc.Atlas(Sc.iAtlas).Scouts;
 Faces                   = Sc.Faces;
 run_bash_mode           = properties.run_bash_mode.value;
@@ -33,13 +33,13 @@ end
 disp('-->> Creating parcel smoother');
 if IsParcel == 0
     if (IsField == 1) || (IsField == 2)
-        parcellation   = cell(length(Ke)/3,1);
-        for area = 1:length(Ke)/3
+        parcellation   = cell(length(Lvj)/3,1);
+        for area = 1:length(Lvj)/3
             parcellation{area}      = area;
         end
     elseif IsField == 3
-        parcellation = cell(length(Ke)/3,1);
-        for area = 1:length(Ke)/3
+        parcellation = cell(length(Lvj)/3,1);
+        for area = 1:length(Lvj)/3
             q0                      = 3*(area-1);
             parcellation{area}      = [q0+1;q0+2;q0+3];
         end
@@ -115,7 +115,7 @@ if(~run_bash_mode)
 end
 disp('-->> Creating curvature compensator');
 if IsField == 1
-    Ke                    = bst_gain_orient(Ke, GridOrient,GridAtlas);
+    Lvj                    = bst_gain_orient(Lvj, GridOrient,GridAtlas);
 end
 
 if IsCurv == 1
@@ -129,8 +129,8 @@ if IsCurv == 1
     CurvGiri(Sulc == 0)   = aGiri + bGiri.*Curv(Sulc == 0);
     CurvGiri(Sulc == 1)   = 1;
     if IsField == 1
-        Ke_giri               = Ke.*repmat(CurvGiri',size(Ke,1),1);
-        Ke_sulc               = Ke.*repmat(CurvSulc',size(Ke,1),1);
+        Ke_giri               = Lvj.*repmat(CurvGiri',size(Lvj,1),1);
+        Ke_sulc               = Lvj.*repmat(CurvSulc',size(Lvj,1),1);
     elseif IsField == 2 || IsField == 3
         Sulc3D                = zeros(1,3*length(Sulc));
         CurvSulc3D            = zeros(1,3*length(Curv));
@@ -142,14 +142,14 @@ if IsCurv == 1
             Sulc3D([node3 node3+1 node3+2])     = repmat(Sulc(node),1,3);
             node3                               = node3 + 3;
         end
-        Ke_giri               = Ke.*repmat(CurvGiri3D,size(Ke,1),1);
-        Ke_sulc               = Ke.*repmat(CurvSulc3D,size(Ke,1),1);
+        Ke_giri               = Lvj.*repmat(CurvGiri3D,size(Lvj,1),1);
+        Ke_sulc               = Lvj.*repmat(CurvSulc3D,size(Lvj,1),1);
     end
     subject.Ke_giri = Ke_giri;
     subject.Ke_sulc = Ke_sulc;
 end
 
-subject.Ke = Ke;
+subject.Ke = Lvj;
 if(~run_bash_mode && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Creating curvature compensator. 100%"));
     delete(process_waitbar);

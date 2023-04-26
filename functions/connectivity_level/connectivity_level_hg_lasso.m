@@ -12,7 +12,7 @@ function [Thetajj,Sjj,Sigmajj] = connectivity_level_hg_lasso(subject,properties)
 
 % Date: March 20, 2019
 
-Ke                  = subject.Ke;
+Lvj                 = subject.Ke;
 Cdata               = subject.Cdata;
 Sh                  = subject.Sh;
 cmap                = load(properties.general_params.colormap_path);
@@ -170,8 +170,8 @@ saveas(figure_BC_VARETA2,fullfile(pathname,file_name));
 close(figure_BC_VARETA2);
 
 %% Roi analysis
-Thetajj_full              = zeros(length(Ke)/3);
-Sjj_full                  = zeros(length(Ke)/3);
+Thetajj_full              = zeros(length(Lvj)/3);
+Sjj_full                  = zeros(length(Lvj)/3);
 Thetajj_full(indms,indms) = Thetajj;
 Sjj_full(indms,indms)     = Sjj;
 atlas_label               = cell(1,length(Atlas));

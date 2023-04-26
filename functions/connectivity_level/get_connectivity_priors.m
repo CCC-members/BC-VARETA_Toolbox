@@ -7,7 +7,7 @@ if(analysis_method.(method_name).run)
     disp('=================================================================');
     disp('BC-V-->> Getting connectivity priors.');
     
-    Ke                      = subject.Ke;
+    Lvj                     = subject.Ke;
     Sc                      = subject.Scortex;
     activation_params       = properties.activation_params;
     connectivity_params     = properties.connectivity_params;
@@ -42,13 +42,13 @@ if(analysis_method.(method_name).run)
     disp('-->> Creating parcel smoother');
     if IsParcel == 0
         if (IsField == 1) || (IsField == 2)
-            parcellation   = cell(length(Ke)/3,1);
-            for area = 1:length(Ke)/3
+            parcellation   = cell(length(Lvj)/3,1);
+            for area = 1:length(Lvj)/3
                 parcellation{area}      = area;
             end
         elseif IsField == 3
-            parcellation = cell(length(Ke)/3,1);
-            for area = 1:length(Ke)/3
+            parcellation = cell(length(Lvj)/3,1);
+            for area = 1:length(Lvj)/3
                 q0                      = 3*(area-1);
                 parcellation{area}      = [q0+1;q0+2;q0+3];
             end
@@ -128,7 +128,7 @@ if(analysis_method.(method_name).run)
     else
         disp('-->> Creating curvature compensator');
         if IsField == 1
-            Ke                    = bst_gain_orient(Ke, GridOrient,GridAtlas);
+            Lvj                    = bst_gain_orient(Lvj, GridOrient,GridAtlas);
         end
         if IsCurv == 1
             Curv                  = Sc.Curvature;
@@ -141,8 +141,8 @@ if(analysis_method.(method_name).run)
             CurvGiri(Sulc == 0)   = aGiri + bGiri.*Curv(Sulc == 0);
             CurvGiri(Sulc == 1)   = 1;
             if IsField == 1
-                Ke_giri               = Ke.*repmat(CurvGiri',size(Ke,1),1);
-                Ke_sulc               = Ke.*repmat(CurvSulc',size(Ke,1),1);
+                Ke_giri               = Lvj.*repmat(CurvGiri',size(Lvj,1),1);
+                Ke_sulc               = Lvj.*repmat(CurvSulc',size(Lvj,1),1);
             elseif IsField == 2 || IsField == 3
                 Sulc3D                = zeros(1,3*length(Sulc));
                 CurvSulc3D            = zeros(1,3*length(Curv));
@@ -154,13 +154,13 @@ if(analysis_method.(method_name).run)
                     Sulc3D([node3 node3+1 node3+2])     = repmat(Sulc(node),1,3);
                     node3                               = node3 + 3;
                 end
-                Ke_giri               = Ke.*repmat(CurvGiri3D,size(Ke,1),1);
-                Ke_sulc               = Ke.*repmat(CurvSulc3D,size(Ke,1),1);
+                Ke_giri               = Lvj.*repmat(CurvGiri3D,size(Lvj,1),1);
+                Ke_sulc               = Lvj.*repmat(CurvSulc3D,size(Lvj,1),1);
             end
             subject.Ke_giri = Ke_giri;
             subject.Ke_sulc = Ke_sulc;
         end
-        subject.Ke = Ke;
+        subject.Ke = Lvj;
     end
     if(~run_bash_mode && exist('process_waitbar','var'))
         waitbar(1,process_waitbar,strcat("Creating curvature compensator. 100%"));
