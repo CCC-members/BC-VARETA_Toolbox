@@ -38,17 +38,19 @@ else
     count_node = 1;
 end
 
+setGlobalGuimode(true);
+for i=1:length(varargin)
+    if(isequal(varargin{i},'nogui'))
+      setGlobalGuimode(false);
+    end
+end
 addpath('app')
 addpath('guide');
 addpath('bcv_properties');
 addpath('tools');
 
 %% Printing data information
-if(isfile('bcv_predefinition/properties.json'))
-    app_properties = jsondecode(fileread(strcat('bcv_predefinition/properties.json')));
-else
-    app_properties = jsondecode(fileread(strcat('app/properties.json')));
-end
+app_properties = jsondecode(fileread(strcat('app/properties.json')));
 disp(strcat("-->> Name:",app_properties.generals.name));
 disp(strcat("-->> Version:",app_properties.generals.version));
 disp(strcat("-->> Version date:",app_properties.generals.version_date));
@@ -70,22 +72,12 @@ if(app_properties.check_app_update)
     end
 end
 %%               Upload the actived processes
-
-%----- Finding proccess for run ---------
-processes = jsondecode(fileread(strcat('processes.json')));
-for i = 1: length(processes)
-    process = processes(i);
-    if(process.active)
-        disp("=================================================================");
-        disp(strcat('=============== Running process: ' , process.name, ' ===============' ))
-        addpath(process.root_folder);
-        eval(process.function);
-    end
+if(getGlobalGuimode())
+    BC_VARETA
+else
+    BC_VARETA_bash(idnode,count_node);
 end
 
-if(isfile('bcv_predefinition/properties.json'))
-    delete('bcv_predefinition/properties.json');
-end
 %%
 % delete(process_waitbar);
 disp('=====================================================================');
@@ -96,4 +88,3 @@ disp(strcat("Elapsed time: ", num2str(hours) , " hours with ", num2str(minutes) 
 disp('=====================================================================');
 disp(app_properties.generals.name);
 disp('=====================================================================');
-
