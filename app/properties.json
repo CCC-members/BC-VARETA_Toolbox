@@ -1,38 +1,32 @@
 {
-	"generals" : {
-		"name" : "BC-VARETA ToolBox",
-		"version" : "v.976",
-		"version_date" : "03-08-2022",
-		"version_number" : 76,
+    "generals" : {
+        "name" : "BC-VARETA ToolBox",
+        "version" : "v.977",
+        "version_date" : "04-08-2023",
+        "version_number" : 77,
         "test_data_url": "https://lstneuro-my.sharepoint.com/:u:/g/personal/cc-lab_neuroinformatics-collaboratory_org/EQVy7Y3oL9lDqS4_aNwglCsBMngspSuQ6yVudDj1xUOhgA?download=1",
-		"url_check" : "https://raw.github.com/CCC-members/BC-VARETA_Toolbox/master/app/properties.json",
-        "base_url"  : "https://codeload.github.com/CCC-members/BC-VARETA_Toolbox/zip/master"        
-        },   
-	"externals" : {
+        "url_check" : "https://raw.github.com/CCC-members/BC-VARETA_Toolbox/master/app/properties.json",
+        "base_url"  : "https://codeload.github.com/CCC-members/BC-VARETA_Toolbox/zip/master"
+    },
+    "externals" : {
         "description":"No needed",
-		"name" : "brainstorm",
-		"url" : "unaurl"
-		},
+        "name" : "brainstorm",
+        "url" : "unaurl"
+    },
     "matlab_runtime": {
-         "description":"Do not change",
-         "mac":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/maci64/MCR_R2018b_maci64_installer.dmg.zip",
-         "win":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/win64/MCR_R2018b_win64_installer.exe",
-         "linux":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/glnxa64/MCR_R2018b_glnxa64_installer.zip"
+        "description":"Do not change",
+        "mac":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/maci64/MCR_R2018b_maci64_installer.dmg.zip",
+        "win":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/win64/MCR_R2018b_win64_installer.exe",
+        "linux":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/glnxa64/MCR_R2018b_glnxa64_installer.zip"
     },
     "check_matlab_version":false,
     "check_app_update":false,    
-    "run_bash_mode":{
-        "description":"default <<true>>. Run on server <<true>>  or Run with visual interface <<false>>",
-        "value":true,
-        "disabled_graphics":false,
-        "use_gpu":false,
-        "predefinition_params":"default"
-    },    
-    "general_params_file":{
-        "description":"Define bcv_general_params. you can change the file and save different conbinations.",
-        "file_path":"bcv_properties/general_params.json"
-    },
     "module_param_files":[
+        {
+            "description":"Define general_params. you can change the file and save different conbinations.",
+            "module_id":"general_params",
+            "file_path":"bcv_properties/general_params.json"
+        },
         {
             "description":"Define sensor_params. you can change the file and save different conbinations.",
             "module_id":"sensor_params",
@@ -47,11 +41,28 @@
             "description":"Define connectivity_params. you can change the file and save different conbinations.",
             "module_id":"connectivity_params",
             "file_path":"bcv_properties/connectivity_params.json"
+        }
+    ],
+    "default_param_files":[
+        {
+            "description":"Define general_params. you can change the file and save different conbinations.",
+            "module_id":"general_params",
+            "file_path":"bcv_properties/defaults/general_params.json"
         },
         {
-            "description":"Define spectral_params. you can change the file and save different conbinations.",
-            "module_id":"spectral_params",
-            "file_path":"bcv_properties/spectral_params.json"
+            "description":"Define sensor_params. you can change the file and save different conbinations.",
+            "module_id":"sensor_params",
+            "file_path":"bcv_properties/defaults/sensor_params.json"
+        },
+        {
+            "description":"Define activation_params. you can change the file and save different conbinations.",
+            "module_id":"activation_params",
+            "file_path":"bcv_properties/defaults/activation_params.json"
+        },
+        {
+            "description":"Define connectivity_params. you can change the file and save different conbinations.",
+            "module_id":"connectivity_params",
+            "file_path":"bcv_properties/defaults/connectivity_params.json"
         }
-    ]    
+    ]
 }
