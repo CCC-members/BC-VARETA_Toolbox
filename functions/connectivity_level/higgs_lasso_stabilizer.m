@@ -6,8 +6,7 @@ rth2      = param.rth2;
 m         = param.m;
 ntry      = param.ntry;
 rth_grid  = rth1:0.1:rth2;
-run_bash_mode  = param.run_bash_mode;
-if(~run_bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
@@ -25,7 +24,7 @@ if ntry == 0
         [Thetajj_mask]        = higgs_eigendecomposition(Thetajj_mask,param);
         llhjj_grid(rth_count) = sum(log(abs(Thetajj_mask.d))) - sum(abs(sum(Thetajj_mask.X.*transpose(Psijj.X),2))) - aj*sum(abs(Thetajj_mask.X(:)));
         fprintf(1,'\b\b\b\b%3.0f%%',(rth_count/length(rth_grid))*100 - 1);
-        if(~run_bash_mode)
+        if(getGlobalGuimode())
             waitbar(rth_count/length(rth_grid),process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(fix((rth_count/length(rth_grid))*100)-1),"%"));
         end
     end
@@ -42,7 +41,7 @@ else
         %% Perform ntry iterations
         [llh_grid(rth_count,:)] = higgs_try_likelihood(mask,Svv,Lvj,sigma2xi0,Sigmajj0,llh0,param);
         fprintf(1,'\b\b\b\b%3.0f%%',(rth_count/length(rth_grid))*100 - 1);
-        if(~run_bash_mode)
+        if(getGlobalGuimode())
             waitbar(rth_count/length(rth_grid),process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(fix((rth_count/length(rth_grid))*100)-1),"%"));
         end
     end
@@ -50,7 +49,7 @@ else
 end
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
-if(~run_bash_mode && exist('process_waitbar','var'))
+if(getGlobalGuimode() && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(100),"%"));
     delete(process_waitbar)
 end

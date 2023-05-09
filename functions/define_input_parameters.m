@@ -131,7 +131,6 @@ else
 end
 
 properties.general_params       = jsondecode(fileread(fullfile('bcv_properties','bcv_general_params.json')));
-properties.spectral_params      = jsondecode(fileread(fullfile('bcv_properties','bcv_spectral_params.json')));
 properties.sensor_params        = jsondecode(fileread(fullfile('bcv_properties','bcv_sensor_params.json')));
 properties.activation_params    = jsondecode(fileread(fullfile('bcv_properties','bcv_activation_params.json')));
 properties.connectivity_params  = jsondecode(fileread(fullfile('bcv_properties','bcv_connectivity_params.json')));

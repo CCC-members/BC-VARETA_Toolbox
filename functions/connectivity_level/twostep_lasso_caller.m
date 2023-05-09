@@ -37,8 +37,7 @@ Thetajj.X       = Thetajj.U*spdiags(Thetajj.d,0,q,q)*Thetajj.U';
 % overlapping of the distributions for null hypothesis values (Rayleigh) and the alternative introduces ambiguity 
 % in the decision for a given Rayleigh threshold we move rth between the value corresponding to the peak of the 
 % Rayleigh distribution (rth1)
-run_bash_mode       = param.run_bash_mode;
-if(~run_bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...');
 end
 %% check only partial likelihood
@@ -56,7 +55,7 @@ for rth_count = 1:length(rth_grid)
     [Thetajj_mask]        = higgs_eigendecomposition(Thetajj_mask,param);
     llhjj_grid(rth_count) = sum(log(Thetajj_mask.d)) - sum(abs(sum(Thetajj_mask.X.*transpose(Psijj.X),2))) - aj*sum(abs(Ajj(:).*Thetajj.X(:)));
     fprintf(1,'\b\b\b\b%3.0f%%',(rth_count/length(rth_grid))*100 - 1);
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
            waitbar(rth_count/length(rth_grid),process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(fix((rth_count/length(rth_grid))*100)-1),"%"));
     end
 end
@@ -73,7 +72,7 @@ Sigmajj.X        = Sigmajj.U*spdiags(Sigmajj.d,0,q,q)*Sigmajj.U';
 
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
-if(~run_bash_mode)
+if(getGlobalGuimode())
     waitbar(1,process_waitbar,strcat("Computing optimal Ryleigh threshold: ",num2str(100),"%"));
     delete(process_waitbar)
 end

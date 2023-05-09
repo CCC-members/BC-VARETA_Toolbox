@@ -1,7 +1,6 @@
 function [s2j,sigma2j_post,Tjv,Svv,scaleJ,scaleLvj] = higgs_sSSBLpp(Svv,Lvj,param)
 W             = param.W;
 parcellation  = param.parcellation;
-run_bash_mode = param.run_bash_mode;
 flag          = param.flag;
 
 % Elastic Net_Sparse Bayesian Learning
@@ -56,7 +55,7 @@ scaleJ        = mean(abs(s2j + sigma2j_post))/mean(abs(sigma2j_post));
 Svv           = Svv/scaleJ;
 
 %% Outer cycle
-if(~run_bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
@@ -99,7 +98,7 @@ for cont1 = 1:maxiter_outer
     rho        = fzero(f_aux,[0.000001 70000]);
     sigma2j    = (1/(2*alpha))*sigma2j_bar;
     
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
         text = replace(param.str_band,'_','-');
         waitbar((cont1)/(maxiter_outer),process_waitbar,strcat("sSSBL++ (",text,") process: ",num2str(fix((cont1/maxiter_outer)*100)-1),"%"));
     end
@@ -122,7 +121,7 @@ end
 
 % Iterative Transference Operator
 Tjv                        = (1/sigma2x).*(W*sigma2jWLjv-sigma2j_post0*(LvjWsigma2j*WLjv));
-if(~run_bash_mode)
+if(getGlobalGuimode())
     text = replace(param.str_band,'_','-');
     waitbar(1,process_waitbar,strcat("sSSBL++ (",text,") process: ",num2str(100),"%"));
 end
@@ -133,7 +132,7 @@ for count_gen = 1:size(Lvj,2)
     s2j(count_gen)         = abs(Tjv(count_gen,:)*SvvTvj(:,count_gen));
 end
 fprintf(1,'\n');
-if(~run_bash_mode && exist('process_waitbar','var'))
+if(getGlobalGuimode() && exist('process_waitbar','var'))
     delete(process_waitbar);
 end
 end

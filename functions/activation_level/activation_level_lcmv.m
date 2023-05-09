@@ -1,4 +1,4 @@
-function [stat,J,T,indms,properties] = activation_level_lcmv(subject,properties)
+function [subject,properties] = activation_level_lcmv(subject,properties)
 
 % Authors:
 % - Deirel Paz Linares
@@ -21,15 +21,15 @@ W             = subject.W;
 cmap_a        = properties.cmap_a;
 Sc            = subject.Scortex;
 sub_to_FSAve  = subject.sub_to_FSAve;
-str_band      = properties.str_band;
 pathname      = properties.pathname;
-run_bash_mode = properties.run_bash_mode.value;
 
 %%
 %% Sensor level Outputs
 %%
-sensor_level_out    = properties.sensor_level_out;
+sensor_level_out    = subject.sensor_level_out;
 Svv                 = sensor_level_out.Svv;
+band                = sensor_level_out.band;
+str_band            = band.str_band;
 
 %%
 %% LCMV activation parameters
@@ -54,7 +54,6 @@ param.gamma1        = gamma1;
 param.gamma2        = gamma2;
 param.delta_gamma   = delta_gamma;
 param.flag          = flag;
-param.run_bash_mode = run_bash_mode;
 param.str_band      = str_band;
 param.W             = W;
 param.Winv          = subject.Winv;
@@ -127,11 +126,9 @@ sources_iv          = sqrt(abs(J));
 sources_iv          = sources_iv/max(sources_iv(:));
 
 figure_name = strcat('BC-VARETA-activation - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
-else
-    figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
-end
+
+figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
+
 define_ico(figure_BC_VARETA1);
 patch('Faces',Sc.Faces,'Vertices',Sc.Vertices,'FaceVertexCData',sources_iv,'FaceColor','interp','EdgeColor','none','FaceAlpha',.85);
 set(gca,'Color','w');
@@ -151,9 +148,9 @@ close(figure_BC_VARETA1);
 
 %% Saving files
 disp('-->> Saving file')
-properties.file_name = strcat('MEEG_source_',str_band,'.mat');
-disp(strcat("File: ", properties.file_name));
-parsave(fullfile(pathname ,properties.file_name ),s2j,sigma_post,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
+subject.file_name = strcat('MEEG_source_',str_band,'.mat');
+disp(strcat("File: ", subject.file_name));
+parsave(fullfile(pathname ,subject.file_name ),s2j,sigma_post,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
 
 end
 

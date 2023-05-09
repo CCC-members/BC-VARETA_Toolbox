@@ -25,7 +25,6 @@ Atlas               = Sc.Atlas(Sc.iAtlas).Scouts;
 Nseg                = properties.sensor_level_out.Nseg;
 peak_pos            = properties.sensor_level_out.peak_pos;
 band                = properties.sensor_level_out.band;
-run_bash_mode       = properties.run_bash_mode.value;
 Svv                 = properties.sensor_level_out.Svv;
 indms               = properties.activation_level_out.indms;
 Tjv                 = properties.activation_level_out.T;
@@ -61,9 +60,8 @@ end
 %% HG-LASSO parameters
 %%
 
-param.use_gpu         = properties.run_bash_mode.use_gpu;
+param.use_gpu         = properties.general_params.use_gpu.value;
 m                     = length(peak_pos)*Nseg;
-param.run_bash_mode   = run_bash_mode;
 param.m               = m;
 param.nu              = m;
 p                     = length(Svv);
@@ -145,11 +143,9 @@ for ii = 1:length(indms)
 end
 
 figure_name = strcat('BC-VARETA-node-wise-conn - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA2 = figure('Color','k','Name',figure_name,'NumberTitle','off','visible','off');
-else
-    figure_BC_VARETA2 = figure('Color','k','Name',figure_name,'NumberTitle','off');
-end
+
+figure_BC_VARETA2 = figure('Color','k','Name',figure_name,'NumberTitle','off');
+
 define_ico(figure_BC_VARETA2);
 imagesc(temp_comp);
 set(gca,'Color','k','XColor','w','YColor','w','ZColor','w',...
@@ -204,11 +200,9 @@ temp_diag  = diag(diag(temp_diag)+1);
 temp_comp  = temp_diag+temp_ndiag;
 
 figure_name = strcat('BC-VARETA-roi-conn - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA3 = figure('Color','k','Name',figure_name,'NumberTitle','off','visible','off');
-else
-    figure_BC_VARETA3 = figure('Color','k','Name',figure_name,'NumberTitle','off');
-end
+
+figure_BC_VARETA3 = figure('Color','k','Name',figure_name,'NumberTitle','off');
+
 define_ico(figure_BC_VARETA3);
 imagesc(temp_comp);
 set(gca,'Color','k','XColor','w','YColor','w','ZColor','w',...

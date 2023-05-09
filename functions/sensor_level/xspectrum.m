@@ -29,7 +29,6 @@ function [Svv,Nf,Ns,PSD] = xspectrum(data, Fs, Fm, deltaf, varf, Nw, properties)
 %
 %**************************************************************************
 %% Initialization oF variables...
-bash_mode   = properties.run_bash_mode.value;
 use_seg     = true;
 [Nc,Nt]     = size(data);
 deltat      = 1/(2*varf); % sliding window for hilbert envelope (adjusted by the response of the gaussian filter)
@@ -48,7 +47,7 @@ Ns          = Nseg*Nt_seg; % sample number
 F           = 0:deltaf:Fm; % frequency vector
 Nf          = length(F);
 Svv         = zeros(Nc,Nc,Nf);
-use_gpu     = properties.run_bash_mode.use_gpu;
+use_gpu     = properties.general_params.use_gpu.value;
 if(use_gpu)
     Svv_gpu = gpuArray(Svv);
 end
@@ -60,7 +59,7 @@ else
     W = fft(data,[],2);
 end
 W   = cat(2,W,conj(flip(W,2)));
-if(~bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
@@ -80,7 +79,7 @@ for freq = 1:Nf
     end
     clearvars dataEnv;
     fprintf(1,'\b\b\b\b%3.0f%%',(freq/Nf)*100);
-    if(~bash_mode)
+    if(getGlobalGuimode())
         waitbar((freq)/(Nf),process_waitbar,strcat("Computing cross-spectra: ",num2str(fix((freq/Nf)*100)),"%"));
     end
 end
@@ -94,7 +93,7 @@ PSD = zeros(Nc,Nf);
 for freq = 1:Nf
     PSD(:,freq) = diag(squeeze(abs(Svv(:,:,freq))));
 end
-if(~bash_mode)
+if(getGlobalGuimode())
     delete(process_waitbar);
 end
 end

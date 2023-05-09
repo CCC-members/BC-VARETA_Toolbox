@@ -22,11 +22,10 @@ if(analysis_method.(method_name).run)
     IsNeigh_act             = activation_params.IsNeigh.value;
     IsField_act             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
     IsParcel                = activation_params.IsParcel.value; % 0 (no smoothness) 1 (parcel smoothness)
-    GridOrient              = subject.GridOrient;
-    GridAtlas               = subject.GridAtlas;
+    GridOrient              = subject.Headmodel.GridOrient;
+    GridAtlas               = subject.Headmodel.GridAtlas;
     Atlas                   = Sc.Atlas(Sc.iAtlas).Scouts;
     Faces                   = Sc.Faces;    
-    run_bash_mode           = properties.run_bash_mode.value;
     
     %%
     %% parcel/field options
@@ -34,7 +33,7 @@ if(analysis_method.(method_name).run)
     if(isempty(Atlas))
         IsParcel = 0;
     end
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
         process_waitbar = waitbar(0,'Getting connectivity priors.','windowstyle', 'modal');
         frames = java.awt.Frame.getFrames();
         frames(end).setAlwaysOnTop(1);
@@ -75,7 +74,7 @@ if(analysis_method.(method_name).run)
     %%
     %% neigh/field options
     %%
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
         waitbar(0.4,process_waitbar,strcat("Creating Laplacian & Normals. 40%"));
     end
     if (IsNeigh == IsNeigh_act) && (IsField == IsField_act) && (isfield(subject,'W')) && (isfield(subject,'Winv'))
@@ -120,7 +119,7 @@ if(analysis_method.(method_name).run)
     %%
     %% curv/field options
     %%
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
         waitbar(0.8,process_waitbar,strcat("Creating curvature compensator. 80%"));
     end
     if (IsCurv == IsCurv_act) && (IsField == IsField_act)
@@ -162,7 +161,7 @@ if(analysis_method.(method_name).run)
         end
         subject.Ke = Lvj;
     end
-    if(~run_bash_mode && exist('process_waitbar','var'))
+    if(getGlobalGuimode() && exist('process_waitbar','var'))
         waitbar(1,process_waitbar,strcat("Creating curvature compensator. 100%"));
         delete(process_waitbar);
     end

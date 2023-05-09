@@ -25,7 +25,6 @@ function [Svv,Nf,Ns,PSD] = xspectrum_thomson(data,Fs,Fm,deltaf,properties)
 %
 %**************************************************************************
 %% Initialization oF variables...
-bash_mode = properties.run_bash_mode.value;
 NFFT     = round(Fs/deltaf);                            % number of time points per window
 Nw       = 1;                                           % number of windows for Thomson spectral estimate
 F        = 0:deltaf:Fm;                                 % frequency vector
@@ -44,7 +43,7 @@ data(:,Ns*NFFT+1:end)   = [];                             % discards samples aft
 data                    = reshape(data,Nc,NFFT,Ns);       % 'resized' EEG data
 Nf                      = length(F);                      % length of F vector
 Svv                     = zeros(Nc,Nc,Nf);                % allocated matrix for the cross spectrum
-if(~bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
@@ -58,7 +57,7 @@ for k = 1:Ns
         Svv(:,:,i) = Svv(:,:,i)+cov(squeeze(W(:,i,:)).',1);
     end
     fprintf(1,'\b\b\b\b%3.0f%%',(k/Ns)*100);
-    if(~bash_mode)
+    if(getGlobalGuimode())
         waitbar((k)/(Ns),process_waitbar,strcat("Computing cross-spectra: ",num2str(fix((k/Ns)*100)),"%"));
     end
 end
@@ -69,7 +68,7 @@ PSD = zeros(Nc,Nf);
 for freq = 1:Nf
     PSD(:,freq) = diag(squeeze(abs(Svv(:,:,freq))));
 end
-if(~bash_mode)
+if(getGlobalGuimode())
     delete(process_waitbar);
 end
 end

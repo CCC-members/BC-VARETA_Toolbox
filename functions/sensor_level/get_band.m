@@ -1,4 +1,4 @@
-function [Svv,subject,properties] = get_band(Svv,PSD,band,subject,properties)
+function [Svv,peak_pos,subject,properties] = get_band(Svv,PSD,band,subject,properties)
 %GET_BAND Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -18,19 +18,12 @@ function [Svv,subject,properties] = get_band(Svv,PSD,band,subject,properties)
 %%
 %% Preparing params
 %%
-Fm      = properties.spectral_params.max_freq.value;
-deltaf  = properties.spectral_params.freq_resol.value;      % frequency resolution
+Fm      = properties.sensor_params.max_freq.value;
+deltaf  = properties.sensor_params.freq_resol.value;      % frequency resolution
 F       = 0:deltaf:Fm; % frequency vector
 Nf      = length(F);
 
-
-if(properties.general_params.run_frequency_bin.value)
-    disp(strcat( 'BC-V-->> Sensor level for frequency band: (' , band.name , ') bin ->>>' , string(band.f_bin), 'Hz') );
-    properties.str_band =  strcat( band.name,'_',string(band.f_bin),'Hz');
-else
-    disp(strcat( 'BC-V-->> Sensor level for frequency band: (' , band.name , ') ' , string(band.f_start), 'Hz-->' , string(band.f_end) , 'Hz') );
-    properties.str_band =  strcat( band.name,'_',string(band.f_start),'Hz_',string(band.f_end),'Hz');
-end
+disp(strcat("BC-V-->> Sensor level for frequency band: " , band.str_band));
 text_level      = 'Sensor_level';
 if(properties.general_params.run_by_trial.value)
     trial_name  = properties.trial_name;
@@ -69,11 +62,9 @@ if(~isfile(fullfile(properties.pathname,strcat(fig_title,'.fig'))))
     [f2,nf2] = min(abs(F - band.f_end));
     plot_peak(nf1:nf2) = max_psd;
     
-    if(properties.run_bash_mode.disabled_graphics)
-        figure_band = figure('Color','w','Name',fig_title,'NumberTitle','off','visible','off');
-    else
-        figure_band = figure('Color','w','Name',fig_title,'NumberTitle','off');
-    end
+    
+    figure_band = figure('Color','w','Name',fig_title,'NumberTitle','off');
+    
     %     define_ico(figure_band);
     hold on;
     plot(F,PSD_log);

@@ -52,8 +52,8 @@ if(isequal(properties.analysis_level,1))
     
     %% Sensor analysis
     properties.Nseg = Nseg;
-    for h=1:length(properties.spectral_params.frequencies)
-        band                                = properties.spectral_params.frequencies(h);
+    for h=1:length(properties.sensor_params.frequencies)
+        band                                = properties.sensor_params.frequencies(h);
         if(band.run)
             % Get band
             if(~isempty(PSD))

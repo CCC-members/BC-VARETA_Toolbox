@@ -10,7 +10,6 @@ A2                = A.^2;
 Psi_inv           = Iq/Psi; 
 Psi_inv           = (Psi_inv + Psi_inv')/2; 
 use_gpu           = param.use_gpu;
-run_bash_mode     = param.run_bash_mode;
 if(use_gpu)
     gpuPsi_st         = gpuArray(zeros(q));
     gpuTheta_tmp      = gpuArray(zeros(q));
@@ -21,7 +20,7 @@ gamma2            = zeros(q);
 llh               = zeros(maxiter,1);
 Theta             = Psi_inv;
 %% Main cycle
-if(~run_bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...');
 end
 fprintf(1,'-->> Running Hermitian Graphical LASSO: %3d%%\n',0);
@@ -72,7 +71,7 @@ for k_inner = 1:maxiter
         llh(k_inner)  = llh_tmp;
     else
         llh(k_inner:end) = llh(k_inner-1);
-        if(~run_bash_mode)
+        if(getGlobalGuimode())
            waitbar((maxiter-1)/(maxiter),process_waitbar,strcat("Running Hermitian Graphical LASSO: ",num2str(fix(((maxiter-1)/maxiter)*100)),"%"));
         end
         fprintf(1,'\b\b\b\b%3.0f%%',(k_inner/maxiter)*100);
@@ -83,7 +82,7 @@ end
 
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
-if(~run_bash_mode)
+if(getGlobalGuimode())
     waitbar(1,process_waitbar,strcat("Running Hermitian Graphical LASSO: ",num2str(100),"%"));
     delete(process_waitbar)
 end

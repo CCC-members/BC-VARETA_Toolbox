@@ -20,8 +20,7 @@ function [Thetajj,Tjv,llh,Sjj,Psijj,Sigmajj] = higgs(Svv,Lvj,param)
 % Eduardo Gonzalez-Moreira, March 2019
 %************************************************************************** 
 
-run_bash_mode       = param.run_bash_mode;
-if(~run_bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1)
@@ -47,12 +46,12 @@ for k_outer = 1:maxiter_outer
     if (k_outer > 1) && ((abs(llh(k_outer) - llh(k_outer-1))/abs(llh(k_outer-1)) < 1E-2) || (llh(k_outer) < llh(k_outer-1))) 
         llh(k_outer:end) = llh(k_outer-1);
         fprintf(1,'\b\b\b\b%3.0f%%',fix((k_outer/maxiter_outer)*100)); 
-        if(~run_bash_mode)
+        if(getGlobalGuimode())
            waitbar((maxiter_outer)/(maxiter_outer),process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
         end
         break;
     end
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
         waitbar(k_outer/maxiter_outer,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(fix((k_outer/maxiter_outer)*100)),"%"));
     end
      fprintf(1,'\b\b\b\b%3.0f%%',fix((k_outer/maxiter_outer)*100));    
@@ -66,7 +65,7 @@ Sjj         = Sjj/scale;
 Psijj       = Psijj.X/scale;
 Sigmajj     = Sigmajj.X/scale;
 fprintf(1,'\b\b\b\b%3.0f%%',100);
-if(~run_bash_mode && exist('process_waitbar','var'))
+if(getGlobalGuimode() && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(100),"%"));
     delete(process_waitbar)
 end

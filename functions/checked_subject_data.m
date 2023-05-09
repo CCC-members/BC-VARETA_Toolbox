@@ -74,6 +74,11 @@ if(isempty(error_msg_array))
     Sout        = load(fullfile(root_dir,subject_info.outerskull_dir));
     Headmodels  = load(fullfile(root_dir,subject_info.leadfield_dir));  
     MEEG        = load(fullfile(root_dir,subject_info.meeg_dir));
+
+    if(properties.general_params.run_by_trial.value && ~iscell(MEEG.data))
+        error_msg       = strcat("Process run by trial and the data format is not a cellarray");
+        error_msg_array = [error_msg_array; error_msg];
+    end
     
     subject.name            = subject_info.name;
     subject.modality        = subject_info.modality;  
