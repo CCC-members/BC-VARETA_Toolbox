@@ -1,7 +1,7 @@
 function [syst_resp_out] = get_system_response(subject,properties)
 
 IsCurv        = properties.activation_params.IsCurv.value;
-BC_V_info   = properties.BC_V_info;
+BC_V_info   = subject.BC_V_info;
 act_methods = properties.activation_params.methods;
 if(properties.general_params.run_by_trial.value) 
     trial_name  = properties.trial_name;

@@ -28,7 +28,6 @@ Inputs for bash:
         bcv_properties/sensor_params.json
         bcv_properties/activation_params.json
         bcv_properties/connectivity_params.json
-        bcv_properties/spectral_params.json
  
    Outputs:
     - results: subfolder containing the bc-vareta outputs

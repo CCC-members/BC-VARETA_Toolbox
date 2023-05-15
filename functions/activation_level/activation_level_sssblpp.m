@@ -1,4 +1,4 @@
-function [stat,J,T,indms,properties] = activation_level_sssblpp(subject,properties)
+function [subject,properties] = activation_level_sssblpp(subject,properties)
 % Authors:
 % - Deirel Paz Linares
 % - Eduardo Gonzalez Moreira
@@ -14,23 +14,23 @@ function [stat,J,T,indms,properties] = activation_level_sssblpp(subject,properti
 %%
 %% BC-VARETA Toolbox...
 %% Preparing params
-Ke            = subject.Ke;
+Lvj           = subject.Ke;
 W             = subject.W;
 cmap_a        = properties.cmap_a;
 cmap          = properties.cmap;
 Sc            = subject.Scortex;
 sub_to_FSAve  = subject.sub_to_FSAve;
-str_band      = properties.str_band;
-pathname      = properties.pathname;
-run_bash_mode = properties.run_bash_mode.value;
+pathname      = subject.pathname;
 
 %%
 %% Sensor level Outputs
 %%
-sensor_level_out    = properties.sensor_level_out;
+sensor_level_out    = subject.sensor_level_out;
 Nseg                = sensor_level_out.Nseg;
 peak_pos            = sensor_level_out.peak_pos;
 Svv                 = sensor_level_out.Svv;
+band                = sensor_level_out.band;
+str_band            = band.str_band;
 
 %%
 %% sSSBL++ activation parameters
@@ -46,25 +46,20 @@ IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (g
 disp('BC-V-->> sSSBL++ activation leakage module.');
 flag = "-->> Running source activation level.";
 param.Nsamp         = Nseg;
-param.run_bash_mode = run_bash_mode;
 param.str_band      = str_band;
 param.W             = W;
 param.parcellation  = subject.parcellation;
 
 if IsCurv == 0
     param.flag          = flag;
-    [s2j,sigma2j,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Ke,param);
+    [s2j,sigma2j,T,~,scaleSvv,scaleKe] = sSSBLpp(Svv,Lvj,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
+        s2j               = sum(reshape(abs(s2j),3,length(Lvj)/3),1)';
     end
     clearvars Ke;
-    figure_name = strcat('BC-VARETA-stat - ',str_band);
-    if(properties.run_bash_mode.disabled_graphics)
-        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
-    else
-        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
-    end
+    figure_name = strcat('BC-VARETA-stat - ',str_band);    
+    figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;    
     stat             = sqrt(2)*s2j./sqrt(var(s2j));
     indms            = find(stat > sssblpp_th);
     h                = histogram(stat,1000,'Normalization','pdf');
@@ -91,16 +86,14 @@ elseif IsCurv == 1
     [s2j_sulc,sigma2j_sulc,Tsulc,~,scaleSvv_sulc,scaleKe_sulc] = sSSBLpp(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
-        s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-        s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
+        s2j_giri               = sum(reshape(abs(s2j_giri),3,length(Lvj)/3),1)';
+        s2j_sulc               = sum(reshape(abs(s2j_sulc),3,length(Lvj)/3),1)';
     end
     clearvars Ke;
     figure_name = strcat('BC-VARETA-stat - ',str_band);
-    if(properties.run_bash_mode.disabled_graphics)
-        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
-    else
-        figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
-    end
+    
+    figure_BC_VARETA_stat = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
+    
     subplot(1,2,1);
     stat_giri             = sqrt(2)*s2j_giri/sqrt(var(s2j_giri));
     indms_giri            = find(stat_giri > sssblpp_th);
@@ -166,12 +159,7 @@ sources_iv          = sqrt(abs(J));
 sources_iv          = sources_iv/max(sources_iv(:));
 
 figure_name = strcat('BC-VARETA-activation - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
-else
-    figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
-end
-
+figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
 smoothValue          = 0.66;
 SurfSmoothIterations = 10;
 Vertices             = tess_smooth(Sc.Vertices, smoothValue, SurfSmoothIterations, Sc.VertConn, 1);
@@ -185,20 +173,18 @@ view(az,el);
 rotate3d on;
 colormap(gca,cmap);
 title('BC-VARETA-activation','Color','k','FontSize',16);
-
+axis square;
 disp('-->> Saving figure');
 file_name = strcat('BC_VARETA_activation','_',str_band,'.fig');
 saveas(figure_BC_VARETA1,fullfile(pathname,file_name));
-
-pause(1e-12);
 
 close(figure_BC_VARETA1);
 
 %% Saving files
 disp('-->> Saving file')
-properties.file_name = strcat('MEEG_source_',str_band,'.mat');
-disp(strcat("File: ", properties.file_name));
-parsave(fullfile(properties.pathname ,properties.file_name ),s2j,sigma2j,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
+subject.file_name = strcat('MEEG_source_',str_band,'.mat');
+disp(strcat("File: ", subject.file_name));
+parsave(fullfile(subject.pathname ,subject.file_name ),s2j,sigma2j,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
 
 
 end

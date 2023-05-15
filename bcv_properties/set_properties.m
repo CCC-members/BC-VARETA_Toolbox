@@ -28,7 +28,7 @@ else
         return;
     end
 end
-frequencies = properties.spectral_params.params.frequencies;
+frequencies = properties.sensor_params.params.frequencies;
 for i=1:length(frequencies)
     freq = frequencies(i);
     if(freq.run && freq.f_start > freq.f_end)
@@ -41,28 +41,27 @@ for i=1:length(frequencies)
 end
 
 disp("-->> Setting User properties");
-pred_folder = strcat('bcv_predefinition/',properties.run_bash_mode.predefinition_params);
-if(~isfolder(pred_folder))
-   mkdir(pred_folder); 
-end
-properties.general_params_file.file_path    = strcat(pred_folder,'/general_params.json');
-properties.module_param_files(1).file_path  = strcat(pred_folder,'/sensor_params.json');
-properties.module_param_files(2).file_path  = strcat(pred_folder,'/activation_params.json');
-properties.module_param_files(3).file_path  = strcat(pred_folder,'/connectivity_params.json');
-properties.module_param_files(4).file_path  = strcat(pred_folder,'/spectral_params.json');
-pred_options                                = jsondecode(fileread(strcat('bcv_predefinition/pred_properties.json')));
-pred_options.params.predefinition.option    = properties.run_bash_mode.predefinition_params;
 
 % saving property files
-saveJSON(pred_options,strcat('bcv_predefinition/pred_properties.json'));
-saveJSON(properties.general_params,strcat(pred_folder,'/general_params.json'));
-saveJSON(properties.sensor_params,strcat(pred_folder,'/sensor_params.json'));
-saveJSON(properties.activation_params,strcat(pred_folder,'/activation_params.json'));
-saveJSON(properties.connectivity_params,strcat(pred_folder,'/connectivity_params.json'));
-saveJSON(properties.spectral_params,strcat(pred_folder,'/spectral_params.json'));
-
-properties = rmfield(properties,{'general_params','sensor_params','activation_params','connectivity_params','spectral_params'});
-saveJSON(properties,strcat(pred_folder,'/properties.json'));
-
+saveJSON(properties.general_params,'bcv_properties/general_params.json');
+h = matlab.desktop.editor.openDocument(fullfile(pwd,'bcv_properties/general_params.json'));
+h.smartIndentContents
+h.save
+h.close
+saveJSON(properties.sensor_params,'bcv_properties/sensor_params.json');
+h = matlab.desktop.editor.openDocument(fullfile(pwd,'bcv_properties/sensor_params.json'));
+h.smartIndentContents
+h.save
+h.close
+saveJSON(properties.activation_params,'bcv_properties/activation_params.json');
+h = matlab.desktop.editor.openDocument(fullfile(pwd,'bcv_properties/activation_params.json'));
+h.smartIndentContents
+h.save
+h.close
+saveJSON(properties.connectivity_params,'bcv_properties/connectivity_params.json');
+h = matlab.desktop.editor.openDocument(fullfile(pwd,'bcv_properties/connectivity_params.json'));
+h.smartIndentContents
+h.save
+h.close
 end
 

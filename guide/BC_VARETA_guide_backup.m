@@ -589,11 +589,7 @@ classdef BC_VARETA_guide < matlab.apps.AppBase
             addpath("app");
             addpath("bcv_properties");
             addpath(genpath("external\fieldtrip"));
-            addpath("tools");
-            pred_options                                = jsondecode(fileread(strcat('bcv_predefinition/pred_properties.json')));
-            pred_options.params.predefinition.option    = 'default';
-            saveJSON(pred_options,strcat('bcv_predefinition/pred_properties.json'));
-            
+            addpath("tools");                      
             clc;
             load_default_properties(app);
             processes = jsondecode(fileread(strcat('processes.json')));

@@ -26,12 +26,11 @@ cmap                = cmap.cmap;
 Sc                  = subject.Scortex;
 sub_to_FSAve        = subject.sub_to_FSAve;
 Atlas               = Sc.Atlas(Sc.iAtlas).Scouts;
-run_bash_mode       = properties.run_bash_mode.value;
 
 %%
 %% Sensor level Outputs
 %%
-sensor_level_out    = properties.sensor_level_out;
+sensor_level_out    = subject.sensor_level_out;
 Svv                 = sensor_level_out.Svv;
 Nseg                = sensor_level_out.Nseg;
 band                = sensor_level_out.band;
@@ -39,7 +38,7 @@ band                = sensor_level_out.band;
 %%
 %% Activation level Outputs
 %%
-activation_level_out    = properties.activation_level_out;
+activation_level_out    = subject.activation_level_out;
 actv_method             = activation_level_out.method;
 actv_methods            = properties.activation_params.methods;
 for i=1:length(actv_methods)
@@ -74,7 +73,7 @@ else
     str_band =  strcat( band.name,'_',string(band.f_start),'Hz_',string(band.f_end),'Hz');
 end
 text_level = 'Connectivity_level';
-if(properties.general_params.run_by_trial.value) 
+if(properties.general_params.run_by_trial.value)
     trial_name = properties.trial_name;
     pathname = fullfile(subject.subject_path,trial_name,text_level,'HIGGS',band.name);
 else
@@ -87,9 +86,8 @@ end
 %%
 %% HIGGS parameters
 %%
-param.use_gpu         = properties.run_bash_mode.use_gpu;
+param.use_gpu         = properties.general_params.use_gpu.value;
 m                     = Nseg;
-param.run_bash_mode   = run_bash_mode;
 param.m               = m;
 param.nu              = m;
 p                     = length(Svv);
@@ -119,31 +117,31 @@ if(isequal(actv_th,higgs_th))
 else
     if IsCurv == 0
         s2j                   = activation_level_out.s2j;
-        sigma2j_post          = activation_level_out.sigma2j_post;
+        sigma2j          = activation_level_out.sigma2j_post;
         if IsField == 2 || IsField == 3
             s2j               = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
-            sigma2j_post      = sum(reshape(abs(sigma2j_post),3,length(Ke)/3),1)';
+            sigma2j      = sum(reshape(abs(sigma2j),3,length(Ke)/3),1)';
         end
-        stat                  = sqrt(s2j./sigma2j_post);
+        stat                  = sqrt(s2j./sigma2j);
         indms                 = find(stat > higgs_th);
     elseif IsCurv == 1
         s2j                   = activation_level_out.s2j;
         s2j_giri              = s2j(:,1);
         s2j_sulc              = s2j(:,2);
-        sigma2j_post          = activation_level_out.sigma2j_post;
-        sigma2j_post_giri     = sigma2j_post(:,1);
-        sigma2j_post_sulc     = sigma2j_post(:,2);
+        sigma2j          = activation_level_out.sigma2j;
+        sigma2j_giri     = sigma2j(:,1);
+        sigma2j_sulc     = sigma2j(:,2);
         if IsField == 2 || IsField == 3
             s2j_giri                            = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-            sigma2j_post_giri                   = sum(reshape(abs(sigma2j_post_giri),3,length(Ke)/3),1)';
+            sigma2j_giri                   = sum(reshape(abs(sigma2j_giri),3,length(Ke)/3),1)';
             s2j_sulc                            = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
-            sigma2j_post_sulc                   = sum(reshape(abs(sigma2j_post_sulc),3,length(Ke)/3),1)';
+            sigma2j_sulc                   = sum(reshape(abs(sigma2j_sulc),3,length(Ke)/3),1)';
         end
-        stat_giri                               = sqrt(s2j_giri./sigma2j_post_giri);
+        stat_giri                               = sqrt(s2j_giri./sigma2j_giri);
         indms_giri                              = find(stat_giri > higgs_th);
-        stat_sulc                               = sqrt(s2j_sulc./sigma2j_post_sulc);
+        stat_sulc                               = sqrt(s2j_sulc./sigma2j_sulc);
         indms_sulc                              = find(stat_sulc > higgs_th);
-        clearvars sigma2j_post_giri sigma2j_post_sulc;
+        clearvars sigma2j_giri sigma2j_sulc;
         clearvars stat_giri stat_sulc;
         indms                                   = unique([indms_giri;indms_sulc]);
     end
@@ -162,9 +160,9 @@ Ajj                   = Ajj_diag*eye(q)+Ajj_ndiag*(ones(q)-eye(q));
 param.aj              = aj;
 param.Ajj             = Ajj;
 if IsCurv == 0
-    Ke                               = Ke*W;   
+    Ke                               = Ke*W;
     [Thetajj,Tjv,llh]                = higgs(Svv,Ke(:,indms),param);
-    [Thetajj,s2j,Tjv]                = higgs_destandardization(Thetajj,Svv,Tjv,Winv,W,indms,IsField,run_bash_mode);
+    [Thetajj,s2j,Tjv]                = higgs_destandardization(Thetajj,Svv,Tjv,Winv,W,indms,IsField);
 elseif IsCurv == 1
     Ke_giri                          = subject.Ke_giri;
     Ke_sulc                          = subject.Ke_sulc;
@@ -172,8 +170,8 @@ elseif IsCurv == 1
     Ke_sulc                          = Ke_sulc*W;
     [Thetajj_sulc,Tjv_sulc,llh_sulc,Sjj_sulc,Psijj_sulc,Sigmajj_sulc] = higgs(Svv,Ke_sulc(:,indms),param);
     [Thetajj_giri,Tjv_giri,llh_giri,Sjj_giri,Psijj_giri,Sigmajj_giri] = higgs(Svv,Ke_giri(:,indms),param);
-    [Thetajj_giri,s2j_giri,Tjv_giri] = higgs_destandardization(Thetajj_giri,Svv,Tjv_giri,Winv,W,indms,IsField,run_bash_mode);
-    [Thetajj_sulc,s2j_sulc,Tjv_sulc] = higgs_destandardization(Thetajj_sulc,Svv,Tjv_sulc,Winv,W,indms,IsField,run_bash_mode);
+    [Thetajj_giri,s2j_giri,Tjv_giri] = higgs_destandardization(Thetajj_giri,Svv,Tjv_giri,Winv,W,indms,IsField);
+    [Thetajj_sulc,s2j_sulc,Tjv_sulc] = higgs_destandardization(Thetajj_sulc,Svv,Tjv_sulc,Winv,W,indms,IsField);
     Thetajj                          = (Thetajj_giri + Thetajj_sulc)/2;
     Sjj                              = (Sjj_giri + Sjj_sulc)/2;
     Psijj                            = (Psijj_giri + Psijj_sulc)/2;
@@ -193,7 +191,7 @@ for h = 1:length(sub_to_FSAve)
     indices = sub_to_FSAve(h,:);
     Msub_to_FSAve(h,[indices(1) indices(2) indices(3)]) = 1/3;
 end
-if(~run_bash_mode)
+if(getGlobalGuimode())
     f = dialog('Position',[300 300 250 80]);
     movegui(f,'center')
     iconsClassName = 'com.mathworks.widgets.BusyAffordance$AffordanceSize';
@@ -215,7 +213,7 @@ Thetajj_FSAve              = Thetajj_FSAve*Thetajj_FSAve';
 Thetajj_FSAve              = full(Thetajj_FSAve);
 indms_FSAve                = find(diag(Thetajj_FSAve) > 0);
 Thetajj_FSAve              = Thetajj_FSAve(indms_FSAve,indms_FSAve);
-if(~run_bash_mode)
+if(getGlobalGuimode())
     jObj.stop;
     jObj.setBusyText('All done!');
     disp('All done....');
@@ -231,11 +229,9 @@ sources_iv(indms)   = sqrt(abs(J(indms)));
 sources_iv          = sources_iv/max(sources_iv(:));
 
 figure_name = strcat('BC-VARETA-activation - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off'); hold on;
-else
-    figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
-end
+
+figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
+
 define_ico(figure_BC_VARETA1);
 patch('Faces',Sc.Faces,'Vertices',Sc.Vertices,'FaceVertexCData',sources_iv,'FaceColor','interp','EdgeColor','none','FaceAlpha',.99);
 set(gca,'Color','w');
@@ -272,11 +268,9 @@ for ii = 1:length(indms)
 end
 
 figure_name = strcat('BC-VARETA-node-wise-conn - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA2 = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off');
-else
-    figure_BC_VARETA2 = figure('Color','w','Name',figure_name,'NumberTitle','off');
-end
+
+figure_BC_VARETA2 = figure('Color','w','Name',figure_name,'NumberTitle','off');
+
 define_ico(figure_BC_VARETA2);
 imagesc(temp_comp);
 set(gca,'Color','w','XColor','k','YColor','k','ZColor','k',...
@@ -331,11 +325,9 @@ temp_diag  = diag(diag(temp_diag)+1);
 temp_comp  = temp_diag+temp_ndiag;
 
 figure_name = strcat('BC-VARETA-roi-conn - ',str_band);
-if(properties.run_bash_mode.disabled_graphics)
-    figure_BC_VARETA3 = figure('Color','w','Name',figure_name,'NumberTitle','off','visible','off');
-else
-    figure_BC_VARETA3 = figure('Color','w','Name',figure_name,'NumberTitle','off');
-end
+
+figure_BC_VARETA3 = figure('Color','w','Name',figure_name,'NumberTitle','off');
+
 define_ico(figure_BC_VARETA3);
 imagesc(temp_comp);
 set(gca,'Color','w','XColor','k','YColor','k','ZColor','k',...

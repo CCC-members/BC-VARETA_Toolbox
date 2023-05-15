@@ -17,7 +17,6 @@ gcv           = zeros(length(gamma_grid),1);
 count         = 1;
 IsField       = param.field;
 flag          = param.flag;
-run_bash_mode = param.run_bash_mode;
 
 %%
 scaleLvj      = sqrt(sum(abs(diag(LvjW*WLjv)))/p);
@@ -30,7 +29,7 @@ if(isequal(IsField,3))
     LvjW3D     = permute(LvjW3D,[1 3 2]);
 end
 %%
-if(~run_bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1)
@@ -47,7 +46,7 @@ for gamma = gamma_grid
     Txiv             = Ip - LvjW*Tjv;
     gcv(count)       = (1/p)*sum(abs(diag(Txiv*Svv*Txiv')))/((1/p)*sum(abs(diag(Txiv))))^2;
     fprintf(1,'\b\b\b\b%3.0f%%',(count)/(length(gamma_grid))*100-1);
-    if(~run_bash_mode)
+    if(getGlobalGuimode())
         text = replace(param.str_band,'_','-');
         waitbar((count)/(length(gamma_grid)),process_waitbar,...
             strcat("Running LCMV (",text,") process: ",num2str(fix((count)/(length(gamma_grid))*100)-1),"%"));
@@ -95,13 +94,13 @@ clearvars LvjWsigma2j;
 for count_gen = 1:length(Lvj)
     sigma2j_post(count_gen) = W(count_gen,:)*sigma2jW(:,count_gen) - sigma2j_post0(count_gen,:)*LvjWsigma2jW(:,count_gen);
 end
-if(~run_bash_mode)
+if(getGlobalGuimode())
     text = replace(param.str_band,'_','-');
     waitbar(1,process_waitbar,strcat("Running LCMV (",text,") process: 100%"));
 end
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
-if(~run_bash_mode && exist('process_waitbar','var'))
+if(getGlobalGuimode() && exist('process_waitbar','var'))
     delete(process_waitbar);
 end
 

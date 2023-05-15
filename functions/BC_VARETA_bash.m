@@ -1,4 +1,4 @@
-de afunction BC_VARETA_bash(varargin)
+function BC_VARETA_bash(varargin)
 %% BC_VARETA_bash Summary of this function goes here
 %   Detailed explanation goes here
 %
@@ -54,10 +54,8 @@ properties.general_params       = properties.general_params.params;
 properties.sensor_params        = properties.sensor_params.params;
 properties.activation_params    = properties.activation_params.params;
 properties.connectivity_params  = properties.connectivity_params.params;
-properties.spectral_params      = properties.spectral_params.params;
 root_path                       = properties.general_params.bcv_workspace.BCV_input_dir;
 subjects                        = dir(fullfile(root_path,'**','subject.mat'));
-predef_folder                   = properties.run_bash_mode.predefinition_params;
 %%
 %% Multi-node process ( dividing data subjects by each node)
 %%
@@ -99,79 +97,75 @@ subjects                        = subjects([start_ind:end_ind]);
 %% Starting subjects analysis
 %%
 if(~isempty(subjects))
-    [properties]                                            = define_frequency_bands(properties);
-    color_map                                               = load(properties.general_params.colormap_path);
-    properties.cmap                                         = color_map.cmap;
-    properties.cmap_a                                       = color_map.cmap_a;
-    properties.cmap_c                                       = color_map.cmap_c;
+    [properties]                    = define_frequency_bands(properties);
+    color_map                       = load(properties.general_params.colormap_path);
+    properties.cmap                 = color_map.cmap;
+    properties.cmap_a               = color_map.cmap_a;
+    properties.cmap_c               = color_map.cmap_c;
+    
+    %% Creating Dataset
+    BC_VARETA.Name                  = properties.general_params.dataset.Name;
+    BC_VARETA.Description           = properties.general_params.dataset.Description;
+    BC_VARETA.general_params        = properties.general_params;
+    BC_VARETA.sensor_params         = properties.sensor_params;
+    BC_VARETA.activation_params     = properties.activation_params;
+    BC_VARETA.connectivity_params   = properties.connectivity_params;
+    BC_VARETA.Participants          = [];
+    
+    %%
     %% Starting analysis
+    %%
     for i=1:length(subjects)
-        subject_file                                        = subjects(i);
-        [subject,checked,error_msg_array]                   = checked_subject_data(subject_file,properties);
+        subject_file                                            = subjects(i);
+        [subject,checked,error_msg_array]                       = checked_subject_data(subject_file,properties);
         if(checked)
-            if(isequal(properties.general_params.bcv_workspace.BCV_work_dir,'local'))
-                subject.subject_path                        = fullfile(subject_file.folder,'BC-V_Result');
-            else
-                subject.subject_path                        = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
-            end
+            subject.subject_path                                = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
             if(~isfolder(subject.subject_path))
                 mkdir(subject.subject_path);
-            end
-            
+            end         
+
             %%
             %% Data analysis for sensor level
             %%
             if(isequal(properties.general_params.analysis_level.value,'1')...
                     || isequal(properties.general_params.analysis_level.value,'12')...
                     || isequal(properties.general_params.analysis_level.value,'all'))
-                [properties,canceled]                       = check_BC_V_info(properties,subject,1);
-                if(canceled)
-                    continue;
-                end
-                %% Saving general variables for sensor level                
-                pathname_common                             = fullfile(subject.subject_path,'Common');
-                if(~isfolder(pathname_common))
-                    mkdir(pathname_common);
-                end
-                cortex = subject.Scortex.Sc;              
-                            
-                file_name                                   = strcat('Cortex.mat');
-                disp(strcat("File: ", file_name));                                
-                parsave(fullfile(pathname_common ,file_name ),cortex);
-                reference_path                              = strsplit(pathname_common,subject.name);
-                properties.BC_V_info.common.Comment         = 'Surfaces Cortex';
-                properties.BC_V_info.common.Ref_path        = strrep(reference_path{2},'\','/');
-                properties.BC_V_info.common.Name            = file_name;               
-                
-                properties.analysis_level                   = 1;
-                if(properties.general_params.run_by_trial.value)
-                    %% Data analysis for sensor and activation level by trials
-                    if(iscell(subject.MEEG.data))
-                        data = subject.MEEG.data;
-                        for m=1:length(data)
-                            properties.trial_name           = ['trial_',num2str(m)];
-                            subject.MEEG.data               = data{1,m};
-                            [subject,properties]            = data_analysis(subject,properties);
-                        end
-                        subject.MEEG.data = data;
-                    else
-                        %% Data analysis for sensor and activation level by complete data
-                        [subject,properties]                = data_analysis(subject,properties);
+                [subject,status]                                    = check_BC_V_info(properties,subject,1);
+                if(status)
+                    %%
+                    %% Saving general variables for analysis
+                    %%
+                    pathname_common                                 = fullfile(subject.subject_path,'Common');
+                    if(~isfolder(pathname_common))
+                        mkdir(pathname_common);
                     end
-                else
-                    %% Data analysis for sensor and activation level by complete data
-                    [subject,properties]                    = data_analysis(subject,properties);
+                    cortex                                          = subject.Scortex;
+                    file_name                                       = strcat('Cortex.mat');
+                    disp(strcat("File: ", file_name));
+                    parsave(fullfile(pathname_common ,file_name ),cortex);
+                    reference_path                                  = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common.Comment                = 'Surfaces Cortex';
+                    subject.BC_V_info.common.Ref_path               = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common.Name                   = file_name;
+
+                    if(properties.general_params.run_by_trial.value)
+                        data                                        = subject.MEEG.data;
+                        for m=1:length(data)
+                            properties.trial_name                   = ['trial_',num2str(m)];
+                            subject.MEEG.data                       = data{1,m};
+                            [subject,properties]                    = sensor_level_analysis(subject,properties);
+                        end
+                        subject.MEEG.data                           = data;
+                    else
+                        [subject,properties]                        = sensor_level_analysis(subject,properties);
+                    end
+                    disp('=================================================================');
+                    disp('-->> Saving BC-VARETA Information file.')                    
+                    subject.BC_V_info.Processes(1).name             = 'Sensor_level';
+                    subject.BC_V_info.Processes(1).completed        = true;
+                    BC_V_info                                       = subject.BC_V_info;
+                    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                 end
-                disp('=================================================================');
-                disp('-->> Saving BC-VARETA Information file.')
-                BC_V_info                                   = properties.BC_V_info;
-                BC_V_info.subjectID                         = subject.name;
-                properties.level_process.name               = 'Sensor_level';
-                properties.level_process.completed          = true;
-                BC_V_info.properties.general_params         = properties.general_params;
-                BC_V_info.properties.spectral_params        = properties.spectral_params;
-                disp(strcat("File: ", "BC_V_info.mat"));
-                save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
             end
             %%
             %% Data analysis for activation level
@@ -180,55 +174,33 @@ if(~isempty(subjects))
                     || isequal(properties.general_params.analysis_level.value,'12')...
                     || isequal(properties.general_params.analysis_level.value,'23')...
                     || isequal(properties.general_params.analysis_level.value,'all'))
-                [properties,canceled]                   = check_BC_V_info(properties,subject,2);
-                if(canceled)
-                    continue;
-                end                
-                properties.analysis_level               = 2;
-                if(properties.general_params.run_by_trial.value)
-                    if((isfield(properties.BC_V_info,'sensor_level')))
-                        %% Data analysis for sensor and activation level by trials
-                        if(iscell(subject.data))
-                            data = subject.data;
+                [subject,status]                                    = check_BC_V_info(properties,subject,2);
+                if(status)
+                    if((isfield(subject.BC_V_info,'sensor_level')))
+                        if(properties.general_params.run_by_trial.value)
+                            data                                    = subject.data;
                             for m=1:length(data)
-                                properties.trial_name   = ['trial_',num2str(m)];
-                                subject.data            = data{1,m};
-                                [subject,properties]    = get_activation_priors(subject,properties);
-                                [subject,properties]    = data_analysis(subject,properties);
+                                properties.trial_name               = ['trial_',num2str(m)];
+                                subject.data                        = data{1,m};
+                                [subject,properties]                = activation_level_interface(subject,properties);
                             end
-                            subject.data = data;
+                            subject.data                            = data;
                         else
-                            %% Data analysis for sensor and activation level by complete data
-                            [subject,properties]        = get_activation_priors(subject,properties);
-                            [subject,properties]        = data_analysis(subject,properties);
+                            [subject,properties]                    = activation_level_interface(subject,properties);
                         end
+                        disp('=================================================================');
+                        disp('-->> Saving BC-VARETA Information file.')
+                        subject.BC_V_info.Processes(2).name         = 'Activation_level';
+                        subject.BC_V_info.Processes(2).completed    = true;
+                        BC_V_info                                   = subject.BC_V_info;
+                        save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                     else
                         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
                         disp(subject.name);
                         fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor process output.\n'));
                         disp("Please, run first the sensor process.");
-                        continue;
-                    end
-                else
-                    if((isfield(properties.BC_V_info,'sensor_level')))
-                        %% Data analysis for sensor and activation level by complete data
-                        [subject,properties]            = get_activation_priors(subject,properties);
-                        [subject,properties]            = data_analysis(subject,properties);
-                    else
-                        fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
-                        disp(subject.name);
-                        fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor process output.\n'));
-                        disp("Please, run first the sensor process.");
-                        continue;
-                    end
+                    end                    
                 end
-                disp('-->> Saving file.')
-                BC_V_info                               = properties.BC_V_info;
-                properties.level_process.name           = 'Activation_level';
-                properties.level_process.completed      = true;
-                BC_V_info.properties.activation_params  = properties.activation_params; 
-                disp(strcat("File: ", "BC_V_info.mat"));
-                save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
             end
             %%
             %% Data analysis for connectivity level
@@ -236,66 +208,51 @@ if(~isempty(subjects))
             if(isequal(properties.general_params.analysis_level.value,'3')...
                     || isequal(properties.general_params.analysis_level.value,'23')...
                     || isequal(properties.general_params.analysis_level.value,'all'))
-                [properties,canceled]                   = check_BC_V_info(properties,subject,3);
-                if(canceled)
-                    continue;
-                end                
-                properties.analysis_level               = 3;
-                if(properties.general_params.run_by_trial.value)
-                    if(isfield(properties.BC_V_info,'sensor_level') && isfield(properties.BC_V_info,'activation_level'))
-                        %% Data analysis for connectivity level by trials
-                        if(iscell(subject.data))
-                            data = subject.data;
-                            for m=1:length(data)
-                                properties.trial_name   = ['trial_',num2str(m)];
-                                subject.data            = data{1,m};
-                                [subject,properties]    = get_connectivity_priors(subject,properties);
-                                [subject,properties]    = data_analysis(subject,properties);
-                            end
-                            subject.data = data;
-                        else
-                            %% Data analysis for connectivity level by complete data
-                            [subject,properties]        = get_connectivity_priors(subject,properties);
-                            [subject,properties]        = data_analysis(subject,properties);
+                [subject,status]                                = check_BC_V_info(properties,subject,3);
+                if(status)
+                    if(properties.general_params.run_by_trial.value)
+                        data                                    = subject.data;
+                        for m=1:length(data)
+                            properties.trial_name               = ['trial_',num2str(m)];
+                            subject.data                        = data{1,m};
+                            [subject,properties]                = connectivity_level_interface(subject,properties);
                         end
+                        subject.data                            = data;
                     else
-                        fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
-                        disp(subject.name);
-                        fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor and activation process output.\n'));
-                        disp("Please, run first the sensor and activation process.");
-                        continue;
-                    end
+                        [subject,properties]                    = connectivity_level_interface(subject,properties);
+                    end 
+                    disp('=================================================================');
+                    disp('-->> Saving BC-VARETA Information file.') 
+                    subject.BC_V_info.Processes(3).name         = 'Connectivity_level';
+                    subject.BC_V_info.Processes(3).completed    = true;
+                    BC_V_info                                   = subject.BC_V_info;
+                    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                 else
-                    if((isfield(properties.BC_V_info,'sensor_level') && isfield(properties.BC_V_info,'activation_level')))
-                        %% Data analysis for connectivity level by complete data
-                        [subject,properties]                = get_connectivity_priors(subject,properties);
-                        [subject,properties]                = data_analysis(subject,properties);
-                    else
-                        fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
-                        disp(subject.name);
-                        fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor and activation process output.\n'));
-                        disp("Please, run first the sensor and activation process.");
-                        continue;
-                    end
+                    fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
+                    disp(subject.name);
+                    fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor and activation process output.\n'));
+                    disp("Please, run first the sensor and activation process.");
                 end
-                disp('-->> Saving file.')
-                BC_V_info                                   = properties.BC_V_info;
-                properties.level_process.name               = 'Connectivity_level';
-                properties.level_process.completed          = true;
-                BC_V_info.properties.connectivity_params    = properties.connectivity_params;               
-                disp(strcat("File: ", "BC_V_info.mat"));
-                save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
             end
+            BC_VARETA.Participants(i).SubID                     = subject.name;
+            BC_VARETA.Participants(i).Status                    = "Completed";
+            BC_VARETA.Participants(i).FileInfo                  = "BC_V_info.mat";
+            BC_VARETA.Participants(i).Error                     = [];
         else
+            BC_VARETA.Participants(i).SubID                     = subject.name;
+            BC_VARETA.Participants(i).Status                    = "Rejected";
+            BC_VARETA.Participants(i).FileInfo                  = "";
             fprintf(2,strcat('\nBC-V-->> Error: The folder structure for subject: ',subject.name,' \n'));
             fprintf(2,strcat('BC-V-->> Have the folows errors.\n'));
             for j=1:length(error_msg_array)
                 fprintf(2,strcat('BC-V-->>' ,error_msg_array(j), '.\n'));
+                BC_VARETA.Participants(i).Error(j)              = error_msg_array(j);
             end
             fprintf(2,strcat('BC-V-->> Jump to an other subject.\n'));
             continue;
-        end
+        end        
     end
+    save(fullfile(properties.general_params.bcv_workspace.BCV_work_dir ,'BC_VARETA.mat'),'-struct','BC_VARETA');
 else
     fprintf(2,strcat('\nBC-V-->> Error: The folder structure: \n'));
     disp(root_path);
@@ -303,5 +260,4 @@ else
     disp("Please verify the configuration of the input data and start the process again.");
     return;
 end
-
 end

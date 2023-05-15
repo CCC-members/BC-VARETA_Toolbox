@@ -1,6 +1,6 @@
-function [Svv_complex_r,K_r] = applying_reference(Svv_complex,K)
+function [Svv_complex_r,Lvj_r] = applying_reference(Svv_complex,Lvj)
 H  = eye(size(Svv_complex,1))-ones(size(Svv_complex,1))/size(Svv_complex,1);
-K_r = H*K;
+Lvj_r = H*Lvj;
 Svv_complex_r = Svv_complex;
 for ii = 1:size(Svv_complex,3)
     Svv_complex_r(:,:,ii) = H*squeeze(Svv_complex(:,:,ii))*H;

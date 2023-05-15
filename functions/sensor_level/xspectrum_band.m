@@ -7,11 +7,11 @@ function [Svv,Nf,Ns] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
 % =============================================================================@
 %
 %% Authors:
-%   Pedro A. Valdes-Sosa, 2010-2021
+%   Pedro A. Valdes-Sosa, 2010-2023
 %   Alberto Taboada-Crispi, 2016
-%   Deirel Paz-Linares, 2017-2021
+%   Deirel Paz-Linares, 2017-2023
 %   Eduardo Gonzalez-Moreira, 2017-2018
-%   Ariosky Areces-Gonzalez, 2018-2021
+%   Ariosky Areces-Gonzalez, 2018-2023
 %
 %
 %% Inputs:
@@ -29,7 +29,6 @@ function [Svv,Nf,Ns] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
 %
 %**************************************************************************
 %% Initialization oF variables...
-bash_mode   = properties.run_bash_mode.value;
 use_seg     = true;
 [Nc,Nt]     = size(data);
 deltat      = 1/(2*varf); % sliding window for hilbert envelope (adjusted by the response of the gaussian filter)
@@ -45,11 +44,11 @@ data        = data.*e;
 Nseg        = Nseg*2*Nw; % augmented number of segments 
 data        = reshape(data,Nc,Nt_seg,Nseg);
 Ns          = Nseg*Nt_seg; % sample number
-freqs       = properties.spectral_params.frequencies;
+freqs       = properties.sensor_params.frequencies;
 Nf          = length(freqs);
 Svv         = zeros(Nc,Nc,Nf);
 
-use_gpu     = properties.run_bash_mode.use_gpu;
+use_gpu     = properties.general_params.use_gpu.value;
 if(use_gpu)
     Svv_gpu = gpuArray(Svv);
 end
@@ -61,7 +60,7 @@ else
     W = fft(data,[],2);
 end
 W   = cat(2,W,conj(flip(W,2)));
-if(~bash_mode)
+if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...','windowstyle', 'modal');
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
@@ -82,7 +81,7 @@ for freq=1:Nf
     end
     clearvars dataEnv;
     fprintf(1,'\b\b\b\b%3.0f%%',(freq/Nf)*100);
-    if(~bash_mode)
+    if(getGlobalGuimode())
         waitbar((freq)/(Nf),process_waitbar,strcat("Computing cross-spectra: ",num2str(fix((freq/Nf)*100)),"%"));
     end
 end
