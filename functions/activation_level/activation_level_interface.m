@@ -27,7 +27,13 @@ subject.BC_V_info.generals(2).Comment        = 'Generals';
 subject.BC_V_info.generals(2).Ref_path       = strrep(reference_path{2},'\','/');
 subject.BC_V_info.generals(2).Name           = file_name;
 disp(strcat("File: ", file_name));
+if(getGlobalGuimode)
+    dlg = msgbox('Save operation in progress...');
+end
 parsave(fullfile(pathname ,file_name ),W);
+if ishghandle(dlg)
+    delete(dlg);
+end
 
 for f=1:length(sensor_level)
     ref_path                                    = sensor_level(f).Ref_path;

@@ -104,8 +104,8 @@ if(~isempty(subjects))
     properties.cmap_c               = color_map.cmap_c;
     
     %% Creating Dataset
-    BC_VARETA.Dataset_name          = properties.general_params.bcv_workspace.Dataset_name;
-    BC_VARETA.Description           = properties.general_params.bcv_workspace.Dataset_description;
+    BC_VARETA.Name                  = properties.general_params.dataset.Name;
+    BC_VARETA.Description           = properties.general_params.dataset.Description;
     BC_VARETA.general_params        = properties.general_params;
     BC_VARETA.sensor_params         = properties.sensor_params;
     BC_VARETA.activation_params     = properties.activation_params;
@@ -161,8 +161,8 @@ if(~isempty(subjects))
                     end
                     disp('=================================================================');
                     disp('-->> Saving BC-VARETA Information file.')                    
-                    subject.BC_V_info.level_process.name            = 'Sensor_level';
-                    subject.BC_V_info.level_process.completed       = true;
+                    subject.BC_V_info.Processes(1).name             = 'Sensor_level';
+                    subject.BC_V_info.Processes(1).completed        = true;
                     BC_V_info                                       = subject.BC_V_info;
                     save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                 end
@@ -190,8 +190,8 @@ if(~isempty(subjects))
                         end
                         disp('=================================================================');
                         disp('-->> Saving BC-VARETA Information file.')
-                        subject.BC_V_info.level_process.name        = 'Activation_level';
-                        subject.BC_V_info.level_process.completed   = true;
+                        subject.BC_V_info.Processes(2).name         = 'Activation_level';
+                        subject.BC_V_info.Processes(2).completed    = true;
                         BC_V_info                                   = subject.BC_V_info;
                         save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                     else
@@ -223,8 +223,8 @@ if(~isempty(subjects))
                     end 
                     disp('=================================================================');
                     disp('-->> Saving BC-VARETA Information file.') 
-                    subject.BC_V_info.level_process.name        = 'Connectivity_level';
-                    subject.BC_V_info.level_process.completed   = true;
+                    subject.BC_V_info.Processes(3).name         = 'Connectivity_level';
+                    subject.BC_V_info.Processes(3).completed    = true;
                     BC_V_info                                   = subject.BC_V_info;
                     save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                 else
@@ -236,9 +236,12 @@ if(~isempty(subjects))
             end
             BC_VARETA.Participants(i).SubID                     = subject.name;
             BC_VARETA.Participants(i).Status                    = "Completed";
+            BC_VARETA.Participants(i).FileInfo                  = "BC_V_info.mat";
+            BC_VARETA.Participants(i).Error                     = [];
         else
             BC_VARETA.Participants(i).SubID                     = subject.name;
             BC_VARETA.Participants(i).Status                    = "Rejected";
+            BC_VARETA.Participants(i).FileInfo                  = "";
             fprintf(2,strcat('\nBC-V-->> Error: The folder structure for subject: ',subject.name,' \n'));
             fprintf(2,strcat('BC-V-->> Have the folows errors.\n'));
             for j=1:length(error_msg_array)
