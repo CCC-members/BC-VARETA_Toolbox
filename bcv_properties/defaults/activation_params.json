@@ -67,7 +67,7 @@
             "value":1
         },
         "IsNeigh":{
-            "description":"default <<false>>. no neighbor structure <<false>>, Laplacian neighbor structure  <<true>>.",
+            "description":"default <<false>>. no neighbor structure <<false>>. Laplacian neighbor structure  <<true>>.",
             "value":1
         },
         "IsField":{
