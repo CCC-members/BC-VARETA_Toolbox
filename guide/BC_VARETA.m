@@ -10,9 +10,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         TestDataImportMenu             matlab.ui.container.Menu
         TestDataRunMenu                matlab.ui.container.Menu
         DatasetMenu                    matlab.ui.container.Menu
-        DatasetDeleteMenu              matlab.ui.container.Menu
-        DatasetListMenu                matlab.ui.container.Menu
         DatasetLoadMenu                matlab.ui.container.Menu
+        DatasetListMenu                matlab.ui.container.Menu
+        DatasetDeleteMenu              matlab.ui.container.Menu
         ExitMenu                       matlab.ui.container.Menu
         ToolsMenu                      matlab.ui.container.Menu
         GroupstastMenu                 matlab.ui.container.Menu
@@ -23,8 +23,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         DocumentationMenu              matlab.ui.container.Menu
         AboutMenu                      matlab.ui.container.Menu
         Toolbar                        matlab.ui.container.Toolbar
-        PushTool                       matlab.ui.container.toolbar.PushTool
+        NewProcessPushTool             matlab.ui.container.toolbar.PushTool
         Default_ParamsPushTool         matlab.ui.container.toolbar.PushTool
+        ListDatasetPushTool            matlab.ui.container.toolbar.PushTool
         CancelButton                   matlab.ui.control.Button
         RunButton                      matlab.ui.control.Button
         TabGroup                       matlab.ui.container.TabGroup
@@ -192,11 +193,13 @@ classdef BC_VARETA < matlab.apps.AppBase
         bcv_properties
         app_params; % Description        
         Name;
+        BCVdir;
+        Datasets_file;
         Datasets;
     end
     
-    properties (Access = public)
-        single_subject % Description
+    properties (Access = public)        
+         % Description
     end
     
     methods (Access = private)
@@ -654,10 +657,41 @@ classdef BC_VARETA < matlab.apps.AppBase
 
         % Code that executes after component creation
         function startupFcn(app)
-            addpath("app");
-            addpath(genpath("bcv_properties"));
-            addpath(genpath("external/fieldtrip"));
-            addpath("tools");            
+            %% Creating BC-VARETA files
+            homedir = char(java.lang.System.getProperty('user.home'));
+            app.BCVdir  = fullfile(homedir,"BC_VARETA");
+            if(~isfolder(app.BCVdir))
+                mkdir(app.BCVdir);
+            end
+            app.Datasets_file = fullfile(app.BCVdir,"Datasets.json");
+            if(isfile(app.Datasets_file))
+                TempDatasets = jsondecode(fileread(app.Datasets_file));
+                if(~isempty(TempDatasets))
+                    opts.Interpreter = 'tex';
+                    % Include the desired Default answer
+                    opts.Default = 'Yes';
+                    % Use the TeX interpreter to format the question
+                    quest = {strcat("BC-VARETA db have saved Datasets."), ...
+                        'Would you like import this the datasets?'};
+                    answer = questdlg(quest,'Apply changes',...
+                        'Load','Cancel',opts);
+                    % Handle response
+                    switch answer
+                        case 'Load'
+                            app.Datasets = TempDatasets;
+                            [icondata,iconcmap] = imread("guide/images/success.png");
+                            msg = msgbox({'The Datasets loaded successfully!!!'},'Success',"custom",icondata,iconcmap);
+                            movegui(msg,'north');
+                            disp("-->> Datasets loaded");                        
+                        case 'Cancel'
+                            app.Datasets = struct;
+                            saveJSON(app.Datasets,app.Datasets_file);
+                    end
+                end
+            else
+                app.Datasets = struct([]);
+                saveJSON(app.Datasets,app.Datasets_file);
+            end
             %% Load properties from files
             load_properties(app);  
             %% Set components from files
@@ -685,8 +719,9 @@ classdef BC_VARETA < matlab.apps.AppBase
                 if(~isempty(subjects))
                     app.gener_InputfolderEditField.Value = folder;
                 else
-                    msgbox({'The selected folder do not contains any BC-VARETA structure.',...
+                    msg = msgbox({'The selected folder do not contains any BC-VARETA structure.',...
                         ' Please select a correct folder.'},'Info');
+                    movegui(msg,'north');
                 end
             catch
             end
@@ -700,8 +735,9 @@ classdef BC_VARETA < matlab.apps.AppBase
                 if(values.UserWrite)
                     app.gener_OutputfolderEditField.Value = folder;
                 else
-                    msgbox({'The current user do not have write permissions on the selected forder.',...
+                    msg = msgbox({'The current user do not have write permissions on the selected forder.',...
                         ' Please check the folder permission or select another output folder.'},'Info');
+                    movegui(msg,'north');
                 end
             catch
             end
@@ -810,7 +846,8 @@ classdef BC_VARETA < matlab.apps.AppBase
                         app.gener_RunbytrialsSwitch.FontWeight = 'bold';
                     end
                 catch
-                    msgbox('Please select first the input data folder.','Info');
+                    msg = msgbox('Please select first the input data folder.','Info');
+                    movegui(msg,'north');
                     app.gener_RunbytrialsSwitch.Value = 'No';
                 end
             else
@@ -857,8 +894,9 @@ classdef BC_VARETA < matlab.apps.AppBase
                 catch
                     app.gener_RuninGPUSwitch.FontColor = 'k';
                     app.gener_RuninGPUSwitch.FontWeight = 'normal';
-                    msgbox({'BC-VARETA Toolbox con not be run in GPU on this PC.',...
+                    msg = msgbox({'BC-VARETA Toolbox con not be run in GPU on this PC.',...
                         'This PC do not have any GPU available.'},'Info');
+                    movegui(msg,'north');
                     app.gener_RuninGPUSwitch.Value = 'No';
                 end
             else
@@ -871,8 +909,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function delta_endEditFieldValueChanged(app, event)
             end_value = app.delta_endEditField.Value;
             if(end_value<= app.delta_startEditField.Value)
-                msgbox({'The end frequency value must be greater than the start value.',...
+                msg = msgbox({'The end frequency value must be greater than the start value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.delta_endEditField.Value = event.PreviousValue;
             end
         end
@@ -881,8 +920,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function delta_startEditFieldValueChanged(app, event)
             start_value = app.delta_startEditField.Value;
             if(start_value>= app.delta_endEditField.Value)
-                msgbox({'The start frequency value must be less than the end value.',...
+                msg = msgbox({'The start frequency value must be less than the end value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.delta_startEditField.Value = event.PreviousValue;
             end
         end
@@ -891,8 +931,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function theta_startEditFieldValueChanged(app, event)
             start_value = app.theta_startEditField.Value;
             if(start_value>= app.theta_endEditField.Value)
-                msgbox({'The start frequency value must be less than the end value.',...
+                msg = msgbox({'The start frequency value must be less than the end value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.theta_startEditField.Value = event.PreviousValue;
             end
         end
@@ -901,8 +942,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function theta_endEditFieldValueChanged(app, event)
             end_value = app.theta_endEditField.Value;
             if(end_value<= app.theta_startEditField.Value)
-                msgbox({'The end frequency value must be greater than the start value.',...
+                msg = msgbox({'The end frequency value must be greater than the start value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.theta_endEditField.Value = event.PreviousValue;
             end
         end
@@ -911,8 +953,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function alpha_startEditFieldValueChanged(app, event)
             start_value = app.alpha_startEditField.Value;
             if(start_value>= app.alpha_endEditField.Value)
-                msgbox({'The start frequency value must be less than the end value.',...
+                msg = msgbox({'The start frequency value must be less than the end value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.alpha_startEditField.Value = event.PreviousValue;
             end
         end
@@ -921,8 +964,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function alpha_endEditFieldValueChanged(app, event)
             end_value = app.alpha_endEditField.Value;
             if(end_value<= app.alpha_startEditField.Value)
-                msgbox({'The end frequency value must be greater than the start value.',...
+                msg = msgbox({'The end frequency value must be greater than the start value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.alpha_endEditField.Value = event.PreviousValue;
             end
         end
@@ -931,8 +975,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function beta_startEditFieldValueChanged(app, event)
             start_value = app.beta_startEditField.Value;
             if(start_value>= app.beta_endEditField.Value)
-                msgbox({'The start frequency value must be less than the end value.',...
+                msg = msgbox({'The start frequency value must be less than the end value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.beta_startEditField.Value = event.PreviousValue;
             end
         end
@@ -941,8 +986,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function beta_endEditFieldValueChanged(app, event)
             end_value = app.beta_endEditField.Value;
             if(end_value<= app.beta_startEditField.Value)
-                msgbox({'The end frequency value must be greater than the start value.',...
+                msg = msgbox({'The end frequency value must be greater than the start value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.beta_endEditField.Value = event.PreviousValue;
             end
         end
@@ -951,8 +997,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function gamma1_startEditFieldValueChanged(app, event)
             start_value = app.gamma1_startEditField.Value;
             if(start_value>= app.gamma1_endEditField.Value)
-                msgbox({'The start frequency value must be less than the end value.',...
+                msg = msgbox({'The start frequency value must be less than the end value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.gamma1_startEditField.Value = event.PreviousValue;
             end
         end
@@ -961,8 +1008,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function gamma1_endEditFieldValueChanged(app, event)
             end_value = app.gamma1_endEditField.Value;
             if(end_value<= app.gamma1_startEditField.Value)
-                msgbox({'The end frequency value must be greater than the start value.',...
+                msg = msgbox({'The end frequency value must be greater than the start value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.gamma1_endEditField.Value = event.PreviousValue;
             end
         end
@@ -971,8 +1019,9 @@ classdef BC_VARETA < matlab.apps.AppBase
         function gamma2_startEditFieldValueChanged(app, event)
             start_value = app.gamma2_startEditField.Value;
             if(start_value>= app.gamma2_endEditField.Value)
-                msgbox({'The start frequency value must be less than the end value.',...
+                msg = msgbox({'The start frequency value must be less than the end value.',...
                     'Please check the frequency input values.'},'Info');
+                movegui(msg,'north');
                 app.gamma2_startEditField.Value = event.PreviousValue;
             end
         end
@@ -1135,8 +1184,9 @@ classdef BC_VARETA < matlab.apps.AppBase
             output_path = app.gener_OutputfolderEditField.Value;
             [~,values] = fileattrib(output_path);
             if(~values.UserWrite)
-                msgbox({'The current user do not have write permission in this forlder.',...
+                msg = msgbox({'The current user do not have write permission in this forlder.',...
                     'Please check user permission or chenge the Output path.'},'Info');
+                movegui(msg,'north');
             end
         end
 
@@ -1145,35 +1195,47 @@ classdef BC_VARETA < matlab.apps.AppBase
             folder = uigetdir("Select the Dataset folder");
             dataset_file = fullfile(folder,'BC_VARETA.mat');
             if(isfile(dataset_file))
-                BC_VARETA = load(dataset_file);
-                if(~isempty(app.Datasets) && contains(BC_VARETA.Dataset_name,{app.Datasets.Dataset_name}))
+                BC_VARETA_info = load(dataset_file);
+                BC_VARETA_info.Path = folder;
+                if(~isempty(app.Datasets) && contains(BC_VARETA_info.Dataset_name,{app.Datasets.Dataset_name}))
                     opts.Interpreter = 'tex';
                     % Include the desired Default answer
                     opts.Default = 'Yes';
                     % Use the TeX interpreter to format the question
-                    quest = {strcat("The dataset: ", BC_VARETA.Dataset_name, " is already loaded"), ...
+                    quest = {strcat("The dataset: ", BC_VARETA_info.Dataset_name, " is already loaded"), ...
                         'Would you like import this the dataset anyway?'};
                     answer = questdlg(quest,'Apply changes',...
                         'Add','Replace','Cancel',opts);
                     % Handle response
                     switch answer
                         case 'Add'
-                            app.Datasets(end + 1) = BC_VARETA;
+                            app.Datasets(end + 1) = BC_VARETA_info;
                             [icondata,iconcmap] = imread("guide/images/success.png");
-                            msgbox({'The Dataset was loaded successfully!!!'},'Success',"custom",icondata,iconcmap);
+                            msg = msgbox({'The Dataset was loaded successfully!!!'},'Success',"custom",icondata,iconcmap);
+                            movegui(msg,'north');
+                            disp("-->> Dataset loaded");
+                            saveJSON(app.Datasets,app.Datasets_file);
                         case 'Replace'
-                            index = find(contains(BC_VARETA.Dataset_name,{app.Datasets.Name}),1);
-                            app.Datasets(index) = BC_VARETA;
+                            index = find(contains(BC_VARETA_info.Dataset_name,{app.Datasets.Name}),1);
+                            app.Datasets(index) = BC_VARETA_info;
+                            saveJSON(app.Datasets,app.Datasets_file);
+                            disp("-->> Dataset replaced");
+                            [icondata,iconcmap] = imread("guide/images/success.png");
+                            msg = msgbox({'The Dataset was replaced successfully!!!'},'Success',"custom",icondata,iconcmap);
+                            movegui(msg,'north');
                         case 'Cancel'
                     end
                 else
-                    app.Datasets = BC_VARETA;
+                    app.Datasets = BC_VARETA_info;
                     [icondata,iconcmap] = imread("guide/images/success.png");
                     msgbox({'The Dataset was loaded successfully!!!'},'Success',"custom",icondata,iconcmap);
+                    disp("-->> Dataset loaded");
+                    saveJSON(app.Datasets,app.Datasets_file);
                 end
             else
-                msgbox({'The selected folder do not contains the dataset file.',...
+                msg = msgbox({'The selected folder do not contains the dataset file.',...
                     ' Please select a correct folder.'},'Error',"error","modal");
+                movegui(msg,'north');
             end
 
         end
@@ -1232,6 +1294,29 @@ classdef BC_VARETA < matlab.apps.AppBase
         function TestDataImportMenuSelected(app, event)
             import_data_structure;
         end
+
+        % Menu selected function: DatasetListMenu
+        function DatasetListMenuSelected(app, event)
+            if(isempty(app.Datasets))
+                msg = msgbox({'There is no Dataset to show.',...
+                    'Please import or create a Dataset.'},'Info',"help","modal");
+                movegui(msg,'north');
+            else
+                datasetV                    = Dataset;    
+                datasetV.BCVdir             = app.BCVdir;
+                datasetV.Datasets_file      = app.Datasets_file;
+                datasetV.Datasets           = app.Datasets;
+                tableData.Name              = {app.Datasets.Dataset_name}';
+                tableData.Description       = {app.Datasets.Description}';
+                tableData.Path_Location     = {app.Datasets.Path}';
+                datasetV.UITable.Data       = struct2table(tableData);
+            end
+        end
+
+        % Callback function: ListDatasetPushTool
+        function ListDatasetPushToolClicked(app, event)
+            DatasetListMenuSelected(app, event);
+        end
     end
 
     % Component initialization
@@ -1249,6 +1334,7 @@ classdef BC_VARETA < matlab.apps.AppBase
             colormap(app.BCVARETAToolboxv10UIFigure, 'parula');
             app.BCVARETAToolboxv10UIFigure.Position = [100 100 698 517];
             app.BCVARETAToolboxv10UIFigure.Name = 'BC-VARETA Toolbox v1.0';
+            app.BCVARETAToolboxv10UIFigure.WindowStyle = 'alwaysontop';
 
             % Create FileMenu
             app.FileMenu = uimenu(app.BCVARETAToolboxv10UIFigure);
@@ -1287,6 +1373,7 @@ classdef BC_VARETA < matlab.apps.AppBase
 
             % Create DatasetListMenu
             app.DatasetListMenu = uimenu(app.DatasetMenu);
+            app.DatasetListMenu.MenuSelectedFcn = createCallbackFcn(app, @DatasetListMenuSelected, true);
             app.DatasetListMenu.Text = 'List';
 
             % Create DatasetDeleteMenu
@@ -1333,14 +1420,22 @@ classdef BC_VARETA < matlab.apps.AppBase
             % Create Toolbar
             app.Toolbar = uitoolbar(app.BCVARETAToolboxv10UIFigure);
 
-            % Create PushTool
-            app.PushTool = uipushtool(app.Toolbar);
+            % Create NewProcessPushTool
+            app.NewProcessPushTool = uipushtool(app.Toolbar);
+            app.NewProcessPushTool.Tooltip = {'New process'};
+            app.NewProcessPushTool.Icon = fullfile(pathToMLAPP, 'images', 'new_process.jpeg');
 
             % Create Default_ParamsPushTool
             app.Default_ParamsPushTool = uipushtool(app.Toolbar);
             app.Default_ParamsPushTool.Tooltip = {'Set default params'};
             app.Default_ParamsPushTool.ClickedCallback = createCallbackFcn(app, @Default_ParamsPushToolClicked, true);
             app.Default_ParamsPushTool.Icon = fullfile(pathToMLAPP, 'images', 'default.png');
+
+            % Create ListDatasetPushTool
+            app.ListDatasetPushTool = uipushtool(app.Toolbar);
+            app.ListDatasetPushTool.Tooltip = {'List Datasets'};
+            app.ListDatasetPushTool.ClickedCallback = createCallbackFcn(app, @ListDatasetPushToolClicked, true);
+            app.ListDatasetPushTool.Icon = fullfile(pathToMLAPP, 'images', 'list_dataset.png');
 
             % Create TabGroup
             app.TabGroup = uitabgroup(app.BCVARETAToolboxv10UIFigure);
@@ -1352,6 +1447,7 @@ classdef BC_VARETA < matlab.apps.AppBase
 
             % Create GeneralTab
             app.GeneralTab = uitab(app.TabGroup);
+            app.GeneralTab.Tooltip = {'General parameters for the analysis'};
             app.GeneralTab.Title = 'General';
 
             % Create gener_PrincipalParamsPanel
@@ -1510,6 +1606,7 @@ classdef BC_VARETA < matlab.apps.AppBase
 
             % Create SensorTab
             app.SensorTab = uitab(app.TabGroup);
+            app.SensorTab.Tooltip = {'Parameters in the first level of analysis or sensor.'};
             app.SensorTab.Title = 'Sensor';
 
             % Create spect_FreqPanel

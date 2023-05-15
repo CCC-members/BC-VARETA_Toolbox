@@ -25,6 +25,12 @@ disp('-->> Starting process');
 disp("=====================================================================");
 %restoredefaultpath;
 tic
+addpath('app');
+addpath('bcv_properties');
+addpath(genpath('functions'));
+addpath(genpath('guide'));
+addpath('tools');
+
 
 if(isequal(nargin,2))
     idnode = varargin{1};
@@ -44,10 +50,6 @@ for i=1:length(varargin)
       setGlobalGuimode(false);
     end
 end
-addpath('app')
-addpath('guide');
-addpath('bcv_properties');
-addpath('tools');
 
 %% Printing data information
 app_properties = jsondecode(fileread(strcat('app/properties.json')));
