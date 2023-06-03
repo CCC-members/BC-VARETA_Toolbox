@@ -78,39 +78,39 @@ if(start_ind>length(subjects))
 end
 if(~isequal(rest_sub,0))
     if(idnode<=rest_sub)
-        start_ind               = start_ind + idnode - 1;
-        end_ind                 = start_ind + sub_count;
+        start_ind                                               = start_ind + idnode - 1;
+        end_ind                                                 = start_ind + sub_count;
     else
-        start_ind               = start_ind + rest_sub;
-        end_ind                 = start_ind + sub_count - 1;
+        start_ind                                               = start_ind + rest_sub;
+        end_ind                                                 = start_ind + sub_count - 1;
     end
 else
-    end_ind                     = start_ind + sub_count - 1;
+    end_ind                                                     = start_ind + sub_count - 1;
 end
 if(sub_count == 0)
-    start_ind                   = idnode;
-    end_ind                     = idnode;
+    start_ind                                                   = idnode;
+    end_ind                                                     = idnode;
 end
-subjects                        = subjects([start_ind:end_ind]);
+subjects                                                        = subjects(start_ind:end_ind);
 
 %%
 %% Starting subjects analysis
 %%
 if(~isempty(subjects))
-    [properties]                    = define_frequency_bands(properties);
-    color_map                       = load(properties.general_params.colormap_path);
-    properties.cmap                 = color_map.cmap;
-    properties.cmap_a               = color_map.cmap_a;
-    properties.cmap_c               = color_map.cmap_c;
+    [properties]                                                = define_frequency_bands(properties);
+    color_map                                                   = load(properties.general_params.colormap_path);
+    properties.cmap                                             = color_map.cmap;
+    properties.cmap_a                                           = color_map.cmap_a;
+    properties.cmap_c                                           = color_map.cmap_c;
     
     %% Creating Dataset
-    BC_VARETA.Name                  = properties.general_params.dataset.Name;
-    BC_VARETA.Description           = properties.general_params.dataset.Description;
-    BC_VARETA.general_params        = properties.general_params;
-    BC_VARETA.sensor_params         = properties.sensor_params;
-    BC_VARETA.activation_params     = properties.activation_params;
-    BC_VARETA.connectivity_params   = properties.connectivity_params;
-    BC_VARETA.Participants          = [];
+    BC_VARETA.Name                                              = properties.general_params.dataset.Name;
+    BC_VARETA.Description                                       = properties.general_params.dataset.Description;
+    BC_VARETA.general_params                                    = properties.general_params;
+    BC_VARETA.sensor_params                                     = properties.sensor_params;
+    BC_VARETA.activation_params                                 = properties.activation_params;
+    BC_VARETA.connectivity_params                               = properties.connectivity_params;
+    BC_VARETA.Participants                                      = [];
     
     %%
     %% Starting analysis
@@ -130,40 +130,85 @@ if(~isempty(subjects))
             if(isequal(properties.general_params.analysis_level.value,'1')...
                     || isequal(properties.general_params.analysis_level.value,'12')...
                     || isequal(properties.general_params.analysis_level.value,'all'))
-                [subject,status]                                    = check_BC_V_info(properties,subject,1);
+                [subject,status]                                = check_BC_V_info(properties,subject,1);
                 if(status)
                     %%
                     %% Saving general variables for analysis
                     %%
-                    pathname_common                                 = fullfile(subject.subject_path,'Common');
+                    pathname_common                             = fullfile(subject.subject_path,'Common');
                     if(~isfolder(pathname_common))
                         mkdir(pathname_common);
                     end
-                    cortex                                          = subject.Scortex;
-                    file_name                                       = strcat('Cortex.mat');
+                    Sscalp                                      = subject.Shead;
+                    file_name                                   = strcat('Sscalp.mat');
                     disp(strcat("File: ", file_name));
-                    parsave(fullfile(pathname_common ,file_name ),cortex);
-                    reference_path                                  = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common.Comment                = 'Surfaces Cortex';
-                    subject.BC_V_info.common.Ref_path               = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common.Name                   = file_name;
+                    save(fullfile(pathname_common ,file_name ),'-struct','Sscalp');
+                    reference_path                              = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common(1).Comment         = 'Surfaces Scalp';
+                    subject.BC_V_info.common(1).Ref_path        = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common(1).Name            = file_name;
 
+                    Souter                                      = subject.Sout;
+                    file_name                                   = strcat('Souterskull.mat');
+                    disp(strcat("File: ", file_name));
+                    save(fullfile(pathname_common ,file_name ),'-struct','Souter');
+                    reference_path                              = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common(2).Comment         = 'Surfaces Outerskull';
+                    subject.BC_V_info.common(2).Ref_path        = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common(2).Name            = file_name;
+
+                    Sinner                                      = subject.Sinn;
+                    file_name                                   = strcat('Souterskull.mat');
+                    disp(strcat("File: ", file_name));
+                    save(fullfile(pathname_common ,file_name ),'-struct','Sinner');
+                    reference_path                              = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common(3).Comment         = 'Surfaces Innerskull';
+                    subject.BC_V_info.common(3).Ref_path        = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common(3).Name            = file_name;
+
+                    cortex                                      = subject.Scortex;
+                    file_name                                   = strcat('Cortex.mat');
+                    disp(strcat("File: ", file_name));
+                    save(fullfile(pathname_common ,file_name ),'-struct','cortex');
+                    reference_path                              = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common(4).Comment         = 'Surfaces Cortex';
+                    subject.BC_V_info.common(4).Ref_path        = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common(4).Name            = file_name;
+
+                    meeg                                        = subject.MEEG;
+                    file_name                                   = strcat('MEEG.mat');
+                    disp(strcat("File: ", file_name));
+                    save(fullfile(pathname_common ,file_name ),'-struct','meeg');
+                    reference_path                              = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common(5).Comment         = 'MEEG data';
+                    subject.BC_V_info.common(5).Ref_path        = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common(5).Name            = file_name;
+
+                    Channels                                    = subject.Cdata;
+                    file_name                                   = strcat('Channels.mat');
+                    disp(strcat("File: ", file_name));
+                    save(fullfile(pathname_common ,file_name ),'-struct','Channels');
+                    reference_path                              = strsplit(pathname_common,subject.name);
+                    subject.BC_V_info.common(6).Comment         = 'Channels data';
+                    subject.BC_V_info.common(6).Ref_path        = strrep(reference_path{2},'\','/');
+                    subject.BC_V_info.common(6).Name            = file_name;
+                   
                     if(properties.general_params.run_by_trial.value)
-                        data                                        = subject.MEEG.data;
+                        data                                    = subject.MEEG.data;
                         for m=1:length(data)
-                            properties.trial_name                   = ['trial_',num2str(m)];
-                            subject.MEEG.data                       = data{1,m};
-                            [subject,properties]                    = sensor_level_analysis(subject,properties);
+                            properties.trial_name               = ['trial_',num2str(m)];
+                            subject.MEEG.data                   = data{1,m};
+                            [subject,properties]                = sensor_level_analysis(subject,properties);
                         end
-                        subject.MEEG.data                           = data;
+                        subject.MEEG.data                       = data;
                     else
-                        [subject,properties]                        = sensor_level_analysis(subject,properties);
+                        [subject,properties]                    = sensor_level_analysis(subject,properties);
                     end
                     disp('=================================================================');
                     disp('-->> Saving BC-VARETA Information file.')                    
-                    subject.BC_V_info.Processes(1).name             = 'Sensor_level';
-                    subject.BC_V_info.Processes(1).completed        = true;
-                    BC_V_info                                       = subject.BC_V_info;
+                    subject.BC_V_info.Processes(1).name         = 'Sensor_level';
+                    subject.BC_V_info.Processes(1).completed    = true;
+                    BC_V_info                                   = subject.BC_V_info;
                     save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                 end
             end
@@ -174,25 +219,25 @@ if(~isempty(subjects))
                     || isequal(properties.general_params.analysis_level.value,'12')...
                     || isequal(properties.general_params.analysis_level.value,'23')...
                     || isequal(properties.general_params.analysis_level.value,'all'))
-                [subject,status]                                    = check_BC_V_info(properties,subject,2);
+                [subject,status]                                = check_BC_V_info(properties,subject,2);
                 if(status)
                     if((isfield(subject.BC_V_info,'sensor_level')))
                         if(properties.general_params.run_by_trial.value)
-                            data                                    = subject.data;
+                            data                                = subject.data;
                             for m=1:length(data)
-                                properties.trial_name               = ['trial_',num2str(m)];
-                                subject.data                        = data{1,m};
-                                [subject,properties]                = activation_level_interface(subject,properties);
+                                properties.trial_name           = ['trial_',num2str(m)];
+                                subject.data                    = data{1,m};
+                                [subject,properties]            = activation_level_interface(subject,properties);
                             end
-                            subject.data                            = data;
+                            subject.data                        = data;
                         else
-                            [subject,properties]                    = activation_level_interface(subject,properties);
+                            [subject,properties]                = activation_level_interface(subject,properties);
                         end
                         disp('=================================================================');
                         disp('-->> Saving BC-VARETA Information file.')
-                        subject.BC_V_info.Processes(2).name         = 'Activation_level';
-                        subject.BC_V_info.Processes(2).completed    = true;
-                        BC_V_info                                   = subject.BC_V_info;
+                        subject.BC_V_info.Processes(2).name      = 'Activation_level';
+                        subject.BC_V_info.Processes(2).completed = true;
+                        BC_V_info                                = subject.BC_V_info;
                         save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
                     else
                         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));

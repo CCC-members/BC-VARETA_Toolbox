@@ -31,7 +31,7 @@ if(getGlobalGuimode)
     dlg = msgbox('Save operation in progress...');
 end
 parsave(fullfile(pathname ,file_name ),W);
-if ishghandle(dlg)
+if exist('dlg','var')
     delete(dlg);
 end
 
