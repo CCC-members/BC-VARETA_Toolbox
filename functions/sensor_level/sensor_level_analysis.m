@@ -17,11 +17,11 @@ if(properties.general_params.run_by_trial.value)
     trial_name  = properties.trial_name;
     pathname              = fullfile(subject.subject_path,trial_name,text_level);
     pathname_generals     = fullfile(subject.subject_path,trial_name,'Generals');
-    pathname_funtional    = fullfile(subject.subject_path,trial_name,'Generals','Funtional');
+    pathname_funtional    = fullfile(subject.subject_path,trial_name,'Generals','Functional');
 else
     pathname              = fullfile(subject.subject_path,text_level);
     pathname_generals     = fullfile(subject.subject_path,'Generals');
-    pathname_funtional    = fullfile(subject.subject_path,'Generals','Funtional');
+    pathname_funtional    = fullfile(subject.subject_path,'Generals','Functional');
 end
 if(~isfolder(pathname))
     mkdir(pathname);
