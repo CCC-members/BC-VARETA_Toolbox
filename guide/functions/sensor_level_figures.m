@@ -6,6 +6,47 @@ f_path          = mfilename('fullpath');
 addpath(genpath(fullfile(ref_path,'external/fieldtrip')));
 ft_defaults
 
+
+%%
+%% Plot Power Spectral Density
+%%
+
+PSD_log = 10*log10(abs(PSD));
+min_psd = min(PSD_log(:));
+max_psd = max(PSD_log(:));
+plot_peak = min_psd*ones(Nf,1);
+peak_pos = nf1:nf2;
+properties.peak_pos = peak_pos;
+Svv = mean(Svv(:,:,peak_pos),3);
+fig_title = strcat("Power Spectral Density - ", band.name,'_',string(band.f_start),'Hz-',string(band.f_end),'Hz');
+if(~isfile(fullfile(properties.pathname,strcat(fig_title,'.fig'))))
+    % just for the plot
+    [f1,nf1] = min(abs(F - band.f_start));
+    [f2,nf2] = min(abs(F - band.f_end));
+    plot_peak(nf1:nf2) = max_psd;
+    
+    
+    figure_band = figure('Color','w','Name',fig_title,'NumberTitle','off');
+    
+    %     define_ico(figure_band);
+    hold on;
+    plot(F,PSD_log);
+    plot(F,plot_peak,'--k');
+    set(gca,'Color','w','XColor','k','YColor','k');
+    ylabel('PSD (dB)','Color','k');
+    xlabel('Freq. (Hz)','Color','k');
+    title(strcat("Power Spectral Density - ",band.name, " band"),'Color','k');
+    
+    text_cross = strcat(string(band.f_start),"Hz - ", string(band.f_end), "Hz");
+    text(band.f_end,max_psd*0.9,text_cross,'Color','k','FontSize',12,'HorizontalAlignment','center');
+    
+    pause(1e-10);
+    
+    % Saving figure band
+    saveas(figure_band,fullfile(properties.pathname,strcat(fig_title,'.fig')));
+    close(figure_band);
+end
+
 %% Sensor level figures
 
 figure_name = strcat('Scalp 2D - ',band.str_band);
