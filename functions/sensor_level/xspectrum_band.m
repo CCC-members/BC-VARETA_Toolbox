@@ -1,4 +1,4 @@
-function [Svv,Nf,Ns] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
+function [Svv,Nf,Ns,PSD] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
 % xspectrum estimates the Cross Spectrum of the input M/EEG data by Hilbert Transform
 %%
 % =============================================================================
@@ -24,7 +24,6 @@ function [Svv,Nf,Ns] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties)
 %    PSD      = estimated power spectral density of input EEG data
 %    Svv      = estimated cross spectrum of input EEG data
 %    Ns       = number of segments in which the EEG signal is wrapped
-%    Svv      =
 %
 %
 %**************************************************************************
@@ -88,6 +87,12 @@ end
 fprintf(1,'\n');
 if(use_gpu)
     Svv = gather(Svv_gpu);
+end
+
+%% Estimation of Power Spectral Density (PSD)...
+PSD = zeros(Nc,Nf);
+for freq = 1:Nf
+    PSD(:,freq) = diag(squeeze(abs(Svv(:,:,freq))));
 end
 
 end

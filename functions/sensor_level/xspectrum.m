@@ -24,7 +24,6 @@ function [Svv,Nf,Ns,PSD] = xspectrum(data, Fs, Fm, deltaf, varf, Nw, properties)
 %    PSD      = estimated power spectral density of input EEG data
 %    Svv      = estimated cross spectrum of input EEG data
 %    Ns       = number of segments in which the EEG signal is wrapped
-%    Svv      =
 %
 %
 %**************************************************************************

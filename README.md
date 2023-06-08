@@ -22,7 +22,6 @@ Main Function for MEEG real data analysis
   
 Inputs for bash:
     - configure files:
-        app/processes.json
         app/properties.json
         bcv_properties/general_params.json
         bcv_properties/sensor_params.json
