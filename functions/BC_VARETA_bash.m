@@ -57,7 +57,7 @@ root_path                       = properties.general_params.bcv_workspace.BCV_in
 subjects                        = dir(fullfile(root_path,'**','subject.mat'));
 
 %%
-%% Multi-node process ( dividing data subjects by each node)
+%% Multi-node process ( splitting data subjects by each node)
 %%
 subjects = multinode_subjects(subjects,idnode,total_node);
 
