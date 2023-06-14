@@ -20,6 +20,7 @@ function Main(varargin)
 %% Preparing WorkSpace
 clc;
 close all;
+restoredefaultpath;
 clearvars -except varargin;
 disp('-->> Starting process');
 disp("=====================================================================");
@@ -27,9 +28,14 @@ disp("=====================================================================");
 tic
 addpath('app');
 addpath('bcv_properties');
+addpath(genpath('external'));
 addpath(genpath('functions'));
 addpath(genpath('guide'));
 addpath('tools');
+% Remove fieldtrip path for override functions 
+warning off;
+rmpath(genpath(fullfile('external/fieldtrip')));
+warning on;
 
 
 if(isequal(nargin,2))

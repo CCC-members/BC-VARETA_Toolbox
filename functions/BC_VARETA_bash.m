@@ -18,25 +18,24 @@ function BC_VARETA_bash(varargin)
 
 if(isequal(nargin,2))
     idnode = varargin{1};
-    count_node = varargin{2};
-    if(~isnumeric(idnode) || ~isnumeric(count_node))
+    total_node = varargin{2};
+    if(~isnumeric(idnode) || ~isnumeric(total_node))
         fprintf(2,"\n ->> Error: The selected node and count of nodes have to be numbers \n");
         return;
     end
 else
     idnode = 1;
-    count_node = 1;
+    total_node = 1;
 end
 disp(strcat("-->> Working in instance: ",num2str(idnode)));
 disp('---------------------------------------------------------------------');
 
-%%
-
+%% Adding paths
 addpath(genpath('functions'));
 addpath(('external'));
 addpath(('external/osl_core'));
 addpath(genpath('external/MEG-ROI-nets'));
-% process_waitbar = waitbar(0,'Please wait...');
+
 %%
 %% Defining parameters
 %%
@@ -56,42 +55,11 @@ properties.activation_params    = properties.activation_params.params;
 properties.connectivity_params  = properties.connectivity_params.params;
 root_path                       = properties.general_params.bcv_workspace.BCV_input_dir;
 subjects                        = dir(fullfile(root_path,'**','subject.mat'));
+
 %%
-%% Multi-node process ( dividing data subjects by each node)
+%% Multi-node process ( splitting data subjects by each node)
 %%
-if(length(subjects)< idnode)
-    warning("BC-V-->> There is not enough data to run in this node");
-    disp(strcat("BC-V-->> Closing process in nodo: ",num2str(idnode),"."));
-    return;
-end
-sub_count                       = fix(length(subjects)/count_node);
-rest_sub                        = mod(length(subjects),count_node);
-start_ind                       = idnode * sub_count - sub_count + 1;
-% end_ind = idnode * sub_count;
-if(start_ind>length(subjects))
-    fprintf(2,strcat('\nBC-V-->> Error: The follow folder: \n'));
-    disp(root_path);
-    fprintf(2,strcat('BC-V-->> Error: Does not contain enough data to process on this node.\n'));
-    fprintf(2,strcat('BC-V-->> Error: Or Does not contain any subject information file.\n'));
-    disp("Please verify the configuration of the input data and start the process again.");
-    return;
-end
-if(~isequal(rest_sub,0))
-    if(idnode<=rest_sub)
-        start_ind                                               = start_ind + idnode - 1;
-        end_ind                                                 = start_ind + sub_count;
-    else
-        start_ind                                               = start_ind + rest_sub;
-        end_ind                                                 = start_ind + sub_count - 1;
-    end
-else
-    end_ind                                                     = start_ind + sub_count - 1;
-end
-if(sub_count == 0)
-    start_ind                                                   = idnode;
-    end_ind                                                     = idnode;
-end
-subjects                                                        = subjects(start_ind:end_ind);
+subjects = multinode_subjects(subjects,idnode,total_node);
 
 %%
 %% Starting subjects analysis
@@ -132,66 +100,8 @@ if(~isempty(subjects))
                     || isequal(properties.general_params.analysis_level.value,'all'))
                 [subject,status]                                = check_BC_V_info(properties,subject,1);
                 if(status)
-                    %%
-                    %% Saving general variables for analysis
-                    %%
-                    pathname_common                             = fullfile(subject.subject_path,'Common');
-                    if(~isfolder(pathname_common))
-                        mkdir(pathname_common);
-                    end
-                    Sscalp                                      = subject.Shead;
-                    file_name                                   = strcat('Sscalp.mat');
-                    disp(strcat("File: ", file_name));
-                    save(fullfile(pathname_common ,file_name ),'-struct','Sscalp');
-                    reference_path                              = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common(1).Comment         = 'Surfaces Scalp';
-                    subject.BC_V_info.common(1).Ref_path        = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common(1).Name            = file_name;
-
-                    Souter                                      = subject.Sout;
-                    file_name                                   = strcat('Souterskull.mat');
-                    disp(strcat("File: ", file_name));
-                    save(fullfile(pathname_common ,file_name ),'-struct','Souter');
-                    reference_path                              = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common(2).Comment         = 'Surfaces Outerskull';
-                    subject.BC_V_info.common(2).Ref_path        = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common(2).Name            = file_name;
-
-                    Sinner                                      = subject.Sinn;
-                    file_name                                   = strcat('Souterskull.mat');
-                    disp(strcat("File: ", file_name));
-                    save(fullfile(pathname_common ,file_name ),'-struct','Sinner');
-                    reference_path                              = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common(3).Comment         = 'Surfaces Innerskull';
-                    subject.BC_V_info.common(3).Ref_path        = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common(3).Name            = file_name;
-
-                    cortex                                      = subject.Scortex;
-                    file_name                                   = strcat('Cortex.mat');
-                    disp(strcat("File: ", file_name));
-                    save(fullfile(pathname_common ,file_name ),'-struct','cortex');
-                    reference_path                              = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common(4).Comment         = 'Surfaces Cortex';
-                    subject.BC_V_info.common(4).Ref_path        = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common(4).Name            = file_name;
-
-                    meeg                                        = subject.MEEG;
-                    file_name                                   = strcat('MEEG.mat');
-                    disp(strcat("File: ", file_name));
-                    save(fullfile(pathname_common ,file_name ),'-struct','meeg');
-                    reference_path                              = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common(5).Comment         = 'MEEG data';
-                    subject.BC_V_info.common(5).Ref_path        = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common(5).Name            = file_name;
-
-                    Channels                                    = subject.Cdata;
-                    file_name                                   = strcat('Channels.mat');
-                    disp(strcat("File: ", file_name));
-                    save(fullfile(pathname_common ,file_name ),'-struct','Channels');
-                    reference_path                              = strsplit(pathname_common,subject.name);
-                    subject.BC_V_info.common(6).Comment         = 'Channels data';
-                    subject.BC_V_info.common(6).Ref_path        = strrep(reference_path{2},'\','/');
-                    subject.BC_V_info.common(6).Name            = file_name;
+                    % Saving data
+                    subject = BC_V_save(properties,subject,'common');                    
                    
                     if(properties.general_params.run_by_trial.value)
                         data                                    = subject.MEEG.data;

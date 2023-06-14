@@ -1,4 +1,4 @@
-function [subject,properties] = activation_level_lcmv(subject,properties)
+function [subject,properties,outputs] = activation_level_lcmv(subject,properties)
 
 % Authors:
 % - Deirel Paz Linares
@@ -18,8 +18,6 @@ function [subject,properties] = activation_level_lcmv(subject,properties)
 %% Preparing params
 Lvj           = subject.Ke;
 W             = subject.W;
-cmap_a        = properties.cmap_a;
-Sc            = subject.Scortex;
 sub_to_FSAve  = subject.sub_to_FSAve;
 pathname      = properties.pathname;
 
@@ -118,39 +116,16 @@ for h=1:length(sub_to_FSAve)
     J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(3)))/3;
     Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(3)))/3; 
 end
-
-%%
-%% Plotting results
-%%
-sources_iv          = sqrt(abs(J));
-sources_iv          = sources_iv/max(sources_iv(:));
-
-figure_name = strcat('BC-VARETA-activation - ',str_band);
-
-figure_BC_VARETA1 = figure('Color','w','Name',figure_name,'NumberTitle','off'); hold on;
-
-define_ico(figure_BC_VARETA1);
-patch('Faces',Sc.Faces,'Vertices',Sc.Vertices,'FaceVertexCData',sources_iv,'FaceColor','interp','EdgeColor','none','FaceAlpha',.85);
-set(gca,'Color','w');
-az = 0; el = 0;
-view(az,el);
-rotate3d on;
-colormap(gca,cmap_a);
-title('BC-VARETA-activation','Color','k','FontSize',16);
-
-disp('-->> Saving figure');
-file_name = strcat('BC_VARETA_activation','_',str_band,'.fig');
-saveas(figure_BC_VARETA1,fullfile(pathname,file_name));
-
-pause(1e-12);
-
-close(figure_BC_VARETA1);
-
-%% Saving files
-disp('-->> Saving file')
-subject.file_name = strcat('MEEG_source_',str_band,'.mat');
-disp(strcat("File: ", subject.file_name));
-parsave(fullfile(pathname ,subject.file_name ),s2j,sigma_post,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
-
+outputs.s2j = s2j;
+outputs.sigma_post = sigma_post;
+outputs.T = T;
+outputs.scaleSvv = scaleSvv;
+outputs.scaleKe = scaleKe;
+outputs.stat = stat;
+outputs.J = J;
+outputs.Jsp = Jsp;
+outputs.indms = indms;
+outputs.J_FSAve = J_FSAve;
+outputs.Jsp_FSAve = Jsp_FSAve;
 end
 

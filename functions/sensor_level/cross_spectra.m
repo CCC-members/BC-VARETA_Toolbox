@@ -32,21 +32,19 @@ rmpath(genpath(fullfile('external/fieldtrip')));
 warning on;
 % estimates the Cross Spectrum of the input M/EEG data
 if(isequal(lower(properties.sensor_params.method.value),"hilbert"))
-if(~properties.general_params.run_frequency_bin.value &&  properties.general_params.run_frequency_bin.band_mean)    
-    [Svv_channel,Nf,Nseg] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties);
-    PSD = [];
-else
-    [Svv_channel,Nf,Nseg,PSD] = xspectrum(data, Fs, Fmax, deltaf, varf, Nw, properties); 
-end
+    if(~properties.general_params.run_frequency_bin.value &&  properties.general_params.run_frequency_bin.band_mean)
+        [Svv_channel,Nf,Nseg] = xspectrum_band(data, Fs, deltaf, varf, Nw, properties);
+        PSD = [];
+    else
+        [Svv_channel,Nf,Nseg,PSD] = xspectrum(data, Fs, Fmax, deltaf, varf, Nw, properties);
+    end
 elseif(isequal(lower(properties.sensor_params.method.value),"thomson"))
-    [Svv_channel,Nf,Nseg,PSD] = xspectrum_thomson(data, Fs, Fmax, deltaf, properties); 
+    [Svv_channel,Nf,Nseg,PSD] = xspectrum_thomson(data, Fs, Fmax, deltaf, properties);
 else
-    
+
 end
 disp('-->> Applying average reference.');
 for jj = 1:Nf
     [Svv_channel(:,:,jj),Lvj] = applying_reference(Svv_channel(:,:,jj),Lvj);    % applying average reference...
 end
-
-
 end

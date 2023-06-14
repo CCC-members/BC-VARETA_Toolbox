@@ -6,8 +6,10 @@ See description of BC-VARETA and example in simulations at the link https://gith
 References:
 
     Paz-Linares, D., Gonzalez-Moreira, E., Martinez-Montes, E. and Valdes-Sosa, P.A., 2018. Note on the Estimation of Embedded Hermitian Gaussian Graphical Models for MEEG Source Activity and Connectivity Analysis in the Frequency Domain. Part I: Single Frequency Component and Subject. arXiv preprint arXiv:1810.01174. https://arxiv.org/abs/1810.01174
-
+    Paz-Linares Deirel, Gonzalez-Moreira Eduardo, Areces-Gonzalez Ariosky, et al. (2023),Minimizing the distortions in electrophysiological source imaging of cortical oscillatory activity via Spectral Structured Sparse Bayesian Learning. URL: https://www.frontiersin.org/articles/10.3389/fnins.2023.978527 DOI:10.3389/fnins.2023.978527
+   
     Paz-Linares, D., Gonzalez-Moreira, E., Martinez-Montes, E., Valdes-Hernandez, P.A., Bosch-Bayard, J., Bringas-Vega, M.L. and Valdes-Sosa, P.A., 2018. Caulking the Leakage Effect in MEEG Source Connectivity Analysis. arXiv preprint arXiv:1810.00786. https://arxiv.org/abs/1810.00786
+    Paz-Linares D., Gonzalez-Moreira E., Areces-Gonzalez A., Wang Y., Li M., Martinez-Montes E., et al.. (2022). Identification of oscillatory brain networks with hidden gaussian graphical spectral models of EEG/MEG. ArXiv [Preprint]. arXiv:1810.01174. 10.48550/arXiv.1810.01174
 
 CCC-members/BC-VARETA_Toolbox direct sourse:
 
@@ -22,7 +24,6 @@ Main Function for MEEG real data analysis
   
 Inputs for bash:
     - configure files:
-        app/processes.json
         app/properties.json
         bcv_properties/general_params.json
         bcv_properties/sensor_params.json
