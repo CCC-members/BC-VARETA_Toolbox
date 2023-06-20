@@ -43,7 +43,7 @@ subject.BC_V_info.generals(iter).Ref_path    = strrep(reference_path{2},'\','/')
 subject.BC_V_info.generals(iter).Name        = file_name;
 disp(strcat("File: ", file_name));
 parsave(fullfile(pathname ,file_name ),W);
-
+pos = 1;
 for i=1:length(activation_level)
     activ_file                                   = activation_level(i);
     sensor_file                                  = sensor_level(contains({sensor_level.Freq},activ_file.Freq));
@@ -73,14 +73,13 @@ for i=1:length(activation_level)
     %% Band Analysis, connectivity level
     %%
     for m=1:length(properties.connectivity_params.methods)
-        analysis_method                                             = properties.connectivity_params.methods{m};
-        fields                                                      = fieldnames(analysis_method);
-        method_name                                                 = fields{1};
-        if(analysis_method.(method_name).run)
+        analysis_method                                             = properties.connectivity_params.methods{m};        
+        method                                                      = analysis_method.method;  
+        if(analysis_method.run)
             disp('-----------------------------------------------------------------');
             disp(strcat("-->> Start time: ",datestr(now,'mmmm dd, yyyy HH:MM:SS AM')));
-            switch method_name
-                case 'higgs'
+            switch m
+                case 1
                     if(properties.general_params.run_by_trial.value)
                         trial_name                                  = properties.trial_name;
                         subject.pathname                         = fullfile(subject.subject_path,trial_name,text_level,'HIGGS',band.name);
@@ -90,9 +89,9 @@ for i=1:length(activation_level)
                     if(~isfolder(subject.pathname))
                         mkdir(subject.pathname);
                     end
-                    properties.connectivity_params.higgs_th         = analysis_method.(method_name).higgs_th;
+                   
                     [Thetajj,s2j,Tjv,llh,properties]                = connectivity_level_higgs(subject,properties);
-                case 'hg_lasso'
+                case 2
                     if(properties.general_params.run_by_trial.value)
                         trial_name                                  = properties.trial_name;
                         subject.pathname                         = fullfile(subject.subject_path,trial_name,text_level,'HG_LASSO',band.name);
@@ -102,10 +101,12 @@ for i=1:length(activation_level)
                     if(~isfolder(subject.pathname))
                         mkdir(subject.pathname);
                     end
-                    properties.connectivity_params.hg_lasso_th      = analysis_method.(method_name).hg_lasso_th;
+                    properties.connectivity_params.hg_lasso_th      = analysis_method.threshold;
                     [Thetajj,Sjj,Sigmajj]                           = connectivity_level_hg_lasso(subject,properties);
             end
             disp(strcat("-->> End time: ",datestr(now,'mmmm dd, yyyy HH:MM:SS AM')));
+            subject                                             = BC_V_save(properties,subject,'activation',method,outputs,pos,band);
+            pos                                                 = pos + 1;
 
             reference_path = strsplit(subject.pathname,subject.name);
             if(~isfield(subject.BC_V_info,'connectivity_level'))

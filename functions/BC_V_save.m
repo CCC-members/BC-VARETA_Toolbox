@@ -200,3 +200,25 @@ if(isequal(process,'activation'))
     subject.BC_V_info.activation_level(pos).Name        = file_name;
 
 end
+
+if(isequal(process,'level1'))
+    disp('-->> Saving BC-VARETA Information file.')
+    subject.BC_V_info.Processes(1).name         = 'Sensor_level';
+    subject.BC_V_info.Processes(1).completed    = true;
+    BC_V_info                                   = subject.BC_V_info;
+    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+end
+if(isequal(process,'level2'))
+    disp('-->> Saving BC-VARETA Information file.')
+    subject.BC_V_info.Processes(2).name      = 'Activation_level';
+    subject.BC_V_info.Processes(2).completed = true;
+    BC_V_info                                = subject.BC_V_info;
+    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+end
+if(isequal(process,'level3'))
+    disp('-->> Saving BC-VARETA Information file.')
+    subject.BC_V_info.Processes(3).name         = 'Connectivity_level';
+    subject.BC_V_info.Processes(3).completed    = true;
+    BC_V_info                                   = subject.BC_V_info;
+    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+end

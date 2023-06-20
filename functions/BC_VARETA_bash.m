@@ -59,7 +59,7 @@ subjects                        = dir(fullfile(root_path,'**','subject.mat'));
 %%
 %% Multi-node process ( splitting data subjects by each node)
 %%
-subjects = multinode_subjects(subjects,idnode,total_node);
+subjects                        = multinode_subjects(subjects,idnode,total_node);
 
 %%
 %% Starting subjects analysis
@@ -101,7 +101,7 @@ if(~isempty(subjects))
                 [subject,status]                                = check_BC_V_info(properties,subject,1);
                 if(status)
                     % Saving data
-                    subject = BC_V_save(properties,subject,'common');                    
+                    subject                                     = BC_V_save(properties,subject,'common');                    
                    
                     if(properties.general_params.run_by_trial.value)
                         data                                    = subject.MEEG.data;
@@ -115,11 +115,8 @@ if(~isempty(subjects))
                         [subject,properties]                    = sensor_level_analysis(subject,properties);
                     end
                     disp('=================================================================');
-                    disp('-->> Saving BC-VARETA Information file.')                    
-                    subject.BC_V_info.Processes(1).name         = 'Sensor_level';
-                    subject.BC_V_info.Processes(1).completed    = true;
-                    BC_V_info                                   = subject.BC_V_info;
-                    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+                    subject                                     = BC_V_save(properties,subject,'level1');
+                    
                 end
             end
             %%
@@ -144,11 +141,8 @@ if(~isempty(subjects))
                             [subject,properties]                = activation_level_interface(subject,properties);
                         end
                         disp('=================================================================');
-                        disp('-->> Saving BC-VARETA Information file.')
-                        subject.BC_V_info.Processes(2).name      = 'Activation_level';
-                        subject.BC_V_info.Processes(2).completed = true;
-                        BC_V_info                                = subject.BC_V_info;
-                        save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+                        subject                                 = BC_V_save(properties,subject,'level2');
+                        
                     else
                         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
                         disp(subject.name);
@@ -177,11 +171,7 @@ if(~isempty(subjects))
                         [subject,properties]                    = connectivity_level_interface(subject,properties);
                     end 
                     disp('=================================================================');
-                    disp('-->> Saving BC-VARETA Information file.') 
-                    subject.BC_V_info.Processes(3).name         = 'Connectivity_level';
-                    subject.BC_V_info.Processes(3).completed    = true;
-                    BC_V_info                                   = subject.BC_V_info;
-                    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+                    subject                                     = BC_V_save(properties,subject,'level3');                    
                 else
                     fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
                     disp(subject.name);

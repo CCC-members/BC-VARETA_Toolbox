@@ -30,8 +30,8 @@ str_band            = band.str_band;
 %%
 %% sSSBL++ activation parameters
 %%
-activation_params   = properties.activation_params;
-sssblpp_th          = activation_params.sssblpp_th.value;
+activation_params   = properties.activation_params.methods{1};
+threshold           = activation_params.threshold.value;
 IsField             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
 IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
 
@@ -54,7 +54,7 @@ if IsCurv == 0
     end
     clearvars Ke;    
     stat                    = sqrt(2)*s2j./sqrt(var(s2j));
-    indms                   = find(stat > sssblpp_th);  
+    indms                   = find(stat > threshold);  
     J                       = s2j;
     J                       = J*scaleSvv/scaleKe^2;
     Jsp                     = zeros(length(stat),1);
@@ -71,9 +71,9 @@ elseif IsCurv == 1
     end
     clearvars Ke;
     stat_giri               = sqrt(2)*s2j_giri/sqrt(var(s2j_giri));
-    indms_giri              = find(stat_giri > sssblpp_th);
+    indms_giri              = find(stat_giri > threshold);
     stat_sulc               = sqrt(2)*s2j_sulc/sqrt(var(s2j_sulc));
-    indms_sulc              = find(stat_sulc > sssblpp_th);   
+    indms_sulc              = find(stat_sulc > threshold);   
     s2j                     = [s2j_giri s2j_sulc];
     sigma2j                 = [sigma2j_giri sigma2j_sulc];
     clearvars sigma2j_post_giri sigma2j_post_sulc;

@@ -42,8 +42,7 @@ activation_level_out    = subject.activation_level_out;
 actv_method             = activation_level_out.method;
 actv_methods            = properties.activation_params.methods;
 for i=1:length(actv_methods)
-    field_names = fieldnames(actv_methods{i});
-    if(isequal(field_names{1},actv_method))
+    if(isequal(actv_methods.method,actv_method))
         switch actv_method
             case 'sssblpp'
                 actv_th = actv_methods{i}.(field_names{1}).sssblpp_th.value;

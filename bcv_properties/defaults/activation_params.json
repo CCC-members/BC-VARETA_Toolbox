@@ -3,60 +3,57 @@
     "params":{
         "description":"Parameters in the second level of analysis or activation",
         "methods":[
-                    {
-                        "sssblpp":{
-                            "description":"",
-                            "run":true,
-                            "sssblpp_th":{
-                                "description":"default <<1 to sqrt(3)=1.7321>>. Threshold for the sSSBL++ F-scores. lower threshold <<1>> (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded). upper threshold <<sqrt(3)>> (if <<sqrt(3)>> responses whose posterior variance is larger than 3 times the posterior mean are discarded)",
-                                "value":0
-                            }
-                        }
-                    },
-                    {
-                        "eloreta":{
-                            "description":"",
-                            "run":false,
-                            "gamma1":{
-                                "description":"",
-                                "value":0
-                            },
-                            "gamma2":{
-                                "description":"",
-                                "value":2
-                            },
-                            "delta_gamma":{
-                                "description":"",
-                                "value":0.1
-                            },
-                            "eloreta_th":{
-                                "description":"default <<1>>. Threshold for the eLORETA z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
-                                "value":1
-                            }
-                        }
-                    },
-                    {
-                        "lcmv":{
-                            "description":"",
-                            "run":false,
-                            "gamma1":{
-                                "description":"",
-                                "value":0
-                            },
-                            "gamma2":{
-                                "description":"",
-                                "value":2
-                            },
-                            "delta_gamma":{
-                                "description":"",
-                                "value":0.1
-                            },
-                            "lcmv_th":{
-                                "description":"default <<1>>. Threshold for the LCMV z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
-                                "value":1
-                            }
-                        }
-                    }
+            {
+                "method":"sssblpp",
+                "description":"",
+                "run":true,
+                "threshold":{
+                    "description":"default <<1 to sqrt(3)=1.7321>>. Threshold for the sSSBL++ F-scores. lower threshold <<1>> (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded). upper threshold <<sqrt(3)>> (if <<sqrt(3)>> responses whose posterior variance is larger than 3 times the posterior mean are discarded)",
+                    "value":0
+                }
+            },
+            {
+                "method":"eloreta",
+                "description":"",
+                "run":false,
+                "gamma1":{
+                    "description":"",
+                    "value":0
+                },
+                "gamma2":{
+                    "description":"",
+                    "value":2
+                },
+                "delta_gamma":{
+                    "description":"",
+                    "value":0.1
+                },
+                "threshold":{
+                    "description":"default <<1>>. Threshold for the eLORETA z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
+                    "value":1
+                }
+            },
+            {
+                "method":"lcmv",
+                "description":"",
+                "run":false,
+                "gamma1":{
+                    "description":"",
+                    "value":0
+                },
+                "gamma2":{
+                    "description":"",
+                    "value":2
+                },
+                "delta_gamma":{
+                    "description":"",
+                    "value":0.1
+                },
+                "threshold":{
+                    "description":"default <<1>>. Threshold for the LCMV z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
+                    "value":1
+                }
+            }
         ],
         "IsCurv":{
             "description":"default <<true>>. Depth compensation factor for the Lead Field of giri and sulci <<false>> (no compensation) <<true>> (compensation)",
