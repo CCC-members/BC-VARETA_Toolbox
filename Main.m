@@ -36,8 +36,6 @@ addpath('tools');
 warning off;
 rmpath(genpath(fullfile('external/fieldtrip')));
 warning on;
-
-
 if(isequal(nargin,2))
     idnode = varargin{1};
     count_node = varargin{2};
@@ -49,7 +47,6 @@ else
     idnode = 1;
     count_node = 1;
 end
-
 setGlobalGuimode(true);
 for i=1:length(varargin)
     if(isequal(varargin{i},'nogui'))
@@ -57,29 +54,10 @@ for i=1:length(varargin)
     end
 end
 
-%% Printing data information
-app_properties = jsondecode(fileread(strcat('app/properties.json')));
-disp(strcat("-->> Name:",app_properties.generals.name));
-disp(strcat("-->> Version:",app_properties.generals.version));
-disp(strcat("-->> Version date:",app_properties.generals.version_date));
-disp("=====================================================================");
+%% Init processing
+app_properties = init_processing();
 
-%% ------------ Checking MatLab compatibility ----------------
-if(app_properties.check_matlab_version)
-    disp('-->> Checking installed matlab version');
-    if(~check_matlab_version())
-        return;
-    end
-end
-
-%% ------------  Checking updates --------------------------
-if(app_properties.check_app_update)
-    disp('-->> Checking last project version');
-    if(isequal(check_version,'updated'))
-        return;
-    end
-end
-%%               Upload the actived processes
+%% BC-VARETA processing
 if(getGlobalGuimode())
     BC_VARETA
 else
