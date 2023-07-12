@@ -19,7 +19,6 @@ function [subject,properties,outputs] = activation_level_lcmv(subject,properties
 Lvj           = subject.Ke;
 W             = subject.W;
 sub_to_FSAve  = subject.sub_to_FSAve;
-pathname      = properties.pathname;
 
 %%
 %% Sensor level Outputs
@@ -32,11 +31,11 @@ str_band            = band.str_band;
 %%
 %% LCMV activation parameters
 %%
-activation_params   = properties.activation_params;
+activation_params   = properties.activation_params.methods{3};
 gamma1              = activation_params.gamma1.value;
 gamma2              = activation_params.gamma2.value;
 delta_gamma         = activation_params.delta_gamma.value;
-lcmv_th             = activation_params.lcmv_th.value;
+threshold           = activation_params.threshold.value;
 IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
 IsField             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
 
@@ -66,7 +65,7 @@ if IsCurv == 0
     end
     clearvars Ke;
     stat                  = s2j./sigma_post;
-    indms                 = find(stat > lcmv_th);
+    indms                 = find(stat > threshold);
     J                     = s2j;
     J                     = J*scaleSvv/scaleKe^2;
     Jsp                   = zeros(length(stat),1);
@@ -86,9 +85,9 @@ elseif IsCurv == 1
     end
     clearvars Ke;
     stat_giri             = s2j_giri./sigma_post_giri;
-    indms_giri            = find(stat_giri > lcmv_th);
+    indms_giri            = find(stat_giri > threshold);
     stat_sulc             = s2j_sulc./sigma_post_sulc;
-    indms_sulc            = find(stat_sulc > lcmv_th);  
+    indms_sulc            = find(stat_sulc > threshold);  
     s2j                   = [s2j_giri s2j_sulc];
     sigma_post            = [sigma_post_giri sigma_post_sulc];
     clearvars sigma_post_giri sigma_post_sulc;

@@ -1,4 +1,4 @@
-function [Thetajj,Sjj,Sigmajj] = connectivity_level_hg_lasso(subject,properties)
+function [subject,properties,outputs] = connectivity_level_hg_lasso(subject,properties)
 
 % Authors:
 % - Deirel Paz Linares
@@ -12,16 +12,8 @@ function [Thetajj,Sjj,Sigmajj] = connectivity_level_hg_lasso(subject,properties)
 
 % Date: March 20, 2019
 
-Lvj                 = subject.Ke;
-Cdata               = subject.Cdata;
-Sh                  = subject.Sh;
-cmap                = load(properties.general_params.colormap_path);
-cmap_a              = cmap.cmap_a;
-cmap_c              = cmap.cmap_c;
-Sc                  = subject.Sc;
 GridOrient          = subject.GridOrient;
 GridAtlas           = subject.GridAtlas;
-Atlas               = Sc.Atlas(Sc.iAtlas).Scouts;
 Nseg                = properties.sensor_level_out.Nseg;
 peak_pos            = properties.sensor_level_out.peak_pos;
 band                = properties.sensor_level_out.band;
@@ -35,31 +27,9 @@ connectivity_params = properties.connectivity_params;
 IsCurv              = activation_params.IsCurv.value;  % 0 (no compensation) 1 (giri and sulci curvature compensation)
 IsField             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
 
-%% Defining path
-disp('=================================================================');
-if(isfield(band,'f_bin'))
-    disp(strcat( 'BC-V-->> Connectivity level for frequency band: (' , band.name , ') bin ->>>' , string(band.f_bin), 'Hz') );
-    str_band =  strcat( band.name,'_',string(band.f_bin),'Hz');
-else
-    disp(strcat( 'BC-V-->> Connectivity level for frequency band: (' , band.name , ') ' , string(band.f_start), 'Hz-->' , string(band.f_end) , 'Hz') );
-    str_band =  strcat( band.name,'_',string(band.f_start),'Hz_',string(band.f_end),'Hz');
-end
-text_level = 'Connectivity_level';
-if(properties.general_params.run_by_trial.value) 
-    trial_name = properties.trial_name;
-    pathname = fullfile(subject.subject_path,trial_name,text_level,'sSSBLpp',band.name);
-else
-    pathname = fullfile(subject.subject_path,text_level,'sSSBLpp',band.name);
-end
-if(~isfolder(pathname))
-    mkdir(pathname);
-end
-
 %%
-%% bc-vareta toolbox...
 %% HG-LASSO parameters
 %%
-
 param.use_gpu         = properties.general_params.use_gpu.value;
 m                     = length(peak_pos)*Nseg;
 param.m               = m;
@@ -81,7 +51,6 @@ param.rth2            = connectivity_params.rth2.value;
 param.eigreg          = connectivity_params.eigreg.value;
 param.str_band        = str_band;
 
-
 %% Connectivity Leakage Module
 disp('BC-V-->> Connectivity leakage module...');
 q                     = length(indms);
@@ -94,7 +63,6 @@ Ajj_ndiag             = 1;
 Ajj                   = Ajj_diag*eye(q)+Ajj_ndiag*(ones(q)-eye(q));
 param.aj              = aj;
 param.Ajj             = Ajj;
-
 
 %% Calling two step lasso
 if (IsCurv == 0)
@@ -123,114 +91,10 @@ elseif (IsCurv == 1)
     Sjj      = (Sjj + Sjj')/2;
     Sjj      = Sjj*sqrt(scaleSvv(1)*scaleSvv(2))/(scaleKe(1)*scaleKe(2));
 end
-
 [Thetajj,Sigmajj]     = twostep_lasso_caller(Sjj,param);
-%%
-%% Plotting results
-temp_iv    = abs(Sjj);
-connect_iv = abs(Thetajj);
-temp       = abs(connect_iv);
-temp_diag  = diag(diag(temp));
-temp_ndiag = temp-temp_diag;
-temp_ndiag = temp_ndiag/max(temp_ndiag(:));
-temp_diag  = diag(abs(diag(temp_iv)));
-temp_diag  = temp_diag/max(temp_diag(:));
-temp_diag  = diag(diag(temp_diag)+1);
-temp_comp  = temp_diag+temp_ndiag;
-label_gen = [];
-for ii = 1:length(indms)
-    label_gen{ii} = num2str(ii);
-end
 
-figure_name = strcat('BC-VARETA-node-wise-conn - ',str_band);
-
-figure_BC_VARETA2 = figure('Color','k','Name',figure_name,'NumberTitle','off');
-
-define_ico(figure_BC_VARETA2);
-imagesc(temp_comp);
-set(gca,'Color','k','XColor','w','YColor','w','ZColor','w',...
-    'XTick',1:length(indms),'YTick',1:length(indms),...
-    'XTickLabel',label_gen,'XTickLabelRotation',90,...
-    'YTickLabel',label_gen,'YTickLabelRotation',0);
-xlabel('sources','Color','w');
-ylabel('sources','Color','w');
-colorbar;
-colormap(gca,cmap_c);
-axis square;
-title('BC-VARETA-node-wise-conn','Color','w','FontSize',16);
-
-disp('-->> Saving figure');
-file_name = strcat('BC_VARETA_node_wise_conn','_',str_band,'.fig');
-saveas(figure_BC_VARETA2,fullfile(pathname,file_name));
-
-close(figure_BC_VARETA2);
-
-%% Roi analysis
-Thetajj_full              = zeros(length(Lvj)/3);
-Sjj_full                  = zeros(length(Lvj)/3);
-Thetajj_full(indms,indms) = Thetajj;
-Sjj_full(indms,indms)     = Sjj;
-atlas_label               = cell(1,length(Atlas));
-conn_roi                  = zeros(length(Atlas));
-act_roi                   = zeros(length(Atlas),1);
-for roi1 = 1:length(Atlas)
-    for roi2 = 1:length(Atlas)
-        conn_tmp             = Thetajj_full(Atlas(roi1).Vertices,Atlas(roi2).Vertices);
-        conn_tmp             = mean(abs(conn_tmp(:)));
-        conn_roi(roi1,roi2)  = conn_tmp;
-    end
-    atlas_label{roi1} = Atlas(roi1).Label;
-end
-
-for roi1 = 1:length(Atlas)
-    act_tmp              = diag(Sjj_full(Atlas(roi1).Vertices,Atlas(roi1).Vertices));
-    act_tmp              = mean(abs(act_tmp));
-    act_roi(roi1)        = act_tmp;
-end
-act_roi    = diag(act_roi);
-temp_iv    = abs(act_roi);
-connect_iv = abs(conn_roi);
-temp       = abs(connect_iv);
-temp_diag  = diag(diag(temp));
-temp_ndiag = temp-temp_diag;
-temp_ndiag = temp_ndiag/max(temp_ndiag(:));
-temp_diag  = diag(abs(diag(temp_iv)));
-temp_diag  = temp_diag/max(temp_diag(:));
-temp_diag  = diag(diag(temp_diag)+1);
-temp_comp  = temp_diag+temp_ndiag;
-
-figure_name = strcat('BC-VARETA-roi-conn - ',str_band);
-
-figure_BC_VARETA3 = figure('Color','k','Name',figure_name,'NumberTitle','off');
-
-define_ico(figure_BC_VARETA3);
-imagesc(temp_comp);
-set(gca,'Color','k','XColor','w','YColor','w','ZColor','w',...
-    'XTick',1:length(Atlas),'YTick',1:length(Atlas),...
-    'XTickLabel',atlas_label,'XTickLabelRotation',90,...
-    'YTickLabel',atlas_label,'YTickLabelRotation',0);
-xlabel('sources','Color','w');
-ylabel('sources','Color','w');
-colorbar;
-colormap(gca,cmap_c);
-axis square;
-title('BC-VARETA-roi-conn','Color','w','FontSize',16);
-
-disp('-->> Saving figure');
-file_name = strcat('BC_VARETA_roi_conn','_',str_band,'.fig');
-saveas(figure_BC_VARETA3,fullfile(pathname,file_name));
-
-close(figure_BC_VARETA3);
-
-
-%% Saving files
-disp('-->> Saving file.')
-disp(strcat("Path: ",pathname));
-file_name = strcat('MEEG_source_',str_band,'.mat');
-disp(strcat("File: ", file_name));
-parsave(fullfile(pathname ,file_name ),Thetajj,Sjj,Sigmajj);
-
-pause(1e-12);
-
+outputs.Thetajj = Thetajj;
+outputs.Sjj = Sjj;
+outputs.Sigmajj = Sigmajj;
 end
 
