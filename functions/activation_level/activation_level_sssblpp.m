@@ -30,8 +30,9 @@ str_band            = band.str_band;
 %%
 %% sSSBL++ activation parameters
 %%
-activation_params   = properties.activation_params.methods{1};
-threshold           = activation_params.threshold.value;
+activation_params   = properties.activation_params;
+method              = activation_params.methods{1};
+threshold           = method.threshold.value;
 IsField             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
 IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
 

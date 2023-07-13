@@ -37,5 +37,13 @@ for i=1:length(param_files)
         return;
     end
 end
+properties.general_params       = properties.general_params.params;
+properties.sensor_params        = properties.sensor_params.params;
+properties.activation_params    = properties.activation_params.params;
+properties.connectivity_params  = properties.connectivity_params.params;
+color_map                       = load(properties.general_params.colormap_path);
+properties.cmap                 = color_map.cmap;
+properties.cmap_a               = color_map.cmap_a;
+properties.cmap_c               = color_map.cmap_c;
 end
 
