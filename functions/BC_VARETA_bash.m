@@ -69,7 +69,7 @@ if(isempty(subjects))
     return;
 end
 [properties]                                = define_frequency_bands(properties);
-
+analysis_level                              = properties.general_params.analysis_level.value;
 %% Creating Dataset
 BC_VARETA.Name                              = properties.general_params.dataset.Name;
 BC_VARETA.Description                       = properties.general_params.dataset.Description;
@@ -106,9 +106,7 @@ for i=1:length(subjects)
     %%
     %% Data analysis for sensor level
     %%
-    if(isequal(properties.general_params.analysis_level.value,'1')...
-            || isequal(properties.general_params.analysis_level.value,'12')...
-            || isequal(properties.general_params.analysis_level.value,'all'))
+    if(ismember(analysis_level,{'1','12','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,1);
         if(status)
             subject                         = BC_V_save(properties,subject,'common');
@@ -132,10 +130,7 @@ for i=1:length(subjects)
     %%
     %% Data analysis for activation level
     %%
-    if(isequal(properties.general_params.analysis_level.value,'2')...
-            || isequal(properties.general_params.analysis_level.value,'12')...
-            || isequal(properties.general_params.analysis_level.value,'23')...
-            || isequal(properties.general_params.analysis_level.value,'all'))
+    if(ismember(analysis_level,{'2','12','23','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,2);
         if(status)
             if(properties.general_params.run_by_trial.value)
@@ -157,9 +152,7 @@ for i=1:length(subjects)
     %%
     %% Data analysis for connectivity level
     %%
-    if(isequal(properties.general_params.analysis_level.value,'3')...
-            || isequal(properties.general_params.analysis_level.value,'23')...
-            || isequal(properties.general_params.analysis_level.value,'all'))
+    if(ismember(analysis_level,{'3','23','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,3);
         if(status)
             if(properties.general_params.run_by_trial.value)
