@@ -123,7 +123,6 @@ for i=1:length(subjects)
             end
             disp('=================================================================');
             subject                         = BC_V_save(properties,subject,'level1');
-
         end
     end
 

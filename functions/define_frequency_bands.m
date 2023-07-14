@@ -26,17 +26,17 @@ if( properties.general_params.run_frequency_bin.value)
             frequency_run{pos}          = band.run;
             band_start{pos}             = band.f_start;
             band_end{pos}               = band.f_end;
-            str_band{pos}               = strcat(band.name,"_",string(band.f_bin),"Hz");
+            str_band{pos}               = strcat(band.name,"_",string(pointer),"Hz");
             pos                         = pos + 1;
 
-            while band.f_end > pointer + freq_resol
+            while band.f_end > round( pointer + freq_resol , 4 )
                 pointer                 = pointer + freq_resol;
                 frequency_name{pos}     = band.name;
                 frequency_bin{pos}      = pointer;
                 frequency_run{pos}      = band.run;
                 band_start{pos}         = band.f_start;
                 band_end{pos}           = band.f_end;
-                str_band{pos}           = strcat(band.name,"_",string(band.f_bin),"Hz");
+                str_band{pos}           = strcat(band.name,"_",string(pointer),"Hz");
                 pos                     = pos + 1;
             end
             if(pointer < band.f_end)
@@ -46,7 +46,7 @@ if( properties.general_params.run_frequency_bin.value)
                 frequency_run{pos}      = band.run;
                 band_start{pos}         = band.f_start;
                 band_end{pos}           = band.f_end;
-                str_band{pos}           = strcat(band.name,'_',string(band.f_bin),'Hz');
+                str_band{pos}           = strcat(band.name,'_',string(pointer),'Hz');
                 pos                     = pos + 1;
             end
         end
