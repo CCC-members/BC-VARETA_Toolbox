@@ -26,16 +26,12 @@ disp('-->> Starting process');
 disp("=====================================================================");
 %restoredefaultpath;
 tic
-addpath('app');
-addpath('bcv_properties');
+addpath(genpath('app'));
+addpath(genpath('bcv_properties'));
 addpath(genpath('external'));
 addpath(genpath('functions'));
 addpath(genpath('guide'));
 addpath('tools');
-% Remove fieldtrip path for override functions 
-warning off;
-rmpath(genpath(fullfile('external/fieldtrip')));
-warning on;
 if(isequal(nargin,2))
     idnode = varargin{1};
     count_node = varargin{2};
@@ -65,7 +61,6 @@ else
 end
 
 %%
-% delete(process_waitbar);
 disp('=====================================================================');
 disp(strcat("BC-V-->> Process completed on instance: ",num2str(idnode),"."));
 hours = fix(toc/3600);

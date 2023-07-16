@@ -21,5 +21,11 @@ if(app_properties.check_app_update)
         return;
     end
 end
+
+% Remove fieldtrip path for override functions 
+warning off;
+rmpath(genpath(fullfile('external/fieldtrip')));
+warning on;
+
 end
 
