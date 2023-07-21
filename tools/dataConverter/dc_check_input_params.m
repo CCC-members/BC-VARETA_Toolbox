@@ -1,12 +1,8 @@
-function [status,errors,rejectedSub,data] = dc_check_input_params(structuralPath,functionalPath,outputPath,varargin)
-
-for k = 4 : nargin
-    eval([inputname(k) '=  varargin{k-3};']);
-end
+function [status,errors,rejectedSub,data] = dc_check_input_params(structuralPath,functionalPath,outputPath)
 
 status = true;
 errors = [];
-rejectedSub = [];
+rejectedSub = {};
 
 %% Checking Functional
 if(~isfolder(outputPath))
@@ -27,6 +23,16 @@ end
 if(~isfolder(functionalPath))
     errors = [errors; "The Functional path is not a folder"];
 end
+
+%% Defining cases
+folders = dir(structuralPath);
+folders(ismember({folders.name},{'.','..'})) = [];
+if(ismember({folders.name},{'anat','data'}))
+    structure = 'Protocol';
+else
+    structure = 'Subjects';
+end
+% structure = 'Template';
 
 switch structure
     case 'Protocol'
@@ -56,18 +62,18 @@ switch structure
         end
         functionals = dir(functionalPath);
         functionals(ismember({functionals.name},{'.','..'})) = [];
-        reject = [];
+        reject = [];        
         for i=1:length(data)
             Name = data(i).Name;
             fInfo = functionals(contains({functionals.name},Name));
             if (isempty(fInfo))
                 reject = [reject, i];
-                rejectedSub = [rejectedSub; Name];
                 errors = [errors; "Functional data not found"];
             else
                 data(i).Functional = fullfile(fInfo.folder,fInfo.name);
             end
         end
+        rejectedSub = data(reject);
         data(reject) = [];
     case 'Subjects'
         anatomies = dir(structuralPath);
@@ -85,6 +91,7 @@ switch structure
             protocolInfo = load(fullfile(protocolFile.folder,protocolFile.name));
             subjects = protocolInfo.ProtocolSubjects.Subject;
             studies = protocolInfo.ProtocolStudies.Study;
+            reject = [];
             for j=1:length(subjects)
                 try
                     subject = subjects(j);
@@ -101,11 +108,12 @@ switch structure
                     data(pos).Structural.HeadModel = fullfile(anatomy.folder,subID,'data',study.HeadModel.FileName);
                     pos = pos + 1;
                 catch ME
-                    rejectedSub = [rejectedSub; subject.Name];
+                    reject = [reject, i];
                     errors = [errors; ME.message];
                 end
             end
         end
+        rejectedSub = subjects(reject);
         functionals = dir(functionalPath);
         functionals(ismember({functionals.name},{'.','..'})) = [];
         reject = [];
@@ -114,12 +122,12 @@ switch structure
             fInfo = functionals(contains({functionals.name},Name));
             if (isempty(fInfo))
                 reject = [reject, i];
-                rejectedSub = [rejectedSub; Name];
                 errors = [errors; "Functional data not found"];
             else
                 data(i).Functional = fullfile(fInfo.folder,fInfo.name);
             end
         end
+        rejectedSub = subjects(reject);
         data(reject) = [];
     case 'Template'
         anatomies = dir(structuralPath);
