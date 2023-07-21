@@ -1,5 +1,8 @@
 function [structuralPath,functionalPath,outputPath] = download_testdata()
 filename = strcat('data/TestData.zip');
+if(~isfolder(fullfile(pwd,'data')))
+    mkdir(fullfile(pwd,'data'));
+end
 if(~isfile(fullfile(pwd,"data",'TestData.zip')))
     testDataURL = 'https://lstneuro-my.sharepoint.com/:u:/g/personal/ariosky_neuroinformatics-collaboratory_org/ETKFp83pAphAha99ka5xq3gBxH3b8CnC7KtWocKedF2RUA?e=srlmzT&download=1';
     filename = strcat('data/TestData.zip');
