@@ -58,7 +58,7 @@ clearvars Txiv;
 %%
 [gcv_opt,idx_gamma] = min(gcv);
 gamma               = gamma_grid(idx_gamma);
-[Tvj,Wout]          = mkfilt_eloreta(LvjW3D,10^gamma);
+[Tvj,Wout]          = mkfilt_mne(LvjW3D,10^gamma);
 clearvars LvjW3D;
 if(isequal(IsField,3))
     Tvj   = permute(Tvj,[1 3 2]);

@@ -1,4 +1,4 @@
-function [A,Wout]=mkfilt_mne(L,C,alpha)
+function [A,Wout]=mkfilt_mne(L,alpha,C)
 % [A]=mkfilt_lcmv(L,C,alpha)
 %
 % Input:
@@ -33,17 +33,17 @@ function [A,Wout]=mkfilt_mne(L,C,alpha)
 [nchan,ns,ndim] = size(L);
 L = reshape(L,nchan,ns*ndim);
 
-if nargin<3
+if nargin<2
     alpha=.05*trace(C)/length(C);
 end
 
-if nargin<2
+if nargin<3
     C = eye(nchan);
 end
-
 C = real(C);
 [U,D] = eig(C);
 C = diag(abs(diag(D)).^(-1/2))*U';
 L = C*L;
+
 A = (L'/(L*L' + alpha))*C;
 Wout = alpha*ones(ns,1);
