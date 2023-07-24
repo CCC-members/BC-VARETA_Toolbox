@@ -36,7 +36,7 @@ if(getGlobalGuimode())
     frames(end).setAlwaysOnTop(1)
 end
 disp(flag);
-fprintf(1,strcat("-->> Running eLORETA (",param.str_band,") process: %3d%%\n"),0);
+fprintf(1,strcat("-->> Running MNE (",param.str_band,") process: %3d%%\n"),0);
 for gamma = gamma_grid        
     [Tvj,Wout]       = mkfilt_mne(LvjW3D,10^gamma);
     if(isequal(IsField,3))
@@ -50,7 +50,7 @@ for gamma = gamma_grid
     if(getGlobalGuimode())
         text = replace(param.str_band,'_','-');
         waitbar((count)/(length(gamma_grid)),process_waitbar,...
-            strcat("Running eLORETA (",text,") process: ",num2str(fix((count)/(length(gamma_grid))*100)-1),"%"));
+            strcat("Running MNE (",text,") process: ",num2str(fix((count)/(length(gamma_grid))*100)-1),"%"));
     end
     count            = count + 1;
 end
@@ -88,7 +88,7 @@ for count_gen = 1:length(Lvj)
 end
 if(getGlobalGuimode())
     text = replace(param.str_band,'_','-');
-    waitbar(1,process_waitbar,strcat("Running eLORETA (",text,") process: 100%"));
+    waitbar(1,process_waitbar,strcat("Running MNE (",text,") process: 100%"));
 end
 fprintf(1,'\b\b\b\b%3.0f%%',100);
 fprintf(1,'\n');
