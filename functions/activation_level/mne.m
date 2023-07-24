@@ -1,7 +1,7 @@
-function [s2j,sigma2j_post,Tjv,Svv,LvjW,scaleJ,scaleLvj,gamma_grid,gcv] = eloreta(Svv,Lvj,param)
+function [s2j,sigma2j_post,Tjv,Svv,LvjW,scaleJ,scaleLvj,gamma_grid,gcv] = mne(Svv,Lvj,param)
 
 
-% Elastic Net_Sparse Bayesian Learning
+% Minimum Norm Estimate
 %% Standardization
 W               = param.W;
 Winv            = param.Winv;
@@ -38,7 +38,7 @@ end
 disp(flag);
 fprintf(1,strcat("-->> Running eLORETA (",param.str_band,") process: %3d%%\n"),0);
 for gamma = gamma_grid        
-    [Tvj,Wout]       = mkfilt_eloreta(LvjW3D,10^gamma);
+    [Tvj,Wout]       = mkfilt_mne(LvjW3D,10^gamma);
     if(isequal(IsField,3))
         Tvj   = permute(Tvj,[1 3 2]);
         Tvj   = reshape(Tvj,p,q);

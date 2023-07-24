@@ -1,4 +1,4 @@
-function [subject,properties,outputs] = activation_level_eloreta(subject,properties)
+function [subject,properties,outputs] = activation_level_mne(subject,properties)
 
 % Authors:
 % - Deirel Paz Linares
@@ -43,7 +43,7 @@ IsField             = activation_params.IsField.value; % 1 (projected Lead Field
 %% Activation Leakage Module spectral eLORETA
 %%
 flag = "-->> Running source activation level.";
-disp('BC-V-->> eLORETA activation leakage module.');
+disp('BC-V-->> MNE activation leakage module.');
 
 %% eLORETA params
 param.field         = IsField;
@@ -57,7 +57,7 @@ param.Winv          = subject.Winv;
 
 %%
 if IsCurv == 0    
-    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleKe] = eloreta(Svv,Lvj,param);
+    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleKe] = mne(Svv,Lvj,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j               = sqrt(sum(reshape(abs(s2j),3,length(Lvj)/3),1))';
@@ -72,9 +72,9 @@ if IsCurv == 0
     Jsp(indms)            = J(indms);
 elseif IsCurv == 1
     param.flag = strcat(flag," Giri compensation");
-    [s2j_giri,sigma2j_post_giri,Tgiri,~,~,scaleSvv_giri,scaleKe_giri] = eloreta(Svv,subject.Ke_giri,param);
+    [s2j_giri,sigma2j_post_giri,Tgiri,~,~,scaleSvv_giri,scaleKe_giri] = mne(Svv,subject.Ke_giri,param);
     param.flag = strcat(flag," Sulci compensation");
-    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,~,scaleSvv_sulc,scaleKe_sulc] = eloreta(Svv,subject.Ke_sulc,param);
+    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,~,scaleSvv_sulc,scaleKe_sulc] = mne(Svv,subject.Ke_sulc,param);
     clearvars param Svv;
     disp("-->> Applying giri and sulci compensation.");
     if IsField == 2 || IsField == 3
