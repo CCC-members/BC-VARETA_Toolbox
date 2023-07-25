@@ -36,7 +36,7 @@ if(isequal(process,'common'))
     save(fullfile(pathname_common ,file_name ),'-struct','Souter');
 
     Sinner                                              = subject.Sinn;
-    file_name                                           = strcat('Souterskull.mat');
+    file_name                                           = strcat('Sinnerskull.mat');
     reference_path                                      = strsplit(pathname_common,subject.name);
     subject.BC_V_info.common(3).Comment                 = 'Surfaces Innerskull';
     subject.BC_V_info.common(3).Ref_path                = strrep(reference_path{2},'\','/');
@@ -70,6 +70,15 @@ if(isequal(process,'common'))
     subject.BC_V_info.common(6).Name                    = file_name;
     disp(strcat("File: ", file_name));
     save(fullfile(pathname_common ,file_name ),'-struct','Channels');
+
+    Headmodel                                           = subject.Headmodel;
+    file_name                                           = strcat('Headmodel.mat');
+    reference_path                                      = strsplit(pathname_common,subject.name);
+    subject.BC_V_info.common(7).Comment                 = 'Headmodel';
+    subject.BC_V_info.common(7).Ref_path                = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.common(7).Name                    = file_name;
+    disp(strcat("File: ", file_name));
+    save(fullfile(pathname_common ,file_name ),'-struct','Headmodel');
 end
 if(isequal(process,'fuctional'))
     %%
