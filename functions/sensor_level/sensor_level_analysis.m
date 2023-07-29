@@ -3,7 +3,7 @@ function [subject,properties] = sensor_level_analysis(subject,properties)
 %%
 %% Preparing params
 %%
-Lvj             = subject.Headmodel.Ke;
+Lvj             = subject.Headmodel.Gain;
 Fs              = properties.sensor_params.samp_freq.value;         % sampling frequency
 Fmax            = properties.sensor_params.max_freq.value;          % maximum frequency
 deltaf          = properties.sensor_params.freq_resol.value;        % frequency resolution

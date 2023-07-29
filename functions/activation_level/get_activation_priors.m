@@ -3,7 +3,7 @@ function [subject,properties] = get_activation_priors(subject,properties)
 disp('=================================================================');
 disp('BC-V-->> Getting activation priors.');
 
-Lvj                     = subject.Headmodel.Ke;
+Lvj                     = subject.Headmodel.Gain;
 Sc                      = subject.Scortex;
 activation_params       = properties.activation_params;
 aSulc                   = activation_params.aSulc.value; % baseline of sulci curvature factor
