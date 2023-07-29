@@ -3,6 +3,7 @@ function [status,errors,rejectedSub,data] = dc_check_input_params(structuralPath
 status = true;
 errors = [];
 rejectedSub = {};
+data = [];
 
 %% Checking Functional
 if(~isfolder(outputPath))
