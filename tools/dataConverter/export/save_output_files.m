@@ -11,8 +11,10 @@ end
 if(isequal(action,'new'))
     disp(strcat("-->> Creating subject output structure"));
     action = 'all';
-    [output_subject_dir]        = create_data_structure(base_path,subID,action);        
+    [output_subject_dir]        = create_data_structure(base_path,subID,action);   
+    subject_info                = struct;
     subject_info.name           = subID;
+    subject_info.modality       = modality;
     dirref                      = replace(fullfile('meeg','meeg.mat'),'\','/');
     subject_info.meeg_dir       = dirref;
     dirref                      = replace(fullfile('leadfield','headmodel.mat'),'\','/');
