@@ -17,7 +17,7 @@ function [Svv_channel,Lvj,PSD,Nseg] = cross_spectra(subject, properties)
 %% Preparing params
 %%
 data    = subject.MEEG.data;
-Lvj     = subject.Headmodel.Ke;
+Lvj     = subject.Headmodel.Gain;
 Fs      = properties.sensor_params.samp_freq.value;       % sampling frequency
 Fmax    = properties.sensor_params.max_freq.value;        % maximum frequency
 deltaf  = properties.sensor_params.freq_resol.value;      % frequency resolution
