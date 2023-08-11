@@ -33,9 +33,9 @@ else
     subject_info.innerskull_dir = replace(subject_info.innerskull_dir,'\','/');
     subject_info.outerskull_dir = replace(subject_info.outerskull_dir,'\','/');
 end
-disp('=================================================================');
+disp("=====================================================================");
 disp(strcat('BC-V-->>Processing subject:',subject_info.name));
-disp('-----------------------------------------------------------------');
+disp("=====================================================================");
 
 if(~isfile(fullfile(root_dir,subject_info.meeg_dir)))
     error_msg       = strcat("The meeg file do not exist");

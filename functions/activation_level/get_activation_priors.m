@@ -1,7 +1,8 @@
 function [subject,properties] = get_activation_priors(subject,properties)
 
-disp('=================================================================');
+disp('=====================================================================');
 disp('BC-V-->> Getting activation priors.');
+disp('---------------------------------------------------------------------');
 
 Lvj                     = subject.Headmodel.Gain;
 Sc                      = subject.Scortex;

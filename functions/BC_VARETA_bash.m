@@ -109,6 +109,8 @@ for i=1:length(subjects)
     if(ismember(analysis_level,{'1','12','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,1);
         if(status)
+
+            subject                         = get_structural_priors(subject);
             subject                         = BC_V_save(properties,subject,'common');
             if(properties.general_params.run_by_trial.value)
                 data                        = subject.MEEG.data;
@@ -121,7 +123,7 @@ for i=1:length(subjects)
             else
                 [subject,properties]        = sensor_level_analysis(subject,properties);
             end
-            disp('=================================================================');
+            disp("=====================================================================");
             subject                         = BC_V_save(properties,subject,'level1');
         end
     end
@@ -143,7 +145,7 @@ for i=1:length(subjects)
             else
                 [subject,properties]        = activation_level_interface(subject,properties);
             end
-            disp('=================================================================');
+            disp("=====================================================================");
             subject                         = BC_V_save(properties,subject,'level2');
         end
     end
@@ -165,7 +167,7 @@ for i=1:length(subjects)
             else
                 [subject,properties]        = connectivity_level_interface(subject,properties);
             end
-            disp('=================================================================');
+            disp("=====================================================================");
             subject                         = BC_V_save(properties,subject,'level3');
         end
     end

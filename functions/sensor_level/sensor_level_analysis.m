@@ -16,7 +16,7 @@ if(isfield(subject.MEEG,'data'))
     %%
     %% Estimates the Cross Spectrum of the input M/EEG data
     %%
-    disp('=================================================================');
+    disp("=====================================================================");
     disp('BC-V-->> Estimating cross-spectra for M/EEG data.');
     switch lower(method)
         case "hilbert"
@@ -44,7 +44,7 @@ subject                                     = BC_V_save(properties,subject,'fuct
 %% Sensor analysis
 for pos=1:length(properties.sensor_params.frequencies)
     band                                = properties.sensor_params.frequencies(pos);
-    disp('=================================================================');
+    disp("=====================================================================");
     disp(strcat( "BC-V-->> Sensor level for frequency band: " , band.str_band));
     if(~isempty(PSD) && isfield(subject.MEEG,'data'))
         if(isfield(band,'f_bin'))
