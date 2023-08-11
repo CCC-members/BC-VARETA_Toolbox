@@ -15,7 +15,7 @@ for f=1:length(sensor_level)
     file_name                   = sensor_level(f).Name;
     subject.sensor_level_out    = load(fullfile(subject.subject_path,ref_path,file_name));
     band                        = subject.sensor_level_out.band;
-    disp('=================================================================');
+    disp("=====================================================================");
     disp(strcat("BC-V-->> Activation level for frequency band:", band.str_band));
     %%
     %% Band Analysis, activation level

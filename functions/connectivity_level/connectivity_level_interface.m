@@ -37,7 +37,7 @@ for i=1:length(activation_level)
         end
     end
     band  = subject.sensor_level_out.band;  
-    disp('=================================================================');
+    disp("=====================================================================");
     disp(strcat( "BC-V-->> Connectivity level for frequency band: ",band.str_band ));
 
     %%
