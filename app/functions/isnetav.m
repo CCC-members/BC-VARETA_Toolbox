@@ -1,6 +1,6 @@
 function x=isnetav
 disp('-->> Checking internet status');
-[~,b]=dos('ping -n 1 www.github.io');
+[~,b]=dos('ping -n 1 www.github.com');
 n=strfind(b,'Lost');
 n1=b(n+7);
 if(n1=='0')

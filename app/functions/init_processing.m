@@ -16,8 +16,8 @@ end
 
 %% ------------  Checking updates --------------------------
 if(app_properties.check_app_update)
-    disp('-->> Checking last project version');
-    if(isequal(check_version,'updated'))
+    disp('-->> Checking latest project version');
+    if(isequal(check_version,true))
         return;
     end
 end

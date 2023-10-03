@@ -44,8 +44,8 @@ try
 
                         %% Download lasted version
                         filename = strcat('BCV_last_version.zip');
-                        disp(strcat("-->> Downloading last version......."));
-                        jObj.setBusyText(strcat("Downloading last version "));
+                        disp(strcat("-->> Downloading latest version......."));
+                        jObj.setBusyText(strcat("Downloading latest version "));
 
                         url = local.generals.base_url;
                         matlab.net.http.HTTPOptions.VerifyServerName = false;
@@ -82,8 +82,8 @@ try
             else
                 %% Download lasted version
                 filename = strcat('BCV_last_version.zip');
-                disp(strcat("-->> Downloading last version......."));
-                jObj.setBusyText(strcat("Downloading last version "));
+                disp(strcat("-->> Downloading latest version......."));
+                jObj.setBusyText(strcat("Downloading latest version "));
 
                 url = local.generals.base_url;
                 matlab.net.http.HTTPOptions.VerifyServerName = false;
