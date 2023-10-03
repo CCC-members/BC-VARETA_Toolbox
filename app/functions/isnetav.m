@@ -1,9 +1,17 @@
 function x=isnetav
 disp('-->> Checking internet status');
-[~,b]=dos('ping -n 1 www.github.com');
-n=strfind(b,'Lost');
-n1=b(n+7);
-if(n1=='0')
+[~,b]=system('ping -c 5 -W 15 www.github.com');
+n=strfind(b,'received');
+if ismac
+    % Code to run on Mac platform
+elseif isunix
+   n1=b(n-2);
+elseif ispc
+   n1=b(n+7);
+else
+    disp('Platform not supported')
+end
+if(n1=='5')
     x=1;
     disp('-->> Internet connection Ok');
 else
