@@ -73,7 +73,7 @@ for i=1:rows
         if(isempty(figures_path{p}));continue;end
         f_c = openfig(figures_path{p});        
         clear title;        
-        H = findobj(gca, 'Type','Text');
+        
         if(~isempty(H))
             delete(H);
         end        
