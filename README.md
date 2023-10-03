@@ -1,7 +1,10 @@
 # BC-VARETA toolbox
 
 Tool for MEEG data processing based on Brain Connectivity Variable Resolution Tomographic Analysis (BC-VARETA) Model. 
-See description of BC-VARETA and example in simulations at the link https://github.com/dpazlinares/BC-VARETA.
+
+## Summary
+Electrophysiological Source Imaging (ESI) is the technical term encompassing the type of reconstruction or inverse methods for the functional images of the brain or body defined as a current source profile causing their remote observations as a peripheral electromagnetic field profile adquired by sensors. ESI resolution in time and frequency is ideal and promises a mean to elucidate in these domains the intrincate mechanisms that govern brain function during resting state or task. inverse solutions for the corresponding inverse problem of electromagnetism
+ESI    achieving a  a group of imaging methods with the aim of uncovering the mechanisms underpinnning brain function with appropiate temporal and spectral resolution.  and time : Brain Connectivity Variable Resolution Electromagnetic Tomographic Analysis (BC-VARETA). BC-VARETA is meant to be the  distribute our recent advances  developed methods on the third generation of nonlinear methods for MEEG Time Series analysis. Into the state of the art of MEEG analysis, the methodology underlying our tool (BC-VARETA) brings out several assets. First: Constitutes a truly Bayesian Identification approach of Linear Dynamical Systems in the Frequency Domain, grounded in more consistent models (third generation) for the joint nonlinear estimation of MEEG Sources Activity and Connectivity. Second: Achieves Super-Resolution, through the iterative solution of a Sparse Hermitian Sources Graphical Model that underlies the Connectivity Target Function. Third: Tackles efficiently in High Dimensional and Complex set up the estimation of connectivity, those constituting technical issues that challenge current MEEG source analysis methods. Fourth: Incorporates priors at the connectivity level by penalizing the groups of variables, corresponding to the Gray Matter anatomical segmentation, and including a probability mask of the anatomically plausible connections, given by synaptic transmission in the short-range (spatially invariant empirical Kernel of the connections strength decay with distance) and long-range (White Matter tracks connectivity strength from Diffusion Tensor Imaging). Along with the implementation of our method, we include in this toolbox a benchmark for the validation of MEEG source analysis methods, that would serve for the evaluation of sophisticated methodologies (third generation). It incorporates two elements. First: A realistic simulation framework, for the generation of MEEG synthetic data, given an underlying source connectivity structure. Second: Sensitive quality measures that allow for a reliable evaluation of the source activity and connectivity reconstruction performance, based on the Spatial Dispersion and Earth Movers’ Distance, in both source and connectivity space.
 
 References:
 
@@ -24,7 +27,6 @@ Main Function for MEEG real data analysis
   
 Inputs for bash:
     - configure files:
-        app/properties.json
         bcv_properties/general_params.json
         bcv_properties/sensor_params.json
         bcv_properties/activation_params.json

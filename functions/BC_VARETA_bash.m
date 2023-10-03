@@ -181,4 +181,35 @@ for i=1:length(subjects)
     BC_VARETA.Participants(i).Error         = [];
 end
 save(fullfile(properties.general_params.bcv_workspace.BCV_work_dir ,'BC_VARETA.mat'),'-struct','BC_VARETA');
+%%
+%% Create BC-VARETA Dataset and import
+%%
+% Loading existed Datasets
+homedir = char(java.lang.System.getProperty('user.home'));
+BCVdir  = fullfile(homedir,"BC_VARETA");
+if(~isfolder(BCVdir))
+    mkdir(BCVdir);
+end
+Datasets_file = fullfile(BCVdir,"Datasets.json");
+if(isfile(Datasets_file))
+    TempDatasets = jsondecode(fileread(Datasets_file));
+    if(~isempty(TempDatasets))
+        Datasets = TempDatasets;
+    else
+        Datasets = struct([]);
+    end
+else
+    Datasets = struct([]);
+end
+
+% Including new dataset
+dataset_file            = fullfile(properties.general_params.bcv_workspace.BCV_work_dir ,'BC_VARETA.mat');
+BC_VARETA_info          = load(dataset_file);
+BC_VARETA_info.Path     = folder;
+TempUUID                =  java.util.UUID.randomUUID;
+BC_VARETA_info.UUID     = char(TempUUID.toString);
+Datasets(end + 1)       = BC_VARETA_info;
+disp("-->> Dataset loaded");
+saveJSON(Datasets,Datasets_file);
+
 end
