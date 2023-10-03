@@ -205,11 +205,14 @@ end
 % Including new dataset
 dataset_file            = fullfile(properties.general_params.bcv_workspace.BCV_work_dir ,'BC_VARETA.mat');
 BC_VARETA_info          = load(dataset_file);
-BC_VARETA_info.Path     = folder;
-TempUUID                =  java.util.UUID.randomUUID;
+BC_VARETA_info.Path     = fullfile(properties.general_params.bcv_workspace.BCV_work_dir);
+TempUUID                = java.util.UUID.randomUUID;
 BC_VARETA_info.UUID     = char(TempUUID.toString);
-Datasets(end + 1)       = BC_VARETA_info;
-disp("-->> Dataset loaded");
+if(isempty(Datasets))
+    Datasets            = BC_VARETA_info;
+else
+    Datasets(end + 1)   = BC_VARETA_info;
+end
+disp("-->> Dataset saved");
 saveJSON(Datasets,Datasets_file);
-
 end
