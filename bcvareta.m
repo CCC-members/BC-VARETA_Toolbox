@@ -1,4 +1,4 @@
-function Main(varargin)
+function bcvareta(varargin)
 %% BC-VARETA toolbox v1.0
 %%%%%%%%%%%%%%%%%%%%
 
@@ -47,22 +47,24 @@ setGlobalGuimode(true);
 update = false;
 for i=1:length(varargin)
     if(isequal(varargin{i},'nogui'))
-      setGlobalGuimode(false);
+        setGlobalGuimode(false);
     end
     if(isequal(varargin{i},'update'))
-      update = true;
-      setGlobalGuimode(false);
+        update_version();
+        return;
     end
 end
 
 %% Init processing
 app_properties = init_processing(update);
-
+if(isempty(app_properties))
+    return;
+end
 %% BC-VARETA processing
 if(getGlobalGuimode())
     BC_VARETA
 else
-    BC_VARETA_bash(idnode,count_node);
+    BCV_bash(idnode,count_node);
 end
 
 %%

@@ -1,4 +1,4 @@
-function BC_VARETA_bash(varargin)
+function BCV_bash(varargin)
 %% BC_VARETA_bash Summary of this function goes here
 %   Detailed explanation goes here
 %

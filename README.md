@@ -23,12 +23,12 @@ Example of data structure (time series, leadfield, surface, and electrodes) is h
     https://lstneuro-my.sharepoint.com/:u:/g/personal/cc-lab_neuroinformatics-collaboratory_org/EQVy7Y3oL9lDqS4_aNwglCsBMngspSuQ6yVudDj1xUOhgA?download=1
 
 Main Function for MEEG real data analysis
-    - Main.m      (**call this function for run**)
+    - bcvareta.m      (**call this function for run**)
 
 Execute BC-VARETA Toolbox
-    - Main          % For graphical interface
-    - Main nogui    % For batch processing
-    - Main update   % Update to latest version     
+    - bcvareta          % For graphical interface
+    - bcvareta nogui    % For batch processing
+    - bcvareta update   % Update to latest version     
   
 Inputs for bash:
     - configure files:
