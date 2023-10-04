@@ -1,6 +1,13 @@
 function update_version()
 try
     if(isnetav())
+        % loading local data        
+        local = jsondecode(fileread(strcat('app/properties.json')));
+        % finding online data
+        url = local.generals.url_check;
+        matlab.net.http.HTTPOptions.VerifyServerName = false;
+        options = weboptions('ContentType','json','Timeout',Inf,'RequestMethod','auto');
+        online = webread(url,options);
         disp('-->> Comparing local and master version');
         if(local.generals.version_number < online.generals.version_number)
             %% Download lasted version
@@ -25,14 +32,14 @@ try
             copyfile('bcv_properties/activation_params.json','tmp/');
             copyfile('bcv_properties/connectivity_params.json','tmp/');
 
-            movefile( strcat('BC-VARETA_Toolbox-master',filesep,'*'), pwd);
+            movefile( strcat('BC-VARETA_Toolbox-master',filesep,'*'), pwd,'f');
             rmdir BC-VARETA_Toolbox-master ;
 
             % Restoring configuration files
-            movefile('tmp/general_params.json','bcv_properties/');
-            movefile('tmp/sensor_params.json','bcv_properties/');
-            movefile('tmp/activation_params.json','bcv_properties/');
-            movefile('tmp/connectivity_params.json','bcv_properties/');
+            movefile('tmp/general_params.json','bcv_properties/','f');
+            movefile('tmp/sensor_params.json','bcv_properties/','f');
+            movefile('tmp/activation_params.json','bcv_properties/','f');
+            movefile('tmp/connectivity_params.json','bcv_properties/','f');
             rmdir('tmp');
 
             disp('-->> The project is already update with the latest version.');

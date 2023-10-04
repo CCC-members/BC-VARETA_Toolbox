@@ -51,6 +51,7 @@ for i=1:length(varargin)
     end
     if(isequal(varargin{i},'update'))
       update = true;
+      setGlobalGuimode(false);
     end
 end
 
