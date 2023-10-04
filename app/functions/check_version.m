@@ -101,13 +101,14 @@ try
                 end   
             else
                 disp('=================================================================');
-                cprintf('_red','BC-V -->> There is a BC-VARETA new version available.');fprintf('\n');
-                disp(strcat("-->> Name:",online.generals.name));
-                disp(strcat("-->> Version:",online.generals.version));
-                disp(strcat("-->> Version date:",online.generals.version_date));
+                cprintf('Keywords','There is a BC-VARETA new version available.');fprintf('\n');
                 disp("-----------------------------------------------------------------");
-                disp("-->> Download the latest version running:");
-                disp("-->> Main update");
+                cprintf('Keywords',strcat("-->> Name:",online.generals.name));fprintf('\n');
+                cprintf('Keywords',strcat("-->> Version:",online.generals.version));fprintf('\n');
+                cprintf('Keywords',strcat("-->> Version date:",online.generals.version_date));fprintf('\n');
+                disp("-----------------------------------------------------------------");
+                cprintf('Keywords',"-->> Download the latest version running: "); 
+                cprintf('Text',"bcvareta ");cprintf('SystemCommands',"update");fprintf('\n');
                 disp('=================================================================');
             end
         else

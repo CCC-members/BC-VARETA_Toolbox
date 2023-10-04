@@ -16,12 +16,14 @@ end
 
 %% ------------  Checking updates --------------------------
 if(app_properties.check_app_update)
-    if(isempty(varargin))
+    if(~varargin{1})
         disp('-->> Checking latest project version');
         check_version();
     end
-    if(~isempty(varargin) && varargin{1})
+    if(varargin{1})
         update_version();
+        app_properties = [];
+        return;
     end
 end
 

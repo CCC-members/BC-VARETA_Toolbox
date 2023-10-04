@@ -1,4 +1,4 @@
-function Main(varargin)
+function bcvareta(varargin)
 %% BC-VARETA toolbox v1.0
 %%%%%%%%%%%%%%%%%%%%
 
@@ -57,12 +57,14 @@ end
 
 %% Init processing
 app_properties = init_processing(update);
-
+if(isempty(app_properties))
+    return;
+end
 %% BC-VARETA processing
 if(getGlobalGuimode())
     BC_VARETA
 else
-    BC_VARETA_bash(idnode,count_node);
+    BCV_bash(idnode,count_node);
 end
 
 %%
