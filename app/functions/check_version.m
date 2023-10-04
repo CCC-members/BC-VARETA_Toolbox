@@ -48,8 +48,8 @@ try
                 cprintf('Keywords',"-->> Download the latest version running: "); 
                 cprintf('Text',"bcvareta ");cprintf('SystemCommands',"update");fprintf('\n');
                 cprintf('Keywords',"     OR");fprintf('\n');
-                cprintf('Keywords',"-->> Download the latest version directly from: ");fprintf('\n');
-                cprintf('Keywords',"-->> https://github.com/CCC-members/BC-VARETA_Toolbox");fprintf('\n');
+                cprintf('Keywords',"-->> Download the latest version directly from: ");
+                cprintf('Keywords','<a href="https://github.com/CCC-members/BC-VARETA_Toolbox">BC-VARETA Toolbox Github</a>');fprintf('\n');
                 disp('=================================================================');
             end
         else
