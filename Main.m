@@ -44,14 +44,18 @@ else
     count_node = 1;
 end
 setGlobalGuimode(true);
+update = false;
 for i=1:length(varargin)
     if(isequal(varargin{i},'nogui'))
       setGlobalGuimode(false);
     end
+    if(isequal(varargin{i},'update'))
+      update = true;
+    end
 end
 
 %% Init processing
-app_properties = init_processing();
+app_properties = init_processing(update);
 
 %% BC-VARETA processing
 if(getGlobalGuimode())

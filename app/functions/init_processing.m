@@ -1,4 +1,4 @@
-function app_properties = init_processing()
+function app_properties = init_processing(varargin)
 %% Printing data information
 app_properties = jsondecode(fileread(strcat('app/properties.json')));
 disp(strcat("-->> Name:",app_properties.generals.name));
@@ -17,8 +17,9 @@ end
 %% ------------  Checking updates --------------------------
 if(app_properties.check_app_update)
     disp('-->> Checking latest project version');
-    if(isequal(check_version,true))
-        return;
+    check_version();
+    if(~isempty(varargin) && varargin{1})
+        update_version();
     end
 end
 
