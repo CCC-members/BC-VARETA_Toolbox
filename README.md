@@ -24,6 +24,11 @@ Example of data structure (time series, leadfield, surface, and electrodes) is h
 
 Main Function for MEEG real data analysis
     - Main.m      (**call this function for run**)
+
+Execute BC-VARETA Toolbox
+    - Main          % For graphical interface
+    - Main nogui    % For batch processing
+    - Main update   % Update to latest version     
   
 Inputs for bash:
     - configure files:

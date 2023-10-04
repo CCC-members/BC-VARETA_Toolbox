@@ -1,5 +1,5 @@
-function updated = check_version()
-updated = false;
+function check_version()
+
 %  BC-VARETA check version
 %
 %
@@ -22,7 +22,10 @@ try
         disp('-->> Comparing local and master version');
         if(local.generals.version_number < online.generals.version_number)
             if(getGlobalGuimode())
-                answer = questdlg({'There a new version available of BC-VARETA Toolbox.',' Do you want to update the laster version?'}, ...
+                answer = questdlg({'There a new version available of BC-VARETA Toolbox.', ...
+                    strcat('Version:',online.generals.version), ...
+                    strcat('Date:',online.generals.version_date), ...
+                    ' Do you want to update the laster version?'}, ...
                     'Update', ...
                     'Yes','No','Close');
                 % Handle response
@@ -60,9 +63,22 @@ try
                         unzip(filename,pwd);
                         pause(1);
                         delete(filename);
+                        % Backuping configuration files
+                        mkdir('tmp');
+                        copyfile('bcv_properties/general_params.json','tmp/');
+                        copyfile('bcv_properties/sensor_params.json','tmp/');
+                        copyfile('bcv_properties/activation_params.json','tmp/');
+                        copyfile('bcv_properties/connectivity_params.json','tmp/');
 
                         movefile( strcat('BC-VARETA_Toolbox-master',filesep,'*'), pwd);
                         rmdir BC-VARETA_Toolbox-master ;
+
+                        % Restoring configuration files
+                        movefile('tmp/general_params.json','bcv_properties/');
+                        movefile('tmp/sensor_params.json','bcv_properties/');
+                        movefile('tmp/activation_params.json','bcv_properties/');
+                        movefile('tmp/connectivity_params.json','bcv_properties/');
+                        rmdir('tmp');
 
                         jObj.stop;
                         jObj.setBusyText('All done!');
@@ -70,43 +86,31 @@ try
                         pause(2);
                         delete(f);
 
-                        disp('-->> The project is already update with the last version.');
+                        disp('-->> The project is already update with the latest version.');
                         disp('-->> The process was stoped to refresh all file');
                         disp('-->> Please configure the app properties file, before restart the process.');
-                        updated = true;
+
+                        uiwait(msgbox(["The latest version was downloaded successfully!";...
+                            "Matlab will be closed to complete the installation."],"Success","modal"));
+                        exit;
+
                     case 'No'
                         return;
                     case ''
                         return;   
-                end
+                end   
             else
-                %% Download lasted version
-                filename = strcat('BCV_last_version.zip');
-                disp(strcat("-->> Downloading latest version......."));
-                jObj.setBusyText(strcat("Downloading latest version "));
-
-                url = local.generals.base_url;
-                matlab.net.http.HTTPOptions.VerifyServerName = false;
-                options = weboptions('Timeout',Inf,'RequestMethod','auto');
-                websave(filename,url,options);
-
-                %% Unzip lasted version
-                pause(1);
-                disp(strcat("-->> Unpacking files..."));
-
-                unzip(filename,pwd);
-                pause(1);
-                delete(filename);
-
-                movefile( strcat('BC-VARETA_Toolbox-master',filesep,'*'), pwd);
-                rmdir BC-VARETA_Toolbox-master ;
-                disp('-->> The project is already update with the last version.');
-                disp('-->> The process was stoped to refresh all file');
-                disp('-->> Please configure the app properties file, before restart the process.');
-                updated = true;
+                disp('=================================================================');
+                cprintf('_red','BC-V -->> There is a BC-VARETA new version available.');fprintf('\n');
+                disp(strcat("-->> Name:",online.generals.name));
+                disp(strcat("-->> Version:",online.generals.version));
+                disp(strcat("-->> Version date:",online.generals.version_date));
+                disp("-----------------------------------------------------------------");
+                disp("-->> Download the latest version running:");
+                disp("-->> Main update");
+                disp('=================================================================');
             end
         else
-            updated = true;
             disp('-->> Nothing to update');
             disp('=================================================================');
         end
