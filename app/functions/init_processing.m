@@ -16,15 +16,8 @@ end
 
 %% ------------  Checking updates --------------------------
 if(app_properties.check_app_update)
-    if(~varargin{1})
-        disp('-->> Checking latest project version');
-        check_version();
-    end
-    if(varargin{1})
-        update_version();
-        app_properties = [];
-        return;
-    end
+    disp('-->> Checking latest project version');
+    check_version();
 end
 
 % Remove fieldtrip path for override functions 

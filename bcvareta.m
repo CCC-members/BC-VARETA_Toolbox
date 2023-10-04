@@ -47,11 +47,11 @@ setGlobalGuimode(true);
 update = false;
 for i=1:length(varargin)
     if(isequal(varargin{i},'nogui'))
-      setGlobalGuimode(false);
+        setGlobalGuimode(false);
     end
     if(isequal(varargin{i},'update'))
-      update = true;
-      setGlobalGuimode(false);
+        update_version();
+        return;
     end
 end
 
