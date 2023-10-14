@@ -3,32 +3,32 @@ function status = set_properties(properties)
 %   Detailed explanation goes here
 status = true;
 disp("-->> Checking properties");
-if(~isfolder(properties.general_params.params.bcv_workspace.BCV_input_dir))
+if(~isfolder(properties.general_params.bcv_workspace.BCV_input_dir))
     fprintf(2,strcat('\nBC-V-->> Error: The param BCV_input_dir defined on bcv_properties/general_params.json file: \n'));
-    disp(properties.general_params.params.bcv_workspace.BCV_input_dir);
+    disp(properties.general_params.bcv_workspace.BCV_input_dir);
     fprintf(2,strcat('It is not a correct adreess directory. \n'));
     disp('Please verify the location path.');
     status = false;
     return;
 end
-if(~isfolder(properties.general_params.params.bcv_workspace.BCV_work_dir))
+if(~isfolder(properties.general_params.bcv_workspace.BCV_work_dir))
     fprintf(2,strcat('\nBC-V-->> Error: The param BCV_work_dir defined on bcv_properties/general_params.json file: \n'));
-    disp(properties.general_params.params.bcv_workspace.BCV_work_dir);
+    disp(properties.general_params.bcv_workspace.BCV_work_dir);
     fprintf(2,strcat('It is not a correct adreess directory. \n'));
     disp('Please verify the location path.');
     status = false;
     return;
 else
-    [status,values] = fileattrib(properties.general_params.params.bcv_workspace.BCV_work_dir);
+    [status,values] = fileattrib(properties.general_params.bcv_workspace.BCV_work_dir);
     if(~values.UserWrite)
         fprintf(2,strcat('\nBC-V-->> Error: The current user do not have write permissions on: \n'));
-        disp(properties.general_params.params.bcv_workspace.BCV_work_dir);
+        disp(properties.general_params.bcv_workspace.BCV_work_dir);
         disp('Please check the folder permission.');
         status = false;
         return;
     end
 end
-frequencies = properties.sensor_params.params.frequencies;
+frequencies = properties.sensor_params.frequencies;
 for i=1:length(frequencies)
     freq = frequencies(i);
     if(freq.run && freq.f_start > freq.f_end)

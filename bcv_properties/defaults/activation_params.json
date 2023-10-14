@@ -1,95 +1,92 @@
 {
-    "description":"BC-VARETA activation level params",
-    "params":{
-        "description":"Parameters in the second level of analysis or activation",
-        "methods":[
-            {
-                "method":"sssblpp",
-                "description":"",
-                "run":true,
-                "threshold":{
-                    "description":"default <<1 to sqrt(3)=1.7321>>. Threshold for the sSSBL++ F-scores. lower threshold <<1>> (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded). upper threshold <<sqrt(3)>> (if <<sqrt(3)>> responses whose posterior variance is larger than 3 times the posterior mean are discarded)",
-                    "value":0
-                }
-            },
-            {
-                "method":"eloreta",
-                "description":"",
-                "run":false,
-                "gamma1":{
-                    "description":"",
-                    "value":0
-                },
-                "gamma2":{
-                    "description":"",
-                    "value":2
-                },
-                "delta_gamma":{
-                    "description":"",
-                    "value":0.1
-                },
-                "threshold":{
-                    "description":"default <<1>>. Threshold for the eLORETA z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
-                    "value":1
-                }
-            },
-            {
-                "method":"lcmv",
-                "description":"",
-                "run":false,
-                "gamma1":{
-                    "description":"",
-                    "value":0
-                },
-                "gamma2":{
-                    "description":"",
-                    "value":2
-                },
-                "delta_gamma":{
-                    "description":"",
-                    "value":0.1
-                },
-                "threshold":{
-                    "description":"default <<1>>. Threshold for the LCMV z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
-                    "value":1
-                }
+    "description":"BC-VARETA activation level params. Parameters in the second level of analysis or activation",
+    "methods":[
+        {
+            "method":"sssblpp",
+            "description":"",
+            "run":true,
+            "threshold":{
+                "description":"default <<1 to sqrt(3)=1.7321>>. Threshold for the sSSBL++ F-scores. lower threshold <<1>> (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded). upper threshold <<sqrt(3)>> (if <<sqrt(3)>> responses whose posterior variance is larger than 3 times the posterior mean are discarded)",
+                "value":0
             }
-        ],
-        "IsCurv":{
-            "description":"default <<true>>. Depth compensation factor for the Lead Field of giri and sulci <<false>> (no compensation) <<true>> (compensation)",
-            "value":1
         },
-        "IsParcel":{
-            "description":"default <<true>>. Structured sparsity with smoothness of the responses within areas <<false>> (no smoothness) <<true>> (parcel smoothness)",
-            "value":1
+        {
+            "method":"eloreta",
+            "description":"",
+            "run":false,
+            "gamma1":{
+                "description":"",
+                "value":0
+            },
+            "gamma2":{
+                "description":"",
+                "value":2
+            },
+            "delta_gamma":{
+                "description":"",
+                "value":0.1
+            },
+            "threshold":{
+                "description":"default <<1>>. Threshold for the eLORETA z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
+                "value":1
+            }
         },
-        "IsNeigh":{
-            "description":"default <<false>>. no neighbor structure <<false>>. Laplacian neighbor structure  <<true>>.",
-            "value":1
-        },
-        "IsField":{
-            "description":"default <<2>>. Use projected Lead Field or 3D profile with prior of rotational invariance <<1>> (projected Lead Field) <<2>> (2D field isotropy) <<3>> (3D field isotropy)",
-            "value":3
-        },
-        "aGiri":{
-            "description":"default <<5>>. Baseline of giri curvature factor",
-            "value":5
-        },
-        "aSulc":{
-            "description":"default <<5>>. Baseline of sulci curvature factor. usually is set to be higher than aGiri",
-            "value":5
-        },
-        "bGiri":{
-            "description":"default <<3>>. Scale of giri curvature factor",
-            "value":3
-        },
-        "bSulc":{
-            "description":"default <<3>>. Scale of sulci curvature factor",
-            "value":3
-        },
-        "regLaplacian":{
-            "description":" ",
-            "value":0.1
+        {
+            "method":"lcmv",
+            "description":"",
+            "run":false,
+            "gamma1":{
+                "description":"",
+                "value":0
+            },
+            "gamma2":{
+                "description":"",
+                "value":2
+            },
+            "delta_gamma":{
+                "description":"",
+                "value":0.1
+            },
+            "threshold":{
+                "description":"default <<1>>. Threshold for the LCMV z-scores. it can be set to <<1>> or higher (if <<1>> responses whose posterior variance is larger than the posterior mean are discarded)",
+                "value":1
+            }
         }
+    ],
+    "IsCurv":{
+        "description":"default <<true>>. Depth compensation factor for the Lead Field of giri and sulci <<false>> (no compensation) <<true>> (compensation)",
+        "value":1
+    },
+    "IsParcel":{
+        "description":"default <<true>>. Structured sparsity with smoothness of the responses within areas <<false>> (no smoothness) <<true>> (parcel smoothness)",
+        "value":1
+    },
+    "IsNeigh":{
+        "description":"default <<false>>. no neighbor structure <<false>>. Laplacian neighbor structure  <<true>>.",
+        "value":1
+    },
+    "IsField":{
+        "description":"default <<2>>. Use projected Lead Field or 3D profile with prior of rotational invariance <<1>> (projected Lead Field) <<2>> (2D field isotropy) <<3>> (3D field isotropy)",
+        "value":3
+    },
+    "aGiri":{
+        "description":"default <<5>>. Baseline of giri curvature factor",
+        "value":5
+    },
+    "aSulc":{
+        "description":"default <<5>>. Baseline of sulci curvature factor. usually is set to be higher than aGiri",
+        "value":5
+    },
+    "bGiri":{
+        "description":"default <<3>>. Scale of giri curvature factor",
+        "value":3
+    },
+    "bSulc":{
+        "description":"default <<3>>. Scale of sulci curvature factor",
+        "value":3
+    },
+    "regLaplacian":{
+        "description":" ",
+        "value":0.1
     }
 }
