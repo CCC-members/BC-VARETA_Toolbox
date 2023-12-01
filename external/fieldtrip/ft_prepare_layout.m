@@ -546,7 +546,7 @@ elseif ischar(cfg.layout)
 
   elseif ft_filetype(cfg.layout, 'matlab')
 
-    ft_info('reading layout from file %s\n', cfg.layout);
+    % ft_info('reading layout from file %s\n', cfg.layout);
     if ~exist(cfg.layout, 'file')
       ft_error('the specified layout file %s was not found', cfg.layout);
     end
@@ -562,7 +562,7 @@ elseif ischar(cfg.layout)
   elseif ft_filetype(cfg.layout, 'layout')
 
     if exist(cfg.layout, 'file')
-      ft_info('reading layout from file %s\n', cfg.layout);
+      % ft_info('reading layout from file %s\n', cfg.layout);
       layout = readlay(cfg.layout);
     else
       [p, f] = fileparts(cfg.layout);

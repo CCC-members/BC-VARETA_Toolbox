@@ -58,12 +58,12 @@ if istrue(ft_getopt(cfg, 'showcallinfo', 'yes'))
   % stack(3) is the main FieldTrip function that we are interested in
   stack = stack(3);
   
-  if ispc()
-    % don't print memory usage info under Windows; this does not work (yet)
-    fprintf('the call to "%s" took %d seconds\n', stack.name, round(cfg.callinfo.proctime));
-  else
-    fprintf('the call to "%s" took %d seconds and required the additional allocation of an estimated %d MB\n', stack.name, round(cfg.callinfo.proctime), round(cfg.callinfo.procmem/(1024*1024)));
-  end
+  % if ispc()
+  %   % don't print memory usage info under Windows; this does not work (yet)
+  %   fprintf('the call to "%s" took %d seconds\n', stack.name, round(cfg.callinfo.proctime));
+  % else
+  %   fprintf('the call to "%s" took %d seconds and required the additional allocation of an estimated %d MB\n', stack.name, round(cfg.callinfo.proctime), round(cfg.callinfo.procmem/(1024*1024)));
+  % end
 end % if showcallinfo=yes
 clear stack
 
