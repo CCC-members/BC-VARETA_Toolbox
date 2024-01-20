@@ -16,7 +16,7 @@ function [subject,properties,outputs] = activation_level_mne(subject,properties)
 %%
 %% BC-VARETA Toolbox...
 %% Preparing params
-Lvj           = subject.Ke;
+Lvj           = subject.Lvj;
 W             = subject.W;
 sub_to_FSAve  = subject.sub_to_FSAve;
 
@@ -57,24 +57,24 @@ param.Winv          = subject.Winv;
 
 %%
 if IsCurv == 0    
-    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleKe] = mne(Svv,Lvj,param);
+    [s2j,sigma2j_post,T,~,~,scaleSvv,scaleLvj] = mne(Svv,Lvj,param);
     clearvars param Svv;
     if IsField == 2 || IsField == 3
         s2j               = sqrt(sum(reshape(abs(s2j),3,length(Lvj)/3),1))';
         sigma2j_post      = sqrt(sum(reshape(abs(sigma2j_post),3,length(Lvj)/3),1))';
     end
-    clearvars Ke;
+    clearvars Lvj;
     stat                  = s2j./sigma2j_post;
     indms                 = find(stat > threshold);
     J                     = s2j;
-    J                     = J*scaleSvv/scaleKe^2;
+    J                     = J*scaleSvv/scaleLvj^2;
     Jsp                   = zeros(length(stat),1);
     Jsp(indms)            = J(indms);
 elseif IsCurv == 1
     param.flag = strcat(flag," Giri compensation");
-    [s2j_giri,sigma2j_post_giri,Tgiri,~,~,scaleSvv_giri,scaleKe_giri] = mne(Svv,subject.Ke_giri,param);
+    [s2j_giri,sigma2j_post_giri,Tgiri,~,~,scaleSvv_giri,scaleLvj_giri] = mne(Svv,subject.Lvj_giri,param);
     param.flag = strcat(flag," Sulci compensation");
-    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,~,scaleSvv_sulc,scaleKe_sulc] = mne(Svv,subject.Ke_sulc,param);
+    [s2j_sulc,sigma2j_post_sulc,Tsulc,~,~,scaleSvv_sulc,scaleLvj_sulc] = mne(Svv,subject.Lvj_sulc,param);
     clearvars param Svv;
     disp("-->> Applying giri and sulci compensation.");
     if IsField == 2 || IsField == 3
@@ -83,7 +83,7 @@ elseif IsCurv == 1
         s2j_sulc               = sqrt(sum(reshape(abs(s2j_sulc),3,length(Lvj)/3),1))';
         sigma2j_post_sulc      = sqrt(sum(reshape(abs(sigma2j_post_sulc),3,length(Lvj)/3),1))';
     end
-    clearvars Ke;
+    clearvars Lvj;
     stat_giri             = s2j_giri./sigma2j_post_giri;
     indms_giri            = find(stat_giri > threshold);
     stat_sulc             = s2j_sulc./sigma2j_post_sulc;
@@ -92,16 +92,16 @@ elseif IsCurv == 1
     sigma2j_post          = [sigma2j_post_giri sigma2j_post_sulc];
     clearvars sigma2j_post_giri sigma2j_post_sulc;
     scaleSvv              = [scaleSvv_giri scaleSvv_sulc];
-    scaleKe               = [scaleKe_giri scaleKe_sulc];
+    scaleLvj               = [scaleLvj_giri scaleLvj_sulc];
     stat                  = [stat_giri stat_sulc];
     clearvars stat_giri stat_sulc;
     indms                 = unique([indms_giri;indms_sulc]);
     clearvars indms_giri indms_sulc;
     J                     = (s2j_giri + s2j_sulc)/2;
     clearvars s2j_giri s2j_sulc;
-    J                     = J*sqrt(scaleSvv_giri*scaleSvv_sulc)/(scaleKe_giri*scaleKe_sulc);
+    J                     = J*sqrt(scaleSvv_giri*scaleSvv_sulc)/(scaleLvj_giri*scaleLvj_sulc);
     clearvars scaleSvv_giri scaleSvv_sulc;
-    clearvars scaleKe_giri scaleKe_sulc;
+    clearvars scaleLvj_giri scaleLvj_sulc;
     Jsp                   = zeros(length(stat),1);
     Jsp(indms)            = J(indms);
     T                     = cat(3,Tgiri,Tsulc);
@@ -119,7 +119,7 @@ outputs.s2j = s2j;
 outputs.sigma2j_post = sigma2j_post;
 outputs.T = T;
 outputs.scaleSvv = scaleSvv;
-outputs.scaleKe = scaleKe;
+outputs.scaleLvj = scaleLvj;
 outputs.stat = stat;
 outputs.J = J;
 outputs.Jsp = Jsp;

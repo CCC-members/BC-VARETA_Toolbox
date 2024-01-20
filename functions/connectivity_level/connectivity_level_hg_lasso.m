@@ -21,7 +21,7 @@ Svv                 = properties.sensor_level_out.Svv;
 indms               = properties.activation_level_out.indms;
 Tjv                 = properties.activation_level_out.T;
 scaleSvv            = properties.activation_level_out.scaleSvv;
-scaleKe             = properties.activation_level_out.scaleKe;
+scaleLvj             = properties.activation_level_out.scaleLvj;
 activation_params   = properties.activation_params;
 connectivity_params = properties.connectivity_params;
 IsCurv              = activation_params.IsCurv.value;  % 0 (no compensation) 1 (giri and sulci curvature compensation)
@@ -73,7 +73,7 @@ if (IsCurv == 0)
     end
     Sjj      = Tjv(indms,:)*Svv*Tjv(indms,:)';
     Sjj      = (Sjj + Sjj')/2;
-    Sjj      = Sjj*sqrt(scaleSvv)/(scaleKe);
+    Sjj      = Sjj*sqrt(scaleSvv)/(scaleLvj);
 elseif (IsCurv == 1)
     Tjv_giri     = squeeze(Tjv(:,:,1));
     Tjv_sulc     = squeeze(Tjv(:,:,2));
@@ -89,7 +89,7 @@ elseif (IsCurv == 1)
     Sjj_sulc = Tjv_sulc(indms,:)*Svv*Tjv_sulc(indms,:)';
     Sjj      = (Sjj_giri + Sjj_sulc)/2;
     Sjj      = (Sjj + Sjj')/2;
-    Sjj      = Sjj*sqrt(scaleSvv(1)*scaleSvv(2))/(scaleKe(1)*scaleKe(2));
+    Sjj      = Sjj*sqrt(scaleSvv(1)*scaleSvv(2))/(scaleLvj(1)*scaleLvj(2));
 end
 [Thetajj,Sigmajj]     = twostep_lasso_caller(Sjj,param);
 

@@ -129,8 +129,8 @@ if IsCurv == 1
     CurvGiri(Sulc == 0)   = aGiri + bGiri.*Curv(Sulc == 0);
     CurvGiri(Sulc == 1)   = 1;
     if IsField == 1
-        Ke_giri               = Lvj.*repmat(CurvGiri',size(Lvj,1),1);
-        Ke_sulc               = Lvj.*repmat(CurvSulc',size(Lvj,1),1);
+        Lvj_giri               = Lvj.*repmat(CurvGiri',size(Lvj,1),1);
+        Lvj_sulc               = Lvj.*repmat(CurvSulc',size(Lvj,1),1);
     elseif IsField == 2 || IsField == 3
         Sulc3D                = zeros(1,3*length(Sulc));
         CurvSulc3D            = zeros(1,3*length(Curv));
@@ -142,13 +142,13 @@ if IsCurv == 1
             Sulc3D([node3 node3+1 node3+2])     = repmat(Sulc(node),1,3);
             node3                               = node3 + 3;
         end
-        Ke_giri               = Lvj.*repmat(CurvGiri3D,size(Lvj,1),1);
-        Ke_sulc               = Lvj.*repmat(CurvSulc3D,size(Lvj,1),1);
+        Lvj_giri               = Lvj.*repmat(CurvGiri3D,size(Lvj,1),1);
+        Lvj_sulc               = Lvj.*repmat(CurvSulc3D,size(Lvj,1),1);
     end
-    subject.Ke_giri = Ke_giri;
-    subject.Ke_sulc = Ke_sulc;
+    subject.Lvj_giri = Lvj_giri;
+    subject.Lvj_sulc = Lvj_sulc;
 end
-subject.Ke = Lvj;
+subject.Lvj = Lvj;
 if(getGlobalGuimode() && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Creating curvature compensator. 100%"));
     delete(process_waitbar);

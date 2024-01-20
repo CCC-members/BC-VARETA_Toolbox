@@ -1,4 +1,4 @@
-function [J_time] = time_series_from_Tjv(Tjv,V_time,IsCurv,IsField,scaleKe,GridOrient,GridAtlas)
+function [J_time] = time_series_from_Tjv(Tjv,V_time,IsCurv,IsField,scaleLvj,GridOrient,GridAtlas)
 %% obtain source time series (J_time) from data (V_time) using transfer operator Tjv
 %% V_time was obtained from the hilbert envelope of the filtered MEG/EEG signal used to compute Tjv
 Ng     = size(Tjv,1);
@@ -22,5 +22,5 @@ elseif IsCurv == 1
         J_time_angle      = exp(i*angle(squeeze(Tjv(:,:,1))*V_time + squeeze(Tjv(:,:,2))*V_time));
         J_time           = J_time.*J_time_angle;
     end
-    J_time               = J_time/(scaleKe(1)*scaleKe(2));
+    J_time               = J_time/(scaleLvj(1)*scaleLvj(2));
 end

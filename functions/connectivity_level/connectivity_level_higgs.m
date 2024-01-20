@@ -16,7 +16,7 @@ function [subject,properties,outputs] = connectivity_level_higgs(subject,propert
 %%
 %% Preparing params
 %%
-Ke                      = subject.Ke;
+Lvj                     = subject.Lvj;
 W                       = subject.W;
 Winv                    = subject.Winv;
 sub_to_FSAve            = subject.sub_to_FSAve;
@@ -27,6 +27,8 @@ sub_to_FSAve            = subject.sub_to_FSAve;
 sensor_level_out        = subject.sensor_level_out;
 Svv                     = sensor_level_out.Svv;
 Nseg                    = sensor_level_out.Nseg;
+band                    = sensor_level_out.band;
+str_band                = band.str_band;
 
 %%
 %% Activation level Outputs
@@ -44,7 +46,8 @@ end
 %% HIGGS parameters
 %%
 connectivity_params     = properties.connectivity_params;
-higgs_th                = connectivity_params.higgs_th.value;
+conn_method             = connectivity_params.methods(1);
+conn_th                 = conn_method.threshold.value;
 IsCurv                  = connectivity_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
 IsField                 = connectivity_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
 
@@ -75,18 +78,18 @@ param.parcellation      = subject.parcellation;
 %% Checking activation and Connectivity Threshold
 %%
 disp('BC-V-->> Connectivity leakage module...');
-if(isequal(actv_th,higgs_th))
+if(isequal(actv_th,conn_th))
     indms               = activation_level_out.indms;
 else
     if IsCurv == 0
         s2j             = activation_level_out.s2j;
         sigma2j         = activation_level_out.sigma2j_post;
         if IsField == 2 || IsField == 3
-            s2j         = sum(reshape(abs(s2j),3,length(Ke)/3),1)';
-            sigma2j     = sum(reshape(abs(sigma2j),3,length(Ke)/3),1)';
+            s2j         = sum(reshape(abs(s2j),3,length(Lvj)/3),1)';
+            sigma2j     = sum(reshape(abs(sigma2j),3,length(Lvj)/3),1)';
         end
         stat            = sqrt(s2j./sigma2j);
-        indms           = find(stat > higgs_th);
+        indms           = find(stat > conn_th);
     elseif IsCurv == 1
         s2j             = activation_level_out.s2j;
         s2j_giri        = s2j(:,1);
@@ -95,15 +98,15 @@ else
         sigma2j_giri    = sigma2j(:,1);
         sigma2j_sulc    = sigma2j(:,2);
         if IsField == 2 || IsField == 3
-            s2j_giri    = sum(reshape(abs(s2j_giri),3,length(Ke)/3),1)';
-            sigma2j_giri= sum(reshape(abs(sigma2j_giri),3,length(Ke)/3),1)';
-            s2j_sulc    = sum(reshape(abs(s2j_sulc),3,length(Ke)/3),1)';
-            sigma2j_sulc= sum(reshape(abs(sigma2j_sulc),3,length(Ke)/3),1)';
+            % s2j_giri    = sum(reshape(abs(s2j_giri),3,length(Lvj)/3),1)';
+            sigma2j_giri= sum(reshape(abs(sigma2j_giri),3,length(Lvj)/3),1)';
+            % s2j_sulc    = sum(reshape(abs(s2j_sulc),3,length(Lvj)/3),1)';
+            sigma2j_sulc= sum(reshape(abs(sigma2j_sulc),3,length(Lvj)/3),1)';
         end
         stat_giri       = sqrt(s2j_giri./sigma2j_giri);
-        indms_giri      = find(stat_giri > higgs_th);
+        indms_giri      = find(stat_giri > conn_th);
         stat_sulc       = sqrt(s2j_sulc./sigma2j_sulc);
-        indms_sulc      = find(stat_sulc > higgs_th);        
+        indms_sulc      = find(stat_sulc > conn_th);        
         indms           = unique([indms_giri;indms_sulc]);
         clearvars sigma2j_giri sigma2j_sulc;
         clearvars stat_giri stat_sulc;
@@ -124,23 +127,23 @@ Ajj                     = Ajj_diag*eye(q)+Ajj_ndiag*(ones(q)-eye(q));
 param.aj                = aj;
 param.Ajj               = Ajj;
 if IsCurv == 0
-    Ke                  = Ke*W;
-    [Thetajj,Tjv,llh]   = higgs(Svv,Ke(:,indms),param);
+    Lvj                  = Lvj*W;
+    [Thetajj,Tjv,llh]   = higgs(Svv,Lvj(:,indms),param);
     [Thetajj,s2j,Tjv]   = higgs_destandardization(Thetajj,Svv,Tjv,Winv,W,indms,IsField);
 elseif IsCurv == 1
-    Ke_giri             = subject.Ke_giri;
-    Ke_sulc             = subject.Ke_sulc;
-    Ke_giri             = Ke_giri*W;
-    Ke_sulc             = Ke_sulc*W;
-    [Thetajj_sulc,Tjv_sulc,llh_sulc,Sjj_sulc,Psijj_sulc,Sigmajj_sulc] = higgs(Svv,Ke_sulc(:,indms),param);
-    [Thetajj_giri,Tjv_giri,llh_giri,Sjj_giri,Psijj_giri,Sigmajj_giri] = higgs(Svv,Ke_giri(:,indms),param);
+    Lvj_giri             = subject.Lvj_giri;
+    Lvj_sulc             = subject.Lvj_sulc;
+    Lvj_giri             = Lvj_giri*W;
+    Lvj_sulc             = Lvj_sulc*W;
+    [Thetajj_sulc,Tjv_sulc,llh_sulc,Sjj_sulc,Psijj_sulc,Sigmajj_sulc] = higgs(Svv,Lvj_sulc(:,indms),param);
+    [Thetajj_giri,Tjv_giri,llh_giri,Sjj_giri,Psijj_giri,Sigmajj_giri] = higgs(Svv,Lvj_giri(:,indms),param);
     [Thetajj_giri,s2j_giri,Tjv_giri] = higgs_destandardization(Thetajj_giri,Svv,Tjv_giri,Winv,W,indms,IsField);
     [Thetajj_sulc,s2j_sulc,Tjv_sulc] = higgs_destandardization(Thetajj_sulc,Svv,Tjv_sulc,Winv,W,indms,IsField);
     Thetajj             = (Thetajj_giri + Thetajj_sulc)/2;
     Sjj                 = (Sjj_giri + Sjj_sulc)/2;
     Psijj               = (Psijj_giri + Psijj_sulc)/2;
     Sigmajj             = (Sigmajj_giri + Sigmajj_sulc)/2;
-    clearvars Thetajj_sulc Thetajj_giri Ke_sulc Ke_giri Sjj_giri Sjj_sulc Psijj_giri Psijj_sulc Sigmajj_giri Sigmajj_sulc;
+    clearvars Thetajj_sulc Thetajj_giri Lvj_sulc Lvj_giri Sjj_giri Sjj_sulc Psijj_giri Psijj_sulc Sigmajj_giri Sigmajj_sulc;
     s2j                 = (s2j_giri + s2j_sulc)/2;
     llh                 = [llh_giri llh_sulc];
     Tjv                 = cat(3,Tjv_giri,Tjv_sulc);
@@ -150,14 +153,14 @@ clearvars param W Winv;
 
 %% Ordering results by FSAve indices
 disp("-->> Ordering connectivity results by FSAve indices");
-Msub_to_FSAve   = zeros(length(sub_to_FSAve),size(Ke,2));
+Msub_to_FSAve   = zeros(length(sub_to_FSAve),size(Lvj,2));
 for h = 1:length(sub_to_FSAve)
     indices = sub_to_FSAve(h,:);
     Msub_to_FSAve(h,[indices(1) indices(2) indices(3)]) = 1/3;
 end
 
 Msub_to_FSAve           = sparse(Msub_to_FSAve);
-Thetajj_FSAve           = zeros(size(Ke,2));
+Thetajj_FSAve           = zeros(size(Lvj,2));
 Thetajj_FSAve(indms,indms) = Thetajj;
 Thetajj_FSAve           = sparse(Thetajj_FSAve);
 Thetajj_FSAve           = Msub_to_FSAve*Thetajj_FSAve;

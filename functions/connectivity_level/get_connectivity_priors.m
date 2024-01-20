@@ -1,16 +1,14 @@
 function [subject,properties] = get_connectivity_priors(subject,properties)
-analysis_method = properties.connectivity_params.methods{1};
-fields          = fieldnames(analysis_method);
-method_name     = fields{1};
+connectivity_params = properties.connectivity_params;
+analysis_method = connectivity_params.methods(1);
 
-if(analysis_method.(method_name).run)
+if(analysis_method.run)
     disp('=================================================================');
     disp('BC-V-->> Getting connectivity priors.');
     
-    Lvj                     = subject.Ke;
+    Lvj                     = subject.Lvj;
     Sc                      = subject.Scortex;
     activation_params       = properties.activation_params;
-    connectivity_params     = properties.connectivity_params;
     aSulc                   = connectivity_params.aSulc.value; % baseline of sulci curvature factor
     aGiri                   = connectivity_params.aGiri.value; % baseline of giri curvature factor
     bSulc                   = connectivity_params.bSulc.value; % scale of sulci curvature factor
@@ -140,8 +138,8 @@ if(analysis_method.(method_name).run)
             CurvGiri(Sulc == 0)   = aGiri + bGiri.*Curv(Sulc == 0);
             CurvGiri(Sulc == 1)   = 1;
             if IsField == 1
-                Ke_giri               = Lvj.*repmat(CurvGiri',size(Lvj,1),1);
-                Ke_sulc               = Lvj.*repmat(CurvSulc',size(Lvj,1),1);
+                Lvj_giri               = Lvj.*repmat(CurvGiri',size(Lvj,1),1);
+                Lvj_sulc               = Lvj.*repmat(CurvSulc',size(Lvj,1),1);
             elseif IsField == 2 || IsField == 3
                 Sulc3D                = zeros(1,3*length(Sulc));
                 CurvSulc3D            = zeros(1,3*length(Curv));
@@ -153,13 +151,13 @@ if(analysis_method.(method_name).run)
                     Sulc3D([node3 node3+1 node3+2])     = repmat(Sulc(node),1,3);
                     node3                               = node3 + 3;
                 end
-                Ke_giri               = Lvj.*repmat(CurvGiri3D,size(Lvj,1),1);
-                Ke_sulc               = Lvj.*repmat(CurvSulc3D,size(Lvj,1),1);
+                Lvj_giri               = Lvj.*repmat(CurvGiri3D,size(Lvj,1),1);
+                Lvj_sulc               = Lvj.*repmat(CurvSulc3D,size(Lvj,1),1);
             end
-            subject.Ke_giri = Ke_giri;
-            subject.Ke_sulc = Ke_sulc;
+            subject.Lvj_giri = Lvj_giri;
+            subject.Lvj_sulc = Lvj_sulc;
         end
-        subject.Ke = Lvj;
+        subject.Lvj = Lvj;
     end
     if(getGlobalGuimode() && exist('process_waitbar','var'))
         waitbar(1,process_waitbar,strcat("Creating curvature compensator. 100%"));

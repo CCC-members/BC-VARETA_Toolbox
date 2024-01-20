@@ -29,8 +29,8 @@ if(~isempty(subjects))
     end
     for i=1:length(subjects)
         subject_file = subjects(i);
-        [subject,checked,error_msg_array] = ischecked_subject_data(subject_file);
-        if(checked)
+        [subject,checLvjd,error_msg_array] = ischecLvjd_subject_data(subject_file);
+        if(checLvjd)
             break;
         else
             fprintf(2,strcat('\nBC-V-->> Error: The selected subject:',subject_file.name,' do not have a correcxt structure.\n'));
@@ -69,7 +69,7 @@ Fs = properties.samp_freq.value; % sampling frequency
 Fm = properties.max_freq.value; % maximum frequency
 deltaf = properties.freq_resol.value; % frequency resolution
 Nw = properties.win_order.value;
-[Svv_channel,Ke,PSD,Nf,F,Nseg] = cross_spectra(subject.data,Fs,Fm,deltaf,subject.Ke,Nw);
+[Svv_channel,Lvj,PSD,Nf,F,Nseg] = cross_spectra(subject.data,Fs,Fm,deltaf,subject.Lvj,Nw);
 
 
 if(isequal(subject.modality,'EEG'))

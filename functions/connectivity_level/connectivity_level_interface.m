@@ -44,15 +44,15 @@ for i=1:length(activation_level)
     %% Band Analysis, connectivity level
     %%
     for m=1:length(properties.connectivity_params.methods)
-        analysis_method                             = properties.connectivity_params.methods{m};        
+        analysis_method                             = properties.connectivity_params.methods(m);        
         method                                      = analysis_method.method;  
         if(analysis_method.run)
             disp('-----------------------------------------------------------------');
             disp(strcat("-->> Start time: ",datestr(now,'mmmm dd, yyyy HH:MM:SS AM')));
-            switch m
-                case 1                    
+            switch method
+                case "higgs"                    
                     [subject,properties,outputs]    = connectivity_level_higgs(subject,properties);
-                case 2                    
+                case "hg_lasso"                    
                     [subject,properties,outputs]    = connectivity_level_hg_lasso(subject,properties);
             end
             subject                                 = BC_V_save(properties,subject,'connectivity',method,outputs,pos,band);
