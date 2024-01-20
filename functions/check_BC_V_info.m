@@ -74,6 +74,7 @@ if(isequal(level,3))
         status = false;
         return;
     end
+    BC_V_info = load(fullfile(BC_V_file.folder,BC_V_file.name));
     if((~isfield(BC_V_info,'sensor_level')))
         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
         disp(subject.name);

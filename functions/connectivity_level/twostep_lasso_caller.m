@@ -3,7 +3,6 @@ function [Thetajj,Sigmajj] = twostep_lasso_caller(Psijj,param)
 %  it first corrects the eigenvalues of the effective empirical covariance Psijj and normalize it by the infimun
 %  norm Psijjfix, the scaling guarantees more stable computations of the hg-lasso-lqa, continues with performing
 %  hg-lasso-lqa Thetajj_lasso and the unbiased statistics Thetajj_unb and Thetajj_var
-disp("Compute hg_lasso_lqa. This operation may take a long time.");
 m               = param.m;
 q               = param.q;
 aj              = param.aj;

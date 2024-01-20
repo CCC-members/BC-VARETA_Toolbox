@@ -1,9 +1,9 @@
 {
     "generals" : {
         "name" : "BC-VARETA ToolBox",
-        "version" : "v.981",
-        "version_date" : "10-03-2023",
-        "version_number" : 81,
+        "version" : "v.982",
+        "version_date" : "01-20-2024",
+        "version_number" : 82,
         "test_data_url": "https://lstneuro-my.sharepoint.com/:u:/g/personal/cc-lab_neuroinformatics-collaboratory_org/EQVy7Y3oL9lDqS4_aNwglCsBMngspSuQ6yVudDj1xUOhgA?download=1",
         "url_check" : "https://raw.github.com/CCC-members/BC-VARETA_Toolbox/master/app/properties.json",
         "base_url"  : "https://codeload.github.com/CCC-members/BC-VARETA_Toolbox/zip/master"

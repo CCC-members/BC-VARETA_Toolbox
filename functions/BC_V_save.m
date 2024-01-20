@@ -159,55 +159,21 @@ if(isequal(process,'activation'))
             pathname                                    = fullfile(pathname,'sSSBLpp',band.name);
             if(~isfolder(pathname))
                 mkdir(pathname);
-            end            
-            s2j                                         = outputs.s2j;
-            sigma2j                                     = outputs.sigma2j;
-            T                                           = outputs.T;
-            scaleSvv                                    = outputs.scaleSvv;
-            scaleKe                                     = outputs.scaleKe;
-            stat                                        = outputs.stat;
-            J                                           = outputs.J;
-            Jsp                                         = outputs.Jsp;
-            indms                                       = outputs.indms;
-            J_FSAve                                     = outputs.J_FSAve;
-            Jsp_FSAve                                   = outputs.Jsp_FSAve;
-            disp(strcat("File: ", file_name));
-            parsave(fullfile(pathname ,file_name ),s2j,sigma2j,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
+            end
         case 'eloreta'
             pathname                                    = fullfile(pathname,'eLORETA',band.name);            
             if(~isfolder(pathname))
                 mkdir(pathname);
             end
-            s2j                                         = outputs.s2j;
-            T                                           = outputs.T;
-            scaleSvv                                    = outputs.scaleSvv;
-            scaleKe                                     = outputs.scaleKe;
-            stat                                        = outputs.stat;
-            J                                           = outputs.J;
-            Jsp                                         = outputs.Jsp;
-            indms                                       = outputs.indms;
-            J_FSAve                                     = outputs.J_FSAve;
-            Jsp_FSAve                                   = outputs.Jsp_FSAve;
-            disp(strcat("File: ", file_name));
-            parsave(fullfile(pathname ,file_name ),s2j,sigma2j_post,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
         case 'lcmv'
             pathname                                    = fullfile(pathname,'LCMV',band.name);            
-            if(~isfolder(subject.pathname))
-                mkdir(subject.pathname);
-            end
-            s2j                                         = outputs.s2j;
-            T                                           = outputs.T;
-            scaleSvv                                    = outputs.scaleSvv;
-            scaleKe                                     = outputs.scaleKe;
-            stat                                        = outputs.stat;
-            J                                           = outputs.J;
-            Jsp                                         = outputs.Jsp;
-            indms                                       = outputs.indms;
-            J_FSAve                                     = outputs.J_FSAve;
-            Jsp_FSAve                                   = outputs.Jsp_FSAve;
-            disp(strcat("File: ", file_name));
-            parsave(fullfile(pathname ,file_name ),s2j,sigma_post,T,scaleSvv,scaleKe,stat,J,Jsp,indms,J_FSAve,Jsp_FSAve);
+            if(~isfolder(pathname))
+                mkdir(pathname);
+            end            
     end
+    disp(strcat("File: ", file_name));
+    save(fullfile(pathname ,file_name ),"-struct",'outputs');
+
     %% 
     reference_path = strsplit(pathname,subject.name);    
     subject.BC_V_info.activation_level(pos).Comment     = level;
@@ -265,39 +231,24 @@ if(isequal(process,'connectivity'))
             pathname                                    = fullfile(pathname,'HiGGS',band.name);
             if(~isfolder(pathname))
                 mkdir(pathname);
-            end            
-            Thetajj                                    = outputs.Thetajj;
-            s2j                                        = outputs.s2j;
-            Tjv                                        = outputs.Tjv;
-            llh                                     = outputs.llh;
-            Svv                                     = outputs.Svv;
-            Thetajj_FSAve                                = outputs.Thetajj_FSAve;
-            indms_FSAve                                 = outputs.indms_FSAve;
-            Sjj                                         = outputs.Sjj;
-            indms                                       = outputs.indms;
-            Psijj                                     = outputs.Psijj;
-            Sigmajj                                   = outputs.Sigmajj;
-            disp(strcat("File: ", file_name));
-            parsave(fullfile(pathname ,properties.file_name ),Thetajj,s2j,Tjv,llh,Svv,indms,Thetajj_FSAve,indms_FSAve,Sjj,Psijj,Sigmajj);
+            end
         case 'hg_lasso'
-            pathname                                    = fullfile(pathname,'hg_LASSO',band.name);            
+            pathname                                    = fullfile(pathname,'hg_LASSO',band.name);
             if(~isfolder(pathname))
                 mkdir(pathname);
             end
-            Thetajj                                   = outputs.Thetajj;
-            s2j                                       = outputs.s2j;
-            Sigmajj                                   = outputs.Sigmajj;
-            disp(strcat("File: ", file_name));
-            parsave(fullfile(pathname ,file_name ),Thetajj,s2j,Sigmajj);        
     end
+    disp(strcat("File: ", file_name));
+    save(fullfile(pathname ,file_name ),"-struct",'outputs');
+    
     %% 
     reference_path = strsplit(pathname,subject.name);    
-    subject.BC_V_info.activation_level(pos).Comment     = level;
-    subject.BC_V_info.activation_level(pos).Band        = band.name;
-    subject.BC_V_info.activation_level(pos).Method      = lower(method);
-    subject.BC_V_info.activation_level(pos).Freq        = char(band.str_band);
-    subject.BC_V_info.activation_level(pos).Ref_path    = strrep(reference_path{2},'\','/');
-    subject.BC_V_info.activation_level(pos).Name        = file_name;
+    subject.BC_V_info.connectivity_level(pos).Comment     = level;
+    subject.BC_V_info.connectivity_level(pos).Band        = band.name;
+    subject.BC_V_info.connectivity_level(pos).Method      = lower(method);
+    subject.BC_V_info.connectivity_level(pos).Freq        = char(band.str_band);
+    subject.BC_V_info.connectivity_level(pos).Ref_path    = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.connectivity_level(pos).Name        = file_name;
 end
 
 if(isequal(process,'level3'))
