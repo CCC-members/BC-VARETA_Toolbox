@@ -25,7 +25,7 @@ if(getGlobalGuimode())
     frames = java.awt.Frame.getFrames();
     frames(end).setAlwaysOnTop(1);
 end
-fprintf(1,'-->> Running Hermitian Graphical LASSO: %3d%%\n',0);
+% fprintf(1,' -->> Running Hermitian Graphical LASSO: %3d%%\n',0);
 for k_inner = 1:maxiter
     %% Estimation of variances Gamma of Gaussian Mixtures prior    
     det               = 1 + 4*m2*a2*A2(idx).*abs(Theta.X(idx)).^2;
@@ -60,14 +60,14 @@ for k_inner = 1:maxiter
         if(getGlobalGuimode())
            waitbar((maxiter-1)/(maxiter),process_waitbar,strcat("Running Hermitian Graphical LASSO: ",num2str(fix(((maxiter-1)/maxiter)*100)),"%"));
         end
-        fprintf(1,'\b\b\b\b%3.0f%%',(k_inner/maxiter)*100);
+        % fprintf(1,'\b\b\b\b%3.0f%%',(k_inner/maxiter)*100);
         break
     end
-    fprintf(1,'\b\b\b\b%3.0f%%',(k_inner/maxiter)*100);
+    % fprintf(1,'\b\b\b\b%3.0f%%',(k_inner/maxiter)*100);
 end
 
-fprintf(1,'\b\b\b\b%3.0f%%',100);
-fprintf(1,'\n');
+% fprintf(1,'\b\b\b\b%3.0f%%',100);
+% fprintf(1,'\n');
 if(getGlobalGuimode() && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Running Hermitian Graphical LASSO: ",num2str(100),"%"));
     delete(process_waitbar)
