@@ -65,6 +65,7 @@ Sjj         = Sjj/scale;
 Psijj       = Psijj.X/scale;
 Sigmajj     = Sigmajj.X/scale;
 fprintf(1,'\b\b\b\b%3.0f%%',100);
+fprintf(1,'\n');
 if(getGlobalGuimode() && exist('process_waitbar','var'))
     waitbar(1,process_waitbar,strcat("Running higgs expectation-maximization: ",num2str(100),"%"));
     delete(process_waitbar)

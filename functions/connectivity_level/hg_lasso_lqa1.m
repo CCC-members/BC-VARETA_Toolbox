@@ -23,7 +23,7 @@ Theta             = Psi_inv;
 if(getGlobalGuimode())
     process_waitbar = waitbar(0,'Please wait...');
 end
-fprintf(1,'-->> Running Hermitian Graphical LASSO: %3d%%\n',0);
+fprintf(1,' -->> Running Hermitian Graphical LASSO: %3d%%\n',0);
 for k_inner = 1:maxiter
     %% Estimation of variances Gamma of Gaussian Mixtures prior    
     DET               = 1 + 4*m2*a2*A2(idx).*abs(Theta(idx)).^2;
