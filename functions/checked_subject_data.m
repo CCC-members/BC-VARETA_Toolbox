@@ -1,16 +1,17 @@
-function [subject,checked,error_msg_array] = checked_subject_data(subject_file_info,properties)
+function [subject,checked,errors] = checked_subject_data(subject_file_info,properties)
 
 base_path = properties.general_params.bcv_workspace.BCV_input_dir;
 checked         = true;
 subject         = struct;
 subject_info    = jsondecode(fileread(fullfile(base_path,subject_file_info.SubID,strcat(subject_file_info.SubID,'.json'))));
 subject.name    = subject_info.name;
-subject_dir        = fullfile(base_path,subject_file_info.SubID);
-error_msg_array = [];
-
+subject_dir     = fullfile(base_path,subject_file_info.SubID);
+errors          = {};
+ierror          = 1;
 if(~isequal(subject_file_info.Status,'Completed'))
     error_msg       = strcat("The subject information is not completed");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
     checked         = false;
     return;
 end
@@ -48,41 +49,48 @@ disp("=====================================================================");
 
 if(~isfile(fullfile(subject_dir,subject_info.meeg_dir)))
     error_msg       = strcat("The meeg file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
     checked = false;
 end
 if(~isfile(fullfile(subject_dir,subject_info.leadfield_dir.leadfield)))
     error_msg       = strcat("The leadfield file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+   errors{ierror}       = error_msg;
+   ierror          = ierror + 1;
     checked = false;
 end
 if(~isfile(fullfile(subject_dir,subject_info.channel_dir)))
     error_msg       = strcat("The channel file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+   errors{ierror}       = error_msg;
+   ierror          = ierror + 1;
     checked = false;
 end
 if(~isfile(fullfile(subject_dir,subject_info.sourcemodel_dir)))
     error_msg       = strcat("The surface file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
     checked = false;
 end
 if(~isfile(fullfile(subject_dir,subject_info.headmodel_dir.scalp)))
     error_msg       = strcat("The scalp file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
     checked = false;
 end
 if(~isfile(fullfile(subject_dir,subject_info.headmodel_dir.innerskull)))
     error_msg       = strcat("The innerskull file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+   errors{ierror}       = error_msg;
+   ierror          = ierror + 1;
     checked = false;
 end
 if(~isfile(fullfile(subject_dir,subject_info.headmodel_dir.outerskull)))
     error_msg       = strcat("The outerskull file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
     checked = false;
 end
 
-if(isempty(error_msg_array))
+if(isempty(errors))
     Scortex     = load(fullfile(subject_dir,subject_info.sourcemodel_dir));
     Cdata       = load(fullfile(subject_dir,subject_info.channel_dir));
     Shead       = load(fullfile(subject_dir,subject_info.headmodel_dir.scalp));
@@ -93,13 +101,14 @@ if(isempty(error_msg_array))
         MEEG        = load(fullfile(subject_dir,subject_info.meeg_dir));
     catch
         error_msg       = strcat("Errer loading EEG file");
-        error_msg_array = [error_msg_array; error_msg];
+        errors{ierror}       = error_msg;
+        ierror          = ierror + 1;
         checked = false;
         return;
     end
     if(properties.general_params.run_by_trial.value && ~iscell(MEEG.data))
         error_msg       = strcat("Process run by trial and the data format is not a cellarray");
-        error_msg_array = [error_msg_array; error_msg];
+       errors{ierror}       = error_msg;
         checked = false;
         return;
     end
