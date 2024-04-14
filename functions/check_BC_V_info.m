@@ -15,15 +15,15 @@ if(isequal(level,1))
     end
 end
 if(isequal(level,2))
-    BC_V_file = dir(fullfile(subject_path ,'BC_V_info.mat'));
-    if(isempty(BC_V_file))
+    try
+        BC_V_info = jsondecode(fileread(fullfile(subject_path ,strcat(subject.name,'.json'))));
+    catch
         fprintf(2,strcat('\nBC-V-->> Error: The BC-V info file is not correct for subject: ',subject.name,' \n'));
         fprintf(2,strcat('BC-V-->> You need to exjecute the sensor lever first.\n'));
         fprintf(2,strcat('BC-V-->> Jump to an other subject.\n'));
         status = false;
         return;
     end
-    BC_V_info = load(fullfile(BC_V_file.folder,BC_V_file.name));
     if((~isfield(BC_V_info,'sensor_level')))
         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
         disp(subject.name);
@@ -66,15 +66,15 @@ if(isequal(level,2))
     end
 end
 if(isequal(level,3))
-    BC_V_file = dir(fullfile(subject_path ,'BC_V_info.mat'));
-    if(isempty(BC_V_file))
+    try
+        BC_V_info = jsondecode(fileread(fullfile(subject_path ,strcat(subject.name,'.json'))));
+    catch
         fprintf(2,strcat('\nBC-V-->> Error: The BC-V info file is not correct for subject: ',subject.name,' \n'));
         fprintf(2,strcat('BC-V-->> You need to exjecute the activation lever first.\n'));
         fprintf(2,strcat('BC-V-->> Jump to an other subject.\n'));
         status = false;
         return;
     end
-    BC_V_info = load(fullfile(BC_V_file.folder,BC_V_file.name));
     if((~isfield(BC_V_info,'sensor_level')))
         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
         disp(subject.name);
@@ -91,7 +91,6 @@ if(isequal(level,3))
         status = false;
         return;
     end
-    BC_V_info = load(fullfile(BC_V_file.folder,BC_V_file.name));
     if(properties.general_params.run_by_trial.value)
         trials = fieldnames(BC_V_info);
         for m=1:length(trials)

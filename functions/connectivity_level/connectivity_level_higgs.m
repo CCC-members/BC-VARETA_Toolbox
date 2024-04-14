@@ -156,6 +156,7 @@ disp("-->> Ordering connectivity results by FSAve indices");
 Msub_to_FSAve   = zeros(length(sub_to_FSAve),size(Lvj,2));
 for h = 1:length(sub_to_FSAve)
     indices = sub_to_FSAve(h,:);
+    indices(indices==0)     = h;
     Msub_to_FSAve(h,[indices(1) indices(2) indices(3)]) = 1/3;
 end
 

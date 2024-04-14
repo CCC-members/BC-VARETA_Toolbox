@@ -1,37 +1,44 @@
-function [subject,checked,error_msg_array] = checked_subject_data(subject_file_info,properties)
+function [subject,checked,errors] = checked_subject_data(subject_file_info,properties)
+
+base_path = properties.general_params.bcv_workspace.BCV_input_dir;
 checked         = true;
 subject         = struct;
-subject_info    = load(fullfile(subject_file_info.folder,subject_file_info.name));
+subject_info    = jsondecode(fileread(fullfile(base_path,subject_file_info.SubID,strcat(subject_file_info.SubID,'.json'))));
 subject.name    = subject_info.name;
-root_dir        = subject_file_info.folder;
-error_msg_array = [];
-
-if(~subject_info.completed)
+subject_dir     = fullfile(base_path,subject_file_info.SubID);
+errors          = {};
+ierror          = 1;
+if(~isequal(subject_file_info.Status,'Completed'))
     error_msg       = strcat("The subject information is not completed");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
     checked         = false;
     return;
 end
 
 if(~isfield(subject_info,'name')...
-        || ~isfield(subject_info,'modality')...
+        || ~isfield(subject_info,'meeg_dir')...
         || ~isfield(subject_info,'leadfield_dir')...
-        || ~isfield(subject_info,'surf_dir')...
-        || ~isfield(subject_info,'scalp_dir')...
-        || ~isfield(subject_info,'innerskull_dir')...
-        || ~isfield(subject_info,'outerskull_dir')...
+        || ~isfield(subject_info,'sourcemodel_dir')...
         || ~isfield(subject_info,'channel_dir')...
-        || ~isfield(subject_info,'meeg_dir'))
+        || ~isfield(subject_info,'headmodel_dir'))
     checked = false;
     return;
-else 
-    subject_info.meeg_dir       = replace(subject_info.meeg_dir,'\','/');
+else
+    for i=1:length(subject_info.meeg_dir)
+        if(contains(subject_info.meeg_dir{i},properties.general_params.dataset.task.value))
+            subject_info.meeg_dir = subject_info.meeg_dir{i};
+            subject_info.meeg_dir       = replace(subject_info.meeg_dir,'\','/');
+            break;
+        end
+    end
     subject_info.channel_dir    = replace(subject_info.channel_dir,'\','/');
-    subject_info.leadfield_dir  = replace(subject_info.leadfield_dir,'\','/');
-    subject_info.surf_dir       = replace(subject_info.surf_dir,'\','/');
-    subject_info.scalp_dir      = replace(subject_info.scalp_dir,'\','/');
-    subject_info.innerskull_dir = replace(subject_info.innerskull_dir,'\','/');
-    subject_info.outerskull_dir = replace(subject_info.outerskull_dir,'\','/');
+    subject_info.leadfield_dir.AQCI  = replace(subject_info.leadfield_dir.AQCI,'\','/');
+    subject_info.leadfield_dir.leadfield  = replace(subject_info.leadfield_dir.leadfield,'\','/');
+    subject_info.headmodel_dir.scalp       = replace(subject_info.headmodel_dir.scalp,'\','/');
+    subject_info.headmodel_dir.outerskull       = replace(subject_info.headmodel_dir.outerskull,'\','/');
+    subject_info.headmodel_dir.innerskull       = replace(subject_info.headmodel_dir.innerskull,'\','/');
+    subject_info.sourcemodel_dir      = replace(subject_info.sourcemodel_dir,'\','/');
 end
 disp("=====================================================================");
 disp("=====================================================================");
@@ -39,62 +46,86 @@ disp(strcat('BC-V-->>Processing subject:',subject_info.name));
 disp("=====================================================================");
 disp("=====================================================================");
 
-if(~isfile(fullfile(root_dir,subject_info.meeg_dir)))
+
+if(~isfile(fullfile(subject_dir,subject_info.meeg_dir)))
     error_msg       = strcat("The meeg file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
+    checked = false;
 end
-if(~isfile(fullfile(root_dir,subject_info.leadfield_dir)))
+if(~isfile(fullfile(subject_dir,subject_info.leadfield_dir.leadfield)))
     error_msg       = strcat("The leadfield file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+   errors{ierror}       = error_msg;
+   ierror          = ierror + 1;
+    checked = false;
 end
-if(~isfile(fullfile(root_dir,subject_info.channel_dir)))
+if(~isfile(fullfile(subject_dir,subject_info.channel_dir)))
     error_msg       = strcat("The channel file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+   errors{ierror}       = error_msg;
+   ierror          = ierror + 1;
+    checked = false;
 end
-if(~isfile(fullfile(root_dir,subject_info.surf_dir)))
+if(~isfile(fullfile(subject_dir,subject_info.sourcemodel_dir)))
     error_msg       = strcat("The surface file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
+    checked = false;
 end
-if(~isfile(fullfile(root_dir,subject_info.scalp_dir)))
+if(~isfile(fullfile(subject_dir,subject_info.headmodel_dir.scalp)))
     error_msg       = strcat("The scalp file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
+    checked = false;
 end
-if(~isfile(fullfile(root_dir,subject_info.innerskull_dir)))
+if(~isfile(fullfile(subject_dir,subject_info.headmodel_dir.innerskull)))
     error_msg       = strcat("The innerskull file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+   errors{ierror}       = error_msg;
+   ierror          = ierror + 1;
+    checked = false;
 end
-if(~isfile(fullfile(root_dir,subject_info.outerskull_dir)))
+if(~isfile(fullfile(subject_dir,subject_info.headmodel_dir.outerskull)))
     error_msg       = strcat("The outerskull file do not exist");
-    error_msg_array = [error_msg_array; error_msg];
+    errors{ierror}       = error_msg;
+    ierror          = ierror + 1;
+    checked = false;
 end
 
-if(isempty(error_msg_array))    
-    Scortex     = load(fullfile(root_dir,subject_info.surf_dir));
-    Cdata       = load(fullfile(root_dir,subject_info.channel_dir));
-    Shead       = load(fullfile(root_dir,subject_info.scalp_dir));
-    Sinn        = load(fullfile(root_dir,subject_info.innerskull_dir));
-    Sout        = load(fullfile(root_dir,subject_info.outerskull_dir));
-    Headmodels  = load(fullfile(root_dir,subject_info.leadfield_dir));  
-    MEEG        = load(fullfile(root_dir,subject_info.meeg_dir));
-
+if(isempty(errors))
+    Scortex     = load(fullfile(subject_dir,subject_info.sourcemodel_dir));
+    Cdata       = load(fullfile(subject_dir,subject_info.channel_dir));
+    Shead       = load(fullfile(subject_dir,subject_info.headmodel_dir.scalp));
+    Sout        = load(fullfile(subject_dir,subject_info.headmodel_dir.outerskull));
+    Sinn        = load(fullfile(subject_dir,subject_info.headmodel_dir.innerskull));
+    Headmodels  = load(fullfile(subject_dir,subject_info.leadfield_dir.leadfield));
+    try
+        MEEG        = load(fullfile(subject_dir,subject_info.meeg_dir));
+    catch
+        error_msg       = strcat("Errer loading EEG file");
+        errors{ierror}       = error_msg;
+        ierror          = ierror + 1;
+        checked = false;
+        return;
+    end
     if(properties.general_params.run_by_trial.value && ~iscell(MEEG.data))
         error_msg       = strcat("Process run by trial and the data format is not a cellarray");
-        error_msg_array = [error_msg_array; error_msg];
+       errors{ierror}       = error_msg;
+        checked = false;
+        return;
     end
-    
+
     subject.name            = subject_info.name;
-    subject.modality        = subject_info.modality;  
-    subject.Headmodel       = Headmodels.HeadModel(Headmodels.iHeadModel);   
-    subject.Scortex         = Scortex.Sc(Scortex.iCortex); 
+    subject.modality        = 'EEG';
+    subject.Headmodel       = Headmodels.HeadModel(Headmodels.iHeadModel);
+    subject.Scortex         = Scortex.Sc(Scortex.iCortex);
     if(isfield(Scortex,'sub_to_FSAve'))
         subject.sub_to_FSAve    = Scortex.sub_to_FSAve;
     else
         subject.sub_to_FSAve    = [];
     end
     subject.Shead           = Shead;
-    subject.Cdata           = Cdata;    
-    subject.Sinn            = Sinn;    
+    subject.Cdata           = Cdata;
+    subject.Sinn            = Sinn;
     subject.Sout            = Sout;
-    subject.MEEG            = MEEG;      
+    subject.MEEG            = MEEG;
 end
 end

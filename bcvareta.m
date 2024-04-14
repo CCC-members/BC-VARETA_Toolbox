@@ -35,6 +35,7 @@ addpath('tools');
 if(isequal(nargin,2))
     idnode = varargin{1};
     count_node = varargin{2};
+    setGlobalGuimode(false);
     if(~isnumeric(idnode) || ~isnumeric(count_node))
         fprintf(2,"\n ->> Error: The selected node and count of nodes have to be numbers \n");
         return;
@@ -42,9 +43,9 @@ if(isequal(nargin,2))
 else
     idnode = 1;
     count_node = 1;
+    setGlobalGuimode(true);
+    update = false;
 end
-setGlobalGuimode(true);
-update = false;
 for i=1:length(varargin)
     if(isequal(varargin{i},'nogui'))
         setGlobalGuimode(false);

@@ -51,7 +51,11 @@ if(~status)
 end
 
 root_path                   = properties.general_params.bcv_workspace.BCV_input_dir;
-subjects                    = dir(fullfile(root_path,'**','subject.mat'));
+CiftiStorm                  = jsondecode(fileread(fullfile(root_path,'CiftiStorm.json')));
+if(isfield(CiftiStorm,'Template'))
+    sufix = CiftiStorm.Template.SubID;
+end
+subjects                    = CiftiStorm.Participants;
 
 %%
 %% Multi-node process ( splitting data subjects by each node)
@@ -70,21 +74,50 @@ if(isempty(subjects))
 end
 [properties]                                = define_frequency_bands(properties);
 analysis_level                              = properties.general_params.analysis_level.value;
+
+%%
 %% Creating Dataset
-BC_VARETA.Name                              = properties.general_params.dataset.Name;
-BC_VARETA.Description                       = properties.general_params.dataset.Description;
-BC_VARETA.general_params                    = properties.general_params;
-BC_VARETA.sensor_params                     = properties.sensor_params;
-BC_VARETA.activation_params                 = properties.activation_params;
-BC_VARETA.connectivity_params               = properties.connectivity_params;
-BC_VARETA.Participants                      = [];
+%%
+if(isequal(total_node,1))
+    BCV_filename = 'BC_VARETA.json';
+else
+    BCV_filename = strcat('BC_VARETA_node-',num2str(idnode),'.json');
+end
+if(exist('sufix','var'))
+    folder = strcat('bcvareta-',sufix);
+else
+    folder = 'bcvareta';
+end
+BCV_file = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,properties.general_params.dataset.task.value,BCV_filename);
+if(isfile(BCV_file))
+    BC_VARETA = jsondecode(fileread(BCV_file));
+else
+    BC_VARETA.Name                              = properties.general_params.dataset.Name;
+    BC_VARETA.Description                       = properties.general_params.dataset.Description;
+    BC_VARETA.Task                              = properties.general_params.dataset.task.value;
+    BC_VARETA.Status                            = "Processing";
+    BC_VARETA.general_params                    = properties.general_params;
+    BC_VARETA.sensor_params                     = properties.sensor_params;
+    BC_VARETA.activation_params                 = properties.activation_params;
+    BC_VARETA.connectivity_params               = properties.connectivity_params;
+    BC_VARETA.Participants                      = [];
+end
 
 %%
 %% Starting analysis
 %%
 for i=1:length(subjects)
-    subject_file                            = subjects(i);
-    [subject,checked,error_msg_array]       = checked_subject_data(subject_file,properties);
+    if(isfile(BCV_file))
+        BC_VARETA = jsondecode(fileread(BCV_file));
+    end
+    participant                            = subjects(i);
+    if(~isempty(BC_VARETA.Participants))
+        iPart = find(ismember({BC_VARETA.Participants.SubID},participant.name),1);
+        if(~isempty(iPart) && isequal(BC_VARETA.Participants(iPart).Status,"Completed"))
+            continue;
+        end
+    end
+    [subject,checked,error_msg_array]       = checked_subject_data(participant,properties);
     if(~checked)
         BC_VARETA.Participants(i).SubID     = subject.name;
         BC_VARETA.Participants(i).Status    = "Rejected";
@@ -98,7 +131,8 @@ for i=1:length(subjects)
         fprintf(2,strcat('BC-V-->> Jump to an other subject.\n'));
         continue;
     end
-    subject.subject_path                    = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,subject.name);
+   
+    subject.subject_path                    = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA.Task,subject.name);
     if(~isfolder(subject.subject_path))
         mkdir(subject.subject_path);
     end
@@ -109,7 +143,6 @@ for i=1:length(subjects)
     if(ismember(analysis_level,{'1','12','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,1);
         if(status)
-
             subject                         = get_structural_priors(subject);
             subject                         = BC_V_save(properties,subject,'common');
             if(properties.general_params.run_by_trial.value)
@@ -177,42 +210,80 @@ for i=1:length(subjects)
     %%
     BC_VARETA.Participants(i).SubID         = subject.name;
     BC_VARETA.Participants(i).Status        = "Completed";
-    BC_VARETA.Participants(i).FileInfo      = "BC_V_info.mat";
+    BC_VARETA.Participants(i).FileInfo      = strcat(subject.name,".json");
     BC_VARETA.Participants(i).Error         = [];
+    saveJSON(BC_VARETA,BCV_file);
 end
-save(fullfile(properties.general_params.bcv_workspace.BCV_work_dir ,'BC_VARETA.mat'),'-struct','BC_VARETA');
+
+%%
+%% Saving BC-VARETA file
+%%
+BC_VARETA = jsondecode(fileread(BCV_file));
+BC_VARETA.Status = "Completed";
+saveJSON(BC_VARETA,BCV_file);
+
+%%
+%% Checking Multi-instance processing
+%%
+BC_VARETA_files = dir(fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA.Task));
+BC_VARETA_files([BC_VARETA_files.isdir]==1) = [];
+if(isequal(length(BC_VARETA_files),total_node) && ~isequal(total_node,1))
+    complete = true;
+    BC_VARETA = jsondecode(fileread(fullfile(BC_VARETA_files(1).folder,BC_VARETA_files(1).name)));
+    if(~isequal(BC_VARETA.Status,"Completed"))
+        return;
+    end
+    for i=2:length(BC_VARETA_files)
+        BC_VARETA_part = jsondecode(fileread(fullfile(BC_VARETA_files(i).folder,BC_VARETA_files(i).name)));
+        if(isequal(BC_VARETA_part.Status,"Completed"))
+            Participants = BC_VARETA_part.Participants;
+            BC_VARETA.Participants = [BC_VARETA.Participants; Participants];
+        else
+            complete = false;
+            break;
+        end
+    end
+    if(complete)
+        BCV_file = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA.Task,'BC_VARETA.json');
+        saveJSON(BC_VARETA,BCV_file);
+    end
+end
+
 %%
 %% Create BC-VARETA Dataset and import
 %%
-% Loading existed Datasets
-homedir = char(java.lang.System.getProperty('user.home'));
-BCVdir  = fullfile(homedir,"BC_VARETA");
-if(~isfolder(BCVdir))
-    mkdir(BCVdir);
-end
-Datasets_file = fullfile(BCVdir,"Datasets.json");
-if(isfile(Datasets_file))
-    TempDatasets = jsondecode(fileread(Datasets_file));
-    if(~isempty(TempDatasets))
-        Datasets = TempDatasets;
+BCV_file = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA.Task,'BC_VARETA.json');
+if(isfile(BCV_file))
+    % Loading existed Datasets
+    homedir = char(java.lang.System.getProperty('user.home'));
+    BCVdir  = fullfile(homedir,"BC_VARETA");
+    if(~isfolder(BCVdir))
+        mkdir(BCVdir);
+    end
+    Datasets_file = fullfile(BCVdir,"Datasets.json");
+    if(isfile(Datasets_file))
+        TempDatasets = jsondecode(fileread(Datasets_file));
+        if(~isempty(TempDatasets))
+            Datasets = TempDatasets;
+        else
+            Datasets = struct([]);
+        end
     else
         Datasets = struct([]);
     end
-else
-    Datasets = struct([]);
-end
 
-% Including new dataset
-dataset_file            = fullfile(properties.general_params.bcv_workspace.BCV_work_dir ,'BC_VARETA.mat');
-BC_VARETA_info          = load(dataset_file);
-BC_VARETA_info.Path     = fullfile(properties.general_params.bcv_workspace.BCV_work_dir);
-TempUUID                = java.util.UUID.randomUUID;
-BC_VARETA_info.UUID     = char(TempUUID.toString);
-if(isempty(Datasets))
-    Datasets            = BC_VARETA_info;
-else
-    Datasets(end + 1)   = BC_VARETA_info;
+    % Including new dataset
+    dataset_file            = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,BCV_filename);
+    BC_VARETA_info          = load(dataset_file);
+    BC_VARETA_info.Path     = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA_info.Task);
+    TempUUID                = java.util.UUID.randomUUID;
+    BC_VARETA_info.UUID     = char(TempUUID.toString);
+    if(isempty(Datasets))
+        Datasets            = jsondecode(fileread(BCV_file));
+    else
+        Datasets(end + 1)   = jsondecode(fileread(BCV_file));
+    end
+    disp("-->> Dataset saved");
+    saveJSON(Datasets,Datasets_file);
 end
-disp("-->> Dataset saved");
-saveJSON(Datasets,Datasets_file);
 end

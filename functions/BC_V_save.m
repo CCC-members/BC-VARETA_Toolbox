@@ -71,14 +71,14 @@ if(isequal(process,'common'))
     disp(strcat("File: ", file_name));
     save(fullfile(pathname_common ,file_name ),'-struct','Channels');
 
-    Headmodel                                           = subject.Headmodel;
-    file_name                                           = strcat('Headmodel.mat');
+    Leadfiled                                           = subject.Headmodel;
+    file_name                                           = strcat('Leadfield.mat');
     reference_path                                      = strsplit(pathname_common,subject.name);
-    subject.BC_V_info.common(7).Comment                 = 'Headmodel';
+    subject.BC_V_info.common(7).Comment                 = 'Leadfiled';
     subject.BC_V_info.common(7).Ref_path                = strrep(reference_path{2},'\','/');
     subject.BC_V_info.common(7).Name                    = file_name;
     disp(strcat("File: ", file_name));
-    save(fullfile(pathname_common ,file_name ),'-struct','Headmodel');
+    save(fullfile(pathname_common ,file_name ),'-struct','Leadfiled');
 end
 if(isequal(process,'fuctional'))
     %%
@@ -119,7 +119,7 @@ if(isequal(process,'level1'))
     subject.BC_V_info.Processes(1).name         = 'Sensor_level';
     subject.BC_V_info.Processes(1).completed    = true;
     BC_V_info                                   = subject.BC_V_info;
-    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+    saveJSON(BC_V_info,fullfile(subject.subject_path ,strcat(subject.name,'.json')));
 end
 
 if(isequal(process,'a_priors'))
@@ -190,7 +190,7 @@ if(isequal(process,'level2'))
     subject.BC_V_info.Processes(2).name      = 'Activation_level';
     subject.BC_V_info.Processes(2).completed = true;
     BC_V_info                                = subject.BC_V_info;
-    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+    saveJSON(BC_V_info,fullfile(subject.subject_path ,strcat(subject.name,'.json')));
 end
 
 if(isequal(process,'c_priors'))
@@ -256,5 +256,5 @@ if(isequal(process,'level3'))
     subject.BC_V_info.Processes(3).name         = 'Connectivity_level';
     subject.BC_V_info.Processes(3).completed    = true;
     BC_V_info                                   = subject.BC_V_info;
-    save(fullfile(subject.subject_path ,'BC_V_info.mat'),'-struct','BC_V_info');
+    saveJSON(BC_V_info,fullfile(subject.subject_path ,strcat(subject.name,'.json')));
 end
