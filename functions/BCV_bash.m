@@ -112,7 +112,7 @@ for i=1:length(subjects)
     end
     participant                            = subjects(i);
     if(~isempty(BC_VARETA.Participants))
-        iPart = find(ismember({BC_VARETA.Participants.SubID},participant.name),1);
+        iPart = find(ismember({BC_VARETA.Participants.SubID},participant.SubID),1);
         if(~isempty(iPart) && isequal(BC_VARETA.Participants(iPart).Status,"Completed"))
             continue;
         end
@@ -149,15 +149,21 @@ for i=1:length(subjects)
                 data                        = subject.MEEG.data;
                 for m=1:length(data)
                     properties.trial_name   = ['trial_',num2str(m)];
+                    disp("=====================================================================");
+                    disp(strcat("BC-V-->> Processing trial: ",properties.trial_name));
+                    disp("=====================================================================");
                     subject.MEEG.data       = data{1,m};
                     [subject,properties]    = sensor_level_analysis(subject,properties);
+                    disp("=====================================================================");
+                    subject                         = BC_V_save(properties,subject,'level1');
                 end
                 subject.MEEG.data           = data;
             else
                 [subject,properties]        = sensor_level_analysis(subject,properties);
+                disp("=====================================================================");
+                subject                     = BC_V_save(properties,subject,'level1');
             end
-            disp("=====================================================================");
-            subject                         = BC_V_save(properties,subject,'level1');
+            
         end
     end
 
@@ -168,13 +174,16 @@ for i=1:length(subjects)
         [subject,status]                    = check_BC_V_info(properties,subject,2);
         if(status)
             if(properties.general_params.run_by_trial.value)
-                data                        = subject.data;
+                data                        = subject.MEEG.data;
                 for m=1:length(data)
                     properties.trial_name   = ['trial_',num2str(m)];
+                    disp("=====================================================================");
+                    disp(strcat("BC-V-->> Processing trial: ",properties.trial_name));
+                    disp("=====================================================================");
                     subject.data            = data{1,m};
                     [subject,properties]    = activation_level_interface(subject,properties);
                 end
-                subject.data                = data;
+                subject.MEEG.data                = data;
             else
                 [subject,properties]        = activation_level_interface(subject,properties);
             end
@@ -190,13 +199,16 @@ for i=1:length(subjects)
         [subject,status]                    = check_BC_V_info(properties,subject,3);
         if(status)
             if(properties.general_params.run_by_trial.value)
-                data                        = subject.data;
+                data                        = subject.MEEG.data;
                 for m=1:length(data)
                     properties.trial_name   = ['trial_',num2str(m)];
+                    disp("=====================================================================");
+                    disp(strcat("BC-V-->> Processing trial: ",properties.trial_name));
+                    disp("=====================================================================");
                     subject.data            = data{1,m};
                     [subject,properties]    = connectivity_level_interface(subject,properties);
                 end
-                subject.data                = data;
+                subject.MEEG.data                = data;
             else
                 [subject,properties]        = connectivity_level_interface(subject,properties);
             end
@@ -273,8 +285,8 @@ if(isfile(BCV_file))
     end
 
     % Including new dataset
-    dataset_file            = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,BCV_filename);
-    BC_VARETA_info          = load(dataset_file);
+    dataset_file            = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA.Task,BCV_filename);
+    BC_VARETA_info          = jsondecode(fileread(dataset_file));
     BC_VARETA_info.Path     = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA_info.Task);
     TempUUID                = java.util.UUID.randomUUID;
     BC_VARETA_info.UUID     = char(TempUUID.toString);

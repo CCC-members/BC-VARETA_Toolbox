@@ -5,7 +5,7 @@ function [subject,properties] = activation_level_interface(subject,properties)
 subject                         = BC_V_save(properties,subject,'a_priors');
 %% Starting Activation Analysis
 if(properties.general_params.run_by_trial.value)
-    sensor_level                = subject.BC_V_info.sensor_level(contains({subject.BC_V_info.sensor_level.Ref_path},properties.trial_name));
+    sensor_level                = subject.BC_V_info.(properties.trial_name).sensor_level;
 else
     sensor_level                = subject.BC_V_info.sensor_level;
 end
