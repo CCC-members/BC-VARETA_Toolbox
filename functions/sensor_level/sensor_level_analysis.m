@@ -39,7 +39,12 @@ else
     PSD                                     = subject.MEEG.Spec;
     Nseg                                    = [];
 end
-subject                                     = BC_V_save(properties,subject,'fuctional',Svv_channel,PSD);
+if(properties.general_params.run_by_trial.value)
+    trial_name = properties.trial_name;
+else
+    trial_name = "pass";
+end
+subject                                     = BC_V_save(properties,subject,'fuctional',Svv_channel,PSD, trial_name);
 
 %% Sensor analysis
 for pos=1:length(properties.sensor_params.frequencies)
@@ -60,7 +65,7 @@ for pos=1:length(properties.sensor_params.frequencies)
         Svv                         = Svv_channel(:,:,pos);
         peak_pos                    = pos;
     end
-    subject                         = BC_V_save(properties,subject,'sensor',Svv,peak_pos,Nseg,band,pos);
+    subject                         = BC_V_save(properties,subject,'sensor',Svv,peak_pos,Nseg,band,pos, trial_name);
 
 end
 end

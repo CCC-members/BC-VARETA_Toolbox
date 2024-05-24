@@ -24,7 +24,7 @@ if(isequal(level,2))
         status = false;
         return;
     end
-    if((~isfield(BC_V_info,'sensor_level')))
+    if(~BC_V_info.Processes(1).completed)
         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
         disp(subject.name);
         fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor process output.\n'));
@@ -75,7 +75,7 @@ if(isequal(level,3))
         status = false;
         return;
     end
-    if((~isfield(BC_V_info,'sensor_level')))
+    if(~BC_V_info.Processes(2).completed)
         fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
         disp(subject.name);
         fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor process output.\n'));
