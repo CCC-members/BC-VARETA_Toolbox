@@ -31,8 +31,7 @@ for i=1:length(act_methods)
                     count_bin                               = count_bin + 1;
                 end
             case 'trial'
-                trial_files                                 = BC_V_info.activation_level(contains({BC_V_info.activation_level.Ref_path},trial));
-                activ_files                                 = BC_V_info.activation_level(contains(lower({trial_files.Ref_path}),method));
+                activ_files                                = BC_V_info.(trial).activation_level(contains(lower({BC_V_info.(trial).activation_level.Method}),method));
                 count_bin                                   = 0;
                 for j=1:length(activ_files)
                     activ_file                              = activ_files(j);

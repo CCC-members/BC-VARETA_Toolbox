@@ -83,7 +83,7 @@ if(isequal(level,3))
         status = false;
         return;
     end
-    if(BC_V_info.Processes(2).completed)
+    if(~BC_V_info.Processes(2).completed)
         fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
         disp(subject.name);
         fprintf(2,strcat('BC-V-->> Error: This subject do not countain the activation process output.\n'));
