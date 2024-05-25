@@ -27,8 +27,8 @@ for i=1:length(activation_level)
     subject.activation_level_out                    = load(fullfile(subject.subject_path,activ_file.Ref_path,activ_file.Name));
     if(properties.general_params.system_response.value)
         if(properties.general_params.run_by_trial.value)
-            subject.activation_level_out.indms      = syst_resp_out.(trial_name).(activ_file.Method).indms;
-            subject.activation_level_out.stat       = syst_resp_out.(trial_name).(activ_file.Method).ave_stat;
+            subject.activation_level_out.indms      = syst_resp_out.(properties.trial_name).(activ_file.Method).indms;
+            subject.activation_level_out.stat       = syst_resp_out.(properties.trial_name).(activ_file.Method).ave_stat;
             subject.activation_level_out.method     = activ_file.Method;
         else
             subject.activation_level_out.indms      = syst_resp_out.(activ_file.Method).indms;
