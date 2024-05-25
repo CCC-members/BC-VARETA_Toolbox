@@ -76,9 +76,9 @@ if(isequal(level,3))
         return;
     end
     if(~BC_V_info.Processes(2).completed)
-        fprintf(2,strcat('\nBC-V-->> Error: Do not process activation level for subject: \n'));
+        fprintf(2,strcat('\nBC-V-->> Error: Do not process connectivity level for subject: \n'));
         disp(subject.name);
-        fprintf(2,strcat('BC-V-->> Error: This subject do not countain the sensor process output.\n'));
+        fprintf(2,strcat('BC-V-->> Error: This subject do not countain the activation process output.\n'));
         disp("Please, run first the sensor process.");
         status = false;
         return;
