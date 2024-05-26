@@ -12,9 +12,9 @@ end
 %%
 %% Band Analysis, connectivity level
 %% 
-if(properties.general_params.run_by_trial.value)    
-    sensor_level                                    = subject.BC_V_info.sensor_level(contains({subject.BC_V_info.sensor_level.Ref_path},properties.trial_name));
-    activation_level                                = subject.BC_V_info.activation_level(contains({subject.BC_V_info.activation_level.Ref_path},properties.trial_name));
+if(properties.general_params.run_by_trial.value) 
+    sensor_level                                    = subject.BC_V_info.(properties.trial_name).sensor_level;
+    activation_level                                = subject.BC_V_info.(properties.trial_name).activation_level;
 else   
     sensor_level                                    = subject.BC_V_info.sensor_level;
     activation_level                                = subject.BC_V_info.activation_level;
