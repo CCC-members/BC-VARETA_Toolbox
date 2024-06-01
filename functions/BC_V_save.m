@@ -85,17 +85,17 @@ if(isequal(process,'fuctional'))
         meeg                                                = subject.MEEG;
         file_name                                           = strcat('MEEG.mat');
         reference_path                                      = strsplit(pathname,subject.name);
-        subject.BC_V_info.(properties.trial_name).common(1).Comment    = 'MEEG data';
-        subject.BC_V_info.(properties.trial_name).common(1).Ref_path   = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).common(1).Name       = file_name;
+        subject.BC_V_info.trials(trial).common(1).Comment    = 'MEEG data';
+        subject.BC_V_info.trials(trial).common(1).Ref_path   = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).common(1).Name       = file_name;
         disp(strcat("File: ", file_name));
         save(fullfile(pathname ,file_name ),'-struct','meeg');
 
         file_name                                           = strcat('Data_spectrum.mat');
         reference_path                                      = strsplit(pathname,subject.name);
-        subject.BC_V_info.(properties.trial_name).generals(2).Comment  = 'Generals';
-        subject.BC_V_info.(properties.trial_name).generals(2).Ref_path = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).generals(2).Name     = file_name;
+        subject.BC_V_info.trials(trial).generals(2).Comment  = 'Generals';
+        subject.BC_V_info.trials(trial).generals(2).Ref_path = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).generals(2).Name     = file_name;
         disp(strcat("File: ", file_name));
         parsave(fullfile(pathname ,file_name ),Svv_channel,PSD);
     else
@@ -133,11 +133,11 @@ if(isequal(process,'sensor'))
     
     [~,band_name,~]                                     = fileparts(reference_path{2});
     if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.(properties.trial_name).sensor_level(pos).Comment         = 'Sensor_level';
-        subject.BC_V_info.(properties.trial_name).sensor_level(pos).Band            = band_name;
-        subject.BC_V_info.(properties.trial_name).sensor_level(pos).Freq            = char(band.str_band);
-        subject.BC_V_info.(properties.trial_name).sensor_level(pos).Ref_path        = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).sensor_level(pos).Name            = file_name;
+        subject.BC_V_info.trials(trial).sensor_level(pos).Comment         = 'Sensor_level';
+        subject.BC_V_info.trials(trial).sensor_level(pos).Band            = band_name;
+        subject.BC_V_info.trials(trial).sensor_level(pos).Freq            = char(band.str_band);
+        subject.BC_V_info.trials(trial).sensor_level(pos).Ref_path        = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).sensor_level(pos).Name            = file_name;
         disp(strcat("File: ", file_name));
         parsave(fullfile(pathname ,file_name ),Svv,peak_pos,Nseg,band);
     else
@@ -173,9 +173,9 @@ if(isequal(process,'a_priors'))
     end
     reference_path                                      = strsplit(pathname,subject.name);
     if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.(properties.trial_name).generals(2).Comment               = 'Generals';
-        subject.BC_V_info.(properties.trial_name).generals(2).Ref_path              = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).generals(2).Name                  = file_name;
+        subject.BC_V_info.trials(trial).generals(2).Comment               = 'Generals';
+        subject.BC_V_info.trials(trial).generals(2).Ref_path              = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).generals(2).Name                  = file_name;
 
     else
         subject.BC_V_info.generals(2).Comment               = 'Generals';
@@ -224,12 +224,12 @@ if(isequal(process,'activation'))
     %%
     reference_path = strsplit(pathname,subject.name);
     if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.(properties.trial_name).activation_level(pos).Comment     = level;
-        subject.BC_V_info.(properties.trial_name).activation_level(pos).Band        = band.name;
-        subject.BC_V_info.(properties.trial_name).activation_level(pos).Method      = lower(method);
-        subject.BC_V_info.(properties.trial_name).activation_level(pos).Freq        = char(band.str_band);
-        subject.BC_V_info.(properties.trial_name).activation_level(pos).Ref_path    = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).activation_level(pos).Name        = file_name;
+        subject.BC_V_info.trials(trial).activation_level(pos).Comment     = level;
+        subject.BC_V_info.trials(trial).activation_level(pos).Band        = band.name;
+        subject.BC_V_info.trials(trial).activation_level(pos).Method      = lower(method);
+        subject.BC_V_info.trials(trial).activation_level(pos).Freq        = char(band.str_band);
+        subject.BC_V_info.trials(trial).activation_level(pos).Ref_path    = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).activation_level(pos).Name        = file_name;
     else
         subject.BC_V_info.activation_level(pos).Comment     = level;
         subject.BC_V_info.activation_level(pos).Band        = band.name;
@@ -263,9 +263,9 @@ if(isequal(process,'c_priors'))
     
     reference_path                                  = strsplit(pathname,subject.name);
     if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.(properties.trial_name).generals(3).Comment               = 'Generals';
-        subject.BC_V_info.(properties.trial_name).generals(3).Ref_path              = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).generals(3).Name                  = file_name;
+        subject.BC_V_info.trials(trial).generals(3).Comment               = 'Generals';
+        subject.BC_V_info.trials(trial).generals(3).Ref_path              = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).generals(3).Name                  = file_name;
     else
         subject.BC_V_info.generals(3).Comment               = 'Generals';
         subject.BC_V_info.generals(3).Ref_path              = strrep(reference_path{2},'\','/');
@@ -308,12 +308,12 @@ if(isequal(process,'connectivity'))
     %% 
     reference_path = strsplit(pathname,subject.name);   
     if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.(properties.trial_name).connectivity_level(pos).Comment     = level;
-        subject.BC_V_info.(properties.trial_name).connectivity_level(pos).Band        = band.name;
-        subject.BC_V_info.(properties.trial_name).connectivity_level(pos).Method      = lower(method);
-        subject.BC_V_info.(properties.trial_name).connectivity_level(pos).Freq        = char(band.str_band);
-        subject.BC_V_info.(properties.trial_name).connectivity_level(pos).Ref_path    = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.(properties.trial_name).connectivity_level(pos).Name        = file_name;
+        subject.BC_V_info.trials(trial).connectivity_level(pos).Comment     = level;
+        subject.BC_V_info.trials(trial).connectivity_level(pos).Band        = band.name;
+        subject.BC_V_info.trials(trial).connectivity_level(pos).Method      = lower(method);
+        subject.BC_V_info.trials(trial).connectivity_level(pos).Freq        = char(band.str_band);
+        subject.BC_V_info.trials(trial).connectivity_level(pos).Ref_path    = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).connectivity_level(pos).Name        = file_name;
     else
         subject.BC_V_info.connectivity_level(pos).Comment     = level;
         subject.BC_V_info.connectivity_level(pos).Band        = band.name;
