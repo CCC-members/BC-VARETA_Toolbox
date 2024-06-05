@@ -68,8 +68,8 @@ if(isequal(process,'common'))
     disp(strcat("File: ", file_name));
     save(fullfile(pathname_common ,file_name ),'-struct','Leadfiled');
 end
-if(isequal(process,'fuctional'))    
-    if(properties.general_params.run_by_trial.value)   
+if(isequal(process,'fuctional'))
+    if(properties.general_params.run_by_trial.value)
         trial = trial_info.id;
         trial_name = trial_info.name;
         pathname                                            = fullfile(subject.subject_path,trial_name);
@@ -78,8 +78,8 @@ if(isequal(process,'fuctional'))
     end
     %%
     %% Saving general variables for sensor level
-    %%    
-    pathname                                            = fullfile(pathname,'Generals','Functional');   
+    %%
+    pathname                                            = fullfile(pathname,'Generals','Functional');
     if(~isfolder(pathname))
         mkdir(pathname);
     end
@@ -120,21 +120,21 @@ if(isequal(process,'fuctional'))
     end
 end
 if(isequal(process,'sensor'))
-    trial = trial.id;
-    trial_name = trial.name;
     if(properties.general_params.run_by_trial.value)
+        trial = trial_info.id;
+        trial_name = trial_info.name;
         pathname                                            = fullfile(subject.subject_path,trial_name);
     else
         pathname                                            = subject.subject_path;
     end
     level                  = 'Sensor_level';
-    pathname = fullfile(pathname,level,band.name);     
+    pathname = fullfile(pathname,level,band.name);
     if(~isfolder(pathname))
         mkdir(pathname);
-    end  
+    end
     file_name                                           = strcat('Sensor_level_',band.str_band,'.mat');
     reference_path                                      = strsplit(pathname,subject.name);
-    
+
     [~,band_name,~]                                     = fileparts(reference_path{2});
     if(properties.general_params.run_by_trial.value)
         subject.BC_V_info.trials(trial).sensor_level(pos).Comment         = 'Sensor_level';
@@ -173,7 +173,7 @@ if(isequal(process,'a_priors'))
     else
         pathname                                        = fullfile(subject.subject_path,'Generals','Structural','sSSBL');
     end
-    
+
     if(~isfolder(pathname))
         mkdir(pathname);
     end
@@ -192,7 +192,7 @@ if(isequal(process,'a_priors'))
     if(getGlobalGuimode)
         dlg = msgbox('Save operation in progress...');
     end
-     
+
     parsave(fullfile(pathname ,file_name ),W);
     if exist('dlg','var')
         delete(dlg);
@@ -207,7 +207,7 @@ if(isequal(process,'activation'))
     else
         pathname                                            = subject.subject_path;
     end
-    pathname                                            = fullfile(pathname,level);    
+    pathname                                            = fullfile(pathname,level);
     file_name                                           = strcat('MEEG_source_',band.str_band,'.mat');
     switch method
         case 'sssblpp'
@@ -216,15 +216,15 @@ if(isequal(process,'activation'))
                 mkdir(pathname);
             end
         case 'eloreta'
-            pathname                                    = fullfile(pathname,'eLORETA',band.name);            
+            pathname                                    = fullfile(pathname,'eLORETA',band.name);
             if(~isfolder(pathname))
                 mkdir(pathname);
             end
         case 'lcmv'
-            pathname                                    = fullfile(pathname,'LCMV',band.name);            
+            pathname                                    = fullfile(pathname,'LCMV',band.name);
             if(~isfolder(pathname))
                 mkdir(pathname);
-            end            
+            end
     end
     disp(strcat("File: ", file_name));
     save(fullfile(pathname ,file_name ),"-struct",'outputs');
@@ -261,14 +261,14 @@ if(isequal(process,'c_priors'))
     file_name                                           = strcat('W.mat');
     W                                                   = subject.W;
     if(properties.general_params.run_by_trial.value)
-        pathname                                        = fullfile(subject.subject_path,properties.trial_name,'Generals','Structural','HiGSS');        
+        pathname                                        = fullfile(subject.subject_path,properties.trial_name,'Generals','Structural','HiGSS');
     else
-        pathname                                        = fullfile(subject.subject_path,'Generals','Structural','HiGSS');        
+        pathname                                        = fullfile(subject.subject_path,'Generals','Structural','HiGSS');
     end
     if(~isfolder(pathname))
         mkdir(pathname);
     end
-    
+
     reference_path                                  = strsplit(pathname,subject.name);
     if(properties.general_params.run_by_trial.value)
         subject.BC_V_info.trials(trial).generals(3).Comment               = 'Generals';
@@ -296,7 +296,7 @@ if(isequal(process,'connectivity'))
     else
         pathname                                            = subject.subject_path;
     end
-    pathname                                            = fullfile(pathname,level);    
+    pathname                                            = fullfile(pathname,level);
     file_name                                           = strcat('MEEG_source_',band.str_band,'.mat');
     switch method
         case 'higgs'
@@ -312,9 +312,9 @@ if(isequal(process,'connectivity'))
     end
     disp(strcat("File: ", file_name));
     save(fullfile(pathname ,file_name ),"-struct",'outputs');
-    
-    %% 
-    reference_path = strsplit(pathname,subject.name);   
+
+    %%
+    reference_path = strsplit(pathname,subject.name);
     if(properties.general_params.run_by_trial.value)
         subject.BC_V_info.trials(trial).connectivity_level(pos).Comment     = level;
         subject.BC_V_info.trials(trial).connectivity_level(pos).Band        = band.name;
