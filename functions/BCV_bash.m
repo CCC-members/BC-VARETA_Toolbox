@@ -145,12 +145,13 @@ for i=1:length(subjects)
         if(status)
             subject                         = get_structural_priors(subject);
             subject                         = BC_V_save(properties,subject,'common');
-            if(properties.general_params.run_by_trial.value)
+            if(properties.general_params.run_by_trial.value && isequal(properties.general_params.run_by_trial.level, "sensor"))
                 data                        = subject.MEEG.data;
                 for m=1:length(data)
-                    properties.trial_name   = ['trial_',num2str(m)];
+                    properties.trial.id     = m;
+                    properties.trial.name   = ['trial_',num2str(m)];
                     disp("=====================================================================");
-                    disp(strcat("BC-V-->> Processing trial: ",properties.trial_name));
+                    disp(strcat("BC-V-->> Processing trial: ",properties.trial.name));
                     disp("=====================================================================");
                     subject.MEEG.data       = data{1,m};
                     [subject,properties]    = sensor_level_analysis(subject,properties);
@@ -173,10 +174,11 @@ for i=1:length(subjects)
     if(ismember(analysis_level,{'2','12','23','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,2);
         if(status)
-            if(properties.general_params.run_by_trial.value)
+            if(properties.general_params.run_by_trial.value && isequal(properties.general_params.run_by_trial.level, "activation"))
                 data                        = subject.MEEG.data;
                 for m=1:length(data)
-                    properties.trial_name   = ['trial_',num2str(m)];
+                    properties.trial.id     = m;
+                    properties.trial.name   = ['trial_',num2str(m)];
                     disp("=====================================================================");
                     disp(strcat("BC-V-->> Processing trial: ",properties.trial_name));
                     disp("=====================================================================");
@@ -184,6 +186,9 @@ for i=1:length(subjects)
                     [subject,properties]    = activation_level_interface(subject,properties);
                 end
                 subject.MEEG.data                = data;
+            elseif(properties.general_params.run_by_trial.value && isequal(properties.general_params.run_by_trial.level, "sensor"))
+                [subject,properties]        = mean_sensor_trials(subject,properties);
+                [subject,properties]        = activation_level_interface(subject,properties);
             else
                 [subject,properties]        = activation_level_interface(subject,properties);
             end

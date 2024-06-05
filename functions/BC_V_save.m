@@ -4,6 +4,7 @@ for k = 4 : nargin
     eval([inputname(k) '=  varargin{k-3};']);
 end
 
+
 disp('-->> Saving file')
 if(isequal(process,'common'))
     %%
@@ -67,10 +68,11 @@ if(isequal(process,'common'))
     disp(strcat("File: ", file_name));
     save(fullfile(pathname_common ,file_name ),'-struct','Leadfiled');
 end
-if(isequal(process,'fuctional'))
-    if(properties.general_params.run_by_trial.value)
-        
-        pathname                                            = fullfile(subject.subject_path,properties.trial_name);
+if(isequal(process,'fuctional'))    
+    if(properties.general_params.run_by_trial.value)   
+        trial = trial_info.id;
+        trial_name = trial_info.name;
+        pathname                                            = fullfile(subject.subject_path,trial_name);
     else
         pathname                                            = subject.subject_path;
     end
@@ -118,8 +120,10 @@ if(isequal(process,'fuctional'))
     end
 end
 if(isequal(process,'sensor'))
+    trial = trial.id;
+    trial_name = trial.name;
     if(properties.general_params.run_by_trial.value)
-        pathname                                            = fullfile(subject.subject_path,properties.trial_name);
+        pathname                                            = fullfile(subject.subject_path,trial_name);
     else
         pathname                                            = subject.subject_path;
     end
@@ -160,10 +164,12 @@ if(isequal(process,'level1'))
 end
 
 if(isequal(process,'a_priors'))
+    trial = trial.id;
+    trial_name = trial.name;
     file_name                                           = strcat('W.mat');
     W                                                   = subject.W;
     if(properties.general_params.run_by_trial.value)
-        pathname                                        = fullfile(subject.subject_path,properties.trial_name,'Generals','Structural','sSSBL');
+        pathname                                        = fullfile(subject.subject_path,trial_name,'Generals','Structural','sSSBL');
     else
         pathname                                        = fullfile(subject.subject_path,'Generals','Structural','sSSBL');
     end
@@ -194,8 +200,10 @@ if(isequal(process,'a_priors'))
 end
 if(isequal(process,'activation'))
     level                                               = 'Activation_level';
+    trial = trial.id;
+    trial_name = trial.name;
     if(properties.general_params.run_by_trial.value)
-        pathname                                            = fullfile(subject.subject_path,properties.trial_name);
+        pathname                                            = fullfile(subject.subject_path,trial_name);
     else
         pathname                                            = subject.subject_path;
     end
