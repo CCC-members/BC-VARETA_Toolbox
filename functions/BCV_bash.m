@@ -145,7 +145,7 @@ for i=1:length(subjects)
         if(status)
             subject                         = get_structural_priors(subject);
             subject                         = BC_V_save(properties,subject,'common');
-            if(properties.general_params.run_by_trial.value && isequal(properties.general_params.run_by_trial.level, "sensor"))
+            if(properties.general_params.run_by_trial.value)
                 data                        = subject.MEEG.data;
                 for m=1:length(data)
                     properties.trial.id     = m;
@@ -156,15 +156,18 @@ for i=1:length(subjects)
                     subject.MEEG.data       = data{1,m};
                     [subject,properties]    = sensor_level_analysis(subject,properties);
                     disp("=====================================================================");
-                    subject                         = BC_V_save(properties,subject,'level1');
+                    subject                 = BC_V_save(properties,subject,'level1');
                 end
                 subject.MEEG.data           = data;
+                if(isequal(properties.general_params.run_by_trial.level, "sensor"))
+                    [subject,properties]    = mean_sensor_trials(subject,properties);
+                    subject                 = BC_V_save(properties,subject,'sensor_mean');
+                end
             else
                 [subject,properties]        = sensor_level_analysis(subject,properties);
                 disp("=====================================================================");
                 subject                     = BC_V_save(properties,subject,'level1');
             end
-            
         end
     end
 
@@ -185,10 +188,7 @@ for i=1:length(subjects)
                     subject.data            = data{1,m};
                     [subject,properties]    = activation_level_interface(subject,properties);
                 end
-                subject.MEEG.data                = data;
-            elseif(properties.general_params.run_by_trial.value && isequal(properties.general_params.run_by_trial.level, "sensor"))
-                [subject,properties]        = mean_sensor_trials(subject,properties);
-                [subject,properties]        = activation_level_interface(subject,properties);
+                subject.MEEG.data                = data;           
             else
                 [subject,properties]        = activation_level_interface(subject,properties);
             end
