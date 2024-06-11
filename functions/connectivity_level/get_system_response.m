@@ -3,7 +3,7 @@ function [syst_resp_out] = get_system_response(subject,properties)
 IsCurv                                                      = properties.activation_params.IsCurv.value;
 BC_V_info                                                   = subject.BC_V_info;
 act_methods                                                 = properties.activation_params.methods;
-if(properties.general_params.run_by_trial.value) 
+if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor')) 
     trial                                                   = properties.trial_name;
     variant                                                 = 'trial';   
 else
@@ -31,7 +31,7 @@ for i=1:length(act_methods)
                     count_bin                               = count_bin + 1;
                 end
             case 'trial'
-                activ_files                                = BC_V_info.(trial).activation_level(contains(lower({BC_V_info.(trial).activation_level.Method}),method));
+                activ_files                                = BC_V_info.trials(trial).activation_level(contains(lower({BC_V_info.trials(trial).activation_level.Method}),method));
                 count_bin                                   = 0;
                 for j=1:length(activ_files)
                     activ_file                              = activ_files(j);
@@ -48,14 +48,14 @@ for i=1:length(act_methods)
                 end            
         end        
         ave_stat                                            = ave_stat/count_bin;
-        if(properties.general_params.run_by_trial.value)
+        if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor'))
             syst_resp_out.(trial).(method).ave_stat         = ave_stat;
         else
             syst_resp_out.(method).ave_stat                 = ave_stat;
         end        
         if IsCurv == 0
             indms                                           = find(ave_stat > properties.activation_params.methods{i}.threshold.value);
-            if(properties.general_params.run_by_trial.value)
+            if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor'))
                 syst_resp_out.(trial).(method).indms        = indms;
             else
                 syst_resp_out.(method).indms                = indms;
@@ -64,7 +64,7 @@ for i=1:length(act_methods)
             indms_giri                                      = find(ave_stat(:,1) > properties.activation_params.methods{i}.threshold.value);
             indms_sulc                                      = find(ave_stat(:,2) > properties.activation_params.methods{i}.threshold.value);
             indms                                           = unique([indms_giri;indms_sulc]);
-            if(properties.general_params.run_by_trial.value)
+            if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor'))
                 syst_resp_out.(trial).(method).indms_giri   = indms_giri;
                 syst_resp_out.(trial).(method).indms_sulc   = indms_sulc;
                 syst_resp_out.(trial).(method).indms        = indms;
