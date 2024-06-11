@@ -161,7 +161,8 @@ for i=1:length(subjects)
                 subject.MEEG.data           = data;
                 if(isequal(properties.general_params.run_by_trial.level, "sensor"))
                     [subject,properties]    = mean_sensor_trials(subject,properties);
-                    subject                 = BC_V_save(properties,subject,'sensor_mean');
+                    disp("=====================================================================");
+                    subject                     = BC_V_save(properties,subject,'level1');
                 end
             else
                 [subject,properties]        = sensor_level_analysis(subject,properties);

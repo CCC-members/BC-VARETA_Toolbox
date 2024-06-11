@@ -11,6 +11,9 @@ for t=1:length(sensor_trials)
         file_name                   = sensor.Name;
         sensor_level    = load(fullfile(subject.subject_path,ref_path,file_name));
         sensor_tensor{t,f} = sensor_level.Svv;
+        if(t==1)
+            sensor_levels(f) = sensor_level;
+        end
     end
 end
 no_trials = size(sensor_tensor,1);
@@ -24,6 +27,13 @@ for t=1:no_trials
     end
 end
 sensor_out = mean(sensor_tensor_out,1);
-subject    = BC_V_save(properties,subject,'sensor_mean',Svv,peak_pos,Nseg,band,pos, trial_info);
-
+sensor_out = squeeze(sensor_out);
+for f=1:length(properties.sensor_params.frequencies)
+    peak_pos = sensor_levels(f).peak_pos;
+    Nseg = sensor_levels(f).Nseg;
+    band = sensor_levels(f).band;
+    Svv  = squeeze(sensor_out(f,:,:));
+    pos = f;
+    subject    = BC_V_save(properties,subject,'sensor_mean',Svv,peak_pos,Nseg,band,pos);
+end
 end

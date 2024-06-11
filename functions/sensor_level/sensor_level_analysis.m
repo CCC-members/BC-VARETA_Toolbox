@@ -8,7 +8,6 @@ Fs              = properties.sensor_params.samp_freq.value;         % sampling f
 Fmax            = properties.sensor_params.max_freq.value;          % maximum frequency
 deltaf          = properties.sensor_params.freq_resol.value;        % frequency resolution
 F               = 0:deltaf:Fmax;
-trial_info      = properties.trial;
 if(isfield(subject.MEEG,'data'))
     data        = subject.MEEG.data;    
     varf        = properties.sensor_params.freq_gfiltvar.value;     % gaussian filter variance
@@ -40,8 +39,12 @@ else
     PSD                                     = subject.MEEG.Spec;
     Nseg                                    = [];
 end
-
-subject                                     = BC_V_save(properties,subject,'fuctional',Svv_channel,PSD, trial_info);
+if(properties.general_params.run_by_trial.value)
+    trial_info                                  = properties.trial;
+    subject                                     = BC_V_save(properties,subject,'fuctional',Svv_channel,PSD, trial_info);
+else
+    subject                                     = BC_V_save(properties,subject,'fuctional',Svv_channel,PSD);
+end
 
 %% Sensor analysis
 for pos=1:length(properties.sensor_params.frequencies)
@@ -62,6 +65,8 @@ for pos=1:length(properties.sensor_params.frequencies)
         Svv                         = Svv_channel(:,:,pos);
         peak_pos                    = pos;
     end
+    
+    
     subject                         = BC_V_save(properties,subject,'sensor',Svv,peak_pos,Nseg,band,pos, trial_info);
 
 end

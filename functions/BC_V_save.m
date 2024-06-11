@@ -119,6 +119,10 @@ if(isequal(process,'fuctional'))
         parsave(fullfile(pathname ,file_name ),Svv_channel,PSD);
     end
 end
+
+%%
+%% Sensor level outputs 
+%%
 if(isequal(process,'sensor'))
     if(properties.general_params.run_by_trial.value)
         trial = trial_info.id;
@@ -155,6 +159,29 @@ if(isequal(process,'sensor'))
     end
 end
 
+%%
+%% Sensor mean 
+%%
+if(isequal(process,'sensor_mean'))
+    pathname                                            = subject.subject_path;
+
+    level                  = 'Sensor_level';
+    pathname = fullfile(pathname,level,band.name);
+    if(~isfolder(pathname))
+        mkdir(pathname);
+    end
+    file_name                                           = strcat('Sensor_level_',band.str_band,'.mat');
+    reference_path                                      = strsplit(pathname,subject.name);
+    [~,band_name,~]                                     = fileparts(reference_path{2});
+    subject.BC_V_info.sensor_level(pos).Comment         = 'Sensor_level';
+    subject.BC_V_info.sensor_level(pos).Band            = band_name;
+    subject.BC_V_info.sensor_level(pos).Freq            = char(band.str_band);
+    subject.BC_V_info.sensor_level(pos).Ref_path        = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.sensor_level(pos).Name            = file_name;
+    disp(strcat("File: ", file_name));
+    parsave(fullfile(pathname ,file_name ),Svv,peak_pos,Nseg,band);    
+end
+
 if(isequal(process,'level1'))
     disp('-->> Saving BC-VARETA Information file.')
     subject.BC_V_info.Processes(1).name         = 'Sensor_level';
@@ -163,46 +190,34 @@ if(isequal(process,'level1'))
     saveJSON(BC_V_info,fullfile(subject.subject_path ,strcat(subject.name,'.json')));
 end
 
+%%
+%% Activation priors
+%%
 if(isequal(process,'a_priors'))
-    trial = trial.id;
-    trial_name = trial.name;
     file_name                                           = strcat('W.mat');
     W                                                   = subject.W;
-    if(properties.general_params.run_by_trial.value)
-        pathname                                        = fullfile(subject.subject_path,trial_name,'Generals','Structural','sSSBL');
-    else
-        pathname                                        = fullfile(subject.subject_path,'Generals','Structural','sSSBL');
-    end
-
+    pathname                                            = fullfile(subject.subject_path,'Generals','Structural','sSSBL');
     if(~isfolder(pathname))
         mkdir(pathname);
     end
     reference_path                                      = strsplit(pathname,subject.name);
-    if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.trials(trial).generals(2).Comment               = 'Generals';
-        subject.BC_V_info.trials(trial).generals(2).Ref_path              = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.trials(trial).generals(2).Name                  = file_name;
-
-    else
-        subject.BC_V_info.generals(2).Comment               = 'Generals';
-        subject.BC_V_info.generals(2).Ref_path              = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.generals(2).Name                  = file_name;
-    end
+    subject.BC_V_info.generals(2).Comment               = 'Generals';
+    subject.BC_V_info.generals(2).Ref_path              = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.generals(2).Name                  = file_name;
     disp(strcat("File: ", file_name));
     if(getGlobalGuimode)
         dlg = msgbox('Save operation in progress...');
     end
-
     parsave(fullfile(pathname ,file_name ),W);
     if exist('dlg','var')
         delete(dlg);
     end
 end
 if(isequal(process,'activation'))
-    level                                               = 'Activation_level';
-    trial = trial.id;
-    trial_name = trial.name;
-    if(properties.general_params.run_by_trial.value)
+    level                                               = 'Activation_level';    
+    if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor'))
+        trial = trial_info.id;
+        trial_name = trial_info.name;
         pathname                                            = fullfile(subject.subject_path,trial_name);
     else
         pathname                                            = subject.subject_path;
@@ -231,7 +246,7 @@ if(isequal(process,'activation'))
 
     %%
     reference_path = strsplit(pathname,subject.name);
-    if(properties.general_params.run_by_trial.value)
+    if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor'))
         subject.BC_V_info.trials(trial).activation_level(pos).Comment     = level;
         subject.BC_V_info.trials(trial).activation_level(pos).Band        = band.name;
         subject.BC_V_info.trials(trial).activation_level(pos).Method      = lower(method);
@@ -257,28 +272,22 @@ if(isequal(process,'level2'))
     saveJSON(BC_V_info,fullfile(subject.subject_path ,strcat(subject.name,'.json')));
 end
 
+%%
+%% Connectvity priors
+%%
 if(isequal(process,'c_priors'))
     file_name                                           = strcat('W.mat');
     W                                                   = subject.W;
-    if(properties.general_params.run_by_trial.value)
-        pathname                                        = fullfile(subject.subject_path,properties.trial_name,'Generals','Structural','HiGSS');
-    else
-        pathname                                        = fullfile(subject.subject_path,'Generals','Structural','HiGSS');
-    end
+    pathname                                            = fullfile(subject.subject_path,'Generals','Structural','HiGSS');
     if(~isfolder(pathname))
         mkdir(pathname);
     end
 
-    reference_path                                  = strsplit(pathname,subject.name);
-    if(properties.general_params.run_by_trial.value)
-        subject.BC_V_info.trials(trial).generals(3).Comment               = 'Generals';
-        subject.BC_V_info.trials(trial).generals(3).Ref_path              = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.trials(trial).generals(3).Name                  = file_name;
-    else
-        subject.BC_V_info.generals(3).Comment               = 'Generals';
-        subject.BC_V_info.generals(3).Ref_path              = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.generals(3).Name                  = file_name;
-    end
+    reference_path                                      = strsplit(pathname,subject.name);
+    subject.BC_V_info.generals(3).Comment               = 'Generals';
+    subject.BC_V_info.generals(3).Ref_path              = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.generals(3).Name                  = file_name;
+
     disp(strcat("File: ", file_name));
     if(getGlobalGuimode)
         dlg = msgbox('Save operation in progress...');
@@ -288,7 +297,9 @@ if(isequal(process,'c_priors'))
         delete(dlg);
     end
 end
-
+%%
+%% Connectvity level Outputs
+%%
 if(isequal(process,'connectivity'))
     level                                               = 'Connectivity_level';
     if(properties.general_params.run_by_trial.value)
