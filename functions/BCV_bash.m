@@ -204,7 +204,7 @@ for i=1:length(subjects)
     if(ismember(analysis_level,{'3','23','all'}))
         [subject,status]                    = check_BC_V_info(properties,subject,3);
         if(status)
-            if(properties.general_params.run_by_trial.value)
+            if(properties.general_params.run_by_trial.value && isequal(properties.general_params.run_by_trial.level, "connectivity"))
                 data                        = subject.MEEG.data;
                 for m=1:length(data)
                     properties.trial_name   = ['trial_',num2str(m)];
