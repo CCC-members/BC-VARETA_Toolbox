@@ -14,7 +14,7 @@ end
 %% 
 sensor_level                                    = subject.BC_V_info.sensor_level;
 activation_level                                = subject.BC_V_info.activation_level;
-if(properties.general_params.run_by_trial.value) 
+if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor')) 
     sensor_level                                    = subject.BC_V_info.trials(trial).sensor_level;
     activation_level                                = subject.BC_V_info.trials(trial).activation_level;
 end
@@ -25,7 +25,7 @@ for i=1:length(activation_level)
     subject.sensor_level_out                        = load(fullfile(subject.subject_path,sensor_file.Ref_path,sensor_file.Name));
     subject.activation_level_out                    = load(fullfile(subject.subject_path,activ_file.Ref_path,activ_file.Name));
     if(properties.general_params.system_response.value)
-        if(properties.general_params.run_by_trial.value)
+        if(properties.general_params.run_by_trial.value && ~isequal(properties.general_params.run_by_trial.level,'sensor'))
             subject.activation_level_out.indms      = syst_resp_out.trials(trial).(activ_file.Method).indms;
             subject.activation_level_out.stat       = syst_resp_out.trials(trial).(activ_file.Method).ave_stat;
             subject.activation_level_out.method     = activ_file.Method;
