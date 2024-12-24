@@ -88,13 +88,16 @@ if(exist('sufix','var'))
 else
     folder = 'bcvareta';
 end
-BCV_file = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,properties.general_params.dataset.task.value,BCV_filename);
+BCV_path = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,properties.general_params.dataset.descriptors.task);
+BCV_file = fullfile(BCV_path,BCV_filename);
 if(isfile(BCV_file))
     BC_VARETA = jsondecode(fileread(BCV_file));
-else
+else    
     BC_VARETA.Name                              = properties.general_params.dataset.Name;
+    TempUUID                                    = java.util.UUID.randomUUID;
+    BC_VARETA.UUID                              = char(TempUUID.toString);
     BC_VARETA.Description                       = properties.general_params.dataset.Description;
-    BC_VARETA.Task                              = properties.general_params.dataset.task.value;
+    BC_VARETA.Task                              = properties.general_params.dataset.descriptors.task;
     BC_VARETA.Status                            = "Processing";
     BC_VARETA.general_params                    = properties.general_params;
     BC_VARETA.sensor_params                     = properties.sensor_params;
@@ -164,7 +167,7 @@ for i=1:length(subjects)
                     disp("=====================================================================");
                     subject                     = BC_V_save(properties,subject,'level1');
                 end
-            else
+            else               
                 [subject,properties]        = sensor_level_analysis(subject,properties);
                 disp("=====================================================================");
                 subject                     = BC_V_save(properties,subject,'level1');
@@ -241,6 +244,13 @@ BC_VARETA.Status = "Completed";
 saveJSON(BC_VARETA,BCV_file);
 
 %%
+%% Getting participants metadata
+%%
+if(isfile(fullfile(root_path,'Participants.json')))
+    copyfile(fullfile(root_path,'Participants.json'),fullfile(BCV_path,'Participants.json'))
+end
+
+%%
 %% Checking Multi-instance processing
 %%
 BC_VARETA_files = dir(fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA.Task));
@@ -296,10 +306,12 @@ if(isfile(BCV_file))
     BC_VARETA_info.Path     = fullfile(properties.general_params.bcv_workspace.BCV_work_dir,folder,BC_VARETA_info.Task);
     TempUUID                = java.util.UUID.randomUUID;
     BC_VARETA_info.UUID     = char(TempUUID.toString);
+    saveJSON(BC_VARETA_info,dataset_file);
+
     if(isempty(Datasets))
         Datasets            = jsondecode(fileread(BCV_file));
     else
-        Datasets(end + 1)   = jsondecode(fileread(BCV_file));
+        Datasets(end + 1) = jsondecode(fileread(BCV_file));
     end
     disp("-->> Dataset saved");
     saveJSON(Datasets,Datasets_file);

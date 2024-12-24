@@ -66,8 +66,12 @@ for pos=1:length(properties.sensor_params.frequencies)
         peak_pos                    = pos;
     end
     
-    
-    subject                         = BC_V_save(properties,subject,'sensor',Svv,peak_pos,Nseg,band,pos, trial_info);
+    if(properties.general_params.run_by_trial.value)
+        trial_info                                  = properties.trial;
+        subject                         = BC_V_save(properties,subject,'sensor',Svv,peak_pos,Nseg,band,pos, trial_info);
+    else
+        subject                         = BC_V_save(properties,subject,'sensor',Svv,peak_pos,Nseg,band,pos);
+    end
 
 end
 end

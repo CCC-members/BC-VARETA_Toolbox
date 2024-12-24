@@ -87,9 +87,9 @@ if(isequal(process,'fuctional'))
         meeg                                                = subject.MEEG;
         file_name                                           = strcat('MEEG.mat');
         reference_path                                      = strsplit(pathname,subject.name);
-        subject.BC_V_info.trials(trial).common(1).Comment    = 'MEEG data';
-        subject.BC_V_info.trials(trial).common(1).Ref_path   = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.trials(trial).common(1).Name       = file_name;
+        subject.BC_V_info.trials(trial).generals(1).Comment    = 'MEEG data';
+        subject.BC_V_info.trials(trial).generals(1).Ref_path   = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.trials(trial).generals(1).Name       = file_name;
         disp(strcat("File: ", file_name));
         save(fullfile(pathname ,file_name ),'-struct','meeg');
 
@@ -104,9 +104,9 @@ if(isequal(process,'fuctional'))
         meeg                                                = subject.MEEG;
         file_name                                           = strcat('MEEG.mat');
         reference_path                                      = strsplit(pathname,subject.name);
-        subject.BC_V_info.common(1).Comment                 = 'MEEG data';
-        subject.BC_V_info.common(1).Ref_path                = strrep(reference_path{2},'\','/');
-        subject.BC_V_info.common(1).Name                    = file_name;
+        subject.BC_V_info.generals(1).Comment                 = 'MEEG data';
+        subject.BC_V_info.generals(1).Ref_path                = strrep(reference_path{2},'\','/');
+        subject.BC_V_info.generals(1).Name                    = file_name;
         disp(strcat("File: ", file_name));
         save(fullfile(pathname ,file_name ),'-struct','meeg');
 
@@ -201,9 +201,9 @@ if(isequal(process,'a_priors'))
         mkdir(pathname);
     end
     reference_path                                      = strsplit(pathname,subject.name);
-    subject.BC_V_info.generals(2).Comment               = 'Generals';
-    subject.BC_V_info.generals(2).Ref_path              = strrep(reference_path{2},'\','/');
-    subject.BC_V_info.generals(2).Name                  = file_name;
+    subject.BC_V_info.generals(3).Comment               = 'Generals';
+    subject.BC_V_info.generals(3).Ref_path              = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.generals(3).Name                  = file_name;
     disp(strcat("File: ", file_name));
     if(getGlobalGuimode)
         dlg = msgbox('Save operation in progress...');
@@ -284,9 +284,9 @@ if(isequal(process,'c_priors'))
     end
 
     reference_path                                      = strsplit(pathname,subject.name);
-    subject.BC_V_info.generals(3).Comment               = 'Generals';
-    subject.BC_V_info.generals(3).Ref_path              = strrep(reference_path{2},'\','/');
-    subject.BC_V_info.generals(3).Name                  = file_name;
+    subject.BC_V_info.generals(4).Comment               = 'Generals';
+    subject.BC_V_info.generals(4).Ref_path              = strrep(reference_path{2},'\','/');
+    subject.BC_V_info.generals(4).Name                  = file_name;
 
     disp(strcat("File: ", file_name));
     if(getGlobalGuimode)

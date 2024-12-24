@@ -26,10 +26,17 @@ if(~isfield(subject_info,'name')...
     return;
 else
     for i=1:length(subject_info.meeg_dir)
-        if(contains(subject_info.meeg_dir{i},properties.general_params.dataset.task.value))
-            subject_info.meeg_dir = subject_info.meeg_dir{i};
-            subject_info.meeg_dir       = replace(subject_info.meeg_dir,'\','/');
-            break;
+        if(contains(subject_info.meeg_dir{i},properties.general_params.dataset.descriptors.task))
+            if(isempty(properties.general_params.dataset.descriptors.segment) || isequal(properties.general_params.dataset.descriptors.segment,'all'))
+                subject_info.meeg_dir = subject_info.meeg_dir{i};
+                subject_info.meeg_dir       = replace(subject_info.meeg_dir,'\','/');
+            else
+                if(contains(subject_info.meeg_dir{i},strcat('Segment-',properties.general_params.dataset.descriptors.segment)))
+                    subject_info.meeg_dir = subject_info.meeg_dir{i};
+                    subject_info.meeg_dir       = replace(subject_info.meeg_dir,'\','/');
+                    break;
+                 end
+            end
         end
     end
     subject_info.channel_dir    = replace(subject_info.channel_dir,'\','/');

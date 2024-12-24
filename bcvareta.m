@@ -31,6 +31,7 @@ addpath(genpath('bcv_properties'));
 addpath(genpath('external'));
 addpath(genpath('functions'));
 addpath(genpath('guide'));
+addpath(genpath('reports'));
 addpath('tools');
 if(isequal(nargin,2))
     idnode = varargin{1};
