@@ -18,19 +18,22 @@ currentHoleId = moveToNextHole(doc);
 while ~strcmp(currentHoleId, '#end#')
     %For some holes we perform a special handling, all "standard" holes
     %are filled with processStandardHole in the otherwise case
-    clasif = split(currentHoleId,'_');
-    switch clasif{1}       
-        case 'Image'
-            processImage(doc, reportData, currentHoleId, nfreqs);        
-        case 'SimpleTable'
-            processSimpleTable(doc, reportData, currentHoleId);
-        case 'AdvancedTable'
-            processAdvancedTable(doc, reportData, currentHoleId);
-        otherwise
-            processStandardHole(doc, reportData, currentHoleId);
+    try
+        clasif = split(currentHoleId,'_');
+        switch clasif{1}
+            case 'Image'
+                processImage(doc, reportData, currentHoleId, nfreqs);
+            case 'SimpleTable'
+                processSimpleTable(doc, reportData, currentHoleId);
+            case 'AdvancedTable'
+                processAdvancedTable(doc, reportData, currentHoleId);
+            otherwise
+                processStandardHole(doc, reportData, currentHoleId);
+        end
+        currentHoleId = moveToNextHole(doc);
+    catch
+        currentHoleId = moveToNextHole(doc);
     end
-    currentHoleId = moveToNextHole(doc);
-
 end
 %Close the document and write the result to disc
 close(doc);

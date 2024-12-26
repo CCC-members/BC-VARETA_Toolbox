@@ -22,22 +22,14 @@ switch section
     case 'Presentation'
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
-        data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end
+        data.Age   = Partic_info.Age;        
+        data.Gender = Partic_info.Gender;
         data.Condition = Partic_info.Condition;
     case 'Structural'
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
-        data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end      
+        data.Age   = Partic_info.Age;       
+            data.Gender = Partic_info.Gender;            
         data.Condition = Partic_info.Condition;
 
         data.Image_headmodel_front = fullfile(reportPath,'structural','headmodel_front.png');
@@ -62,23 +54,15 @@ switch section
     case 'Sensor_PSD'
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
-        data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end      
+        data.Age   = Partic_info.Age;       
+            data.Gender = Partic_info.Gender;           
         data.Condition = Partic_info.Condition;
         data.Image_sensorPSD = fullfile(reportPath,'sensor','sensorPSD.png');
     case 'Sensor_Topography_band'
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
         data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end      
+        data.Gender = Partic_info.Gender;
         data.Condition = Partic_info.Condition;
         for i=1:length(prop.sensor_params.frequencies)
             band = prop.sensor_params.frequencies(i);
@@ -90,12 +74,8 @@ switch section
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
         data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end
-        data.Condition = Partic_info.Condition;
+       data.Gender = Partic_info.Gender;
+       data.Condition = Partic_info.Condition;
         for i=1:length(prop.sensor_params.frequencies)
             data.Image_sensorPSD = fullfile(reportPath,'sensor','sensorPSD.png');
         end
@@ -104,12 +84,8 @@ switch section
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
         data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end     
-        data.Condition = Partic_info.Condition;
+       data.Gender = Partic_info.Gender;
+       data.Condition = Partic_info.Condition;
         data.view_right = 'Right view';
         data.view_top = 'Top view';
         data.view_left= 'Left view';
@@ -123,12 +99,8 @@ switch section
     case 'SLA_Band_Topography'
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
-        data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end      
+        data.Age   = Partic_info.Age;       
+            data.Gender = Partic_info.Gender;             
         data.Condition = Partic_info.Condition;
 
         data.SLA_band_topography = 'Band Topography';
@@ -141,11 +113,7 @@ switch section
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
         data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end      
+       data.Gender = Partic_info.Gender;
         data.Condition = Partic_info.Condition;
 
         data.SLA_Alpha_Theta_Ratio = 'Alpha/Theta Ratio';
@@ -155,11 +123,7 @@ switch section
         data.Name = Partic_info.Name;
         data.SubID = Partic_info.SubID;
         data.Age   = Partic_info.Age;
-        if(isfield(Partic_info, 'Sex'))
-            data.Gender = Partic_info.Sex;
-        else
-            data.Gender = Partic_info.Gender;
-        end     
+        data.Gender = Partic_info.Gender;
         data.Condition = Partic_info.Condition;
 
         data.SLA_Alpha_Theta_Ratio = 'Alpha/Theta Ratio';
