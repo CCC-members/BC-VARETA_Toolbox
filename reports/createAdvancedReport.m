@@ -1,4 +1,4 @@
-function createAdvancedReport(Partic_info, reportPath, type, varargin)
+function outputFile = createAdvancedReport(Partic_info, reportPath, type, varargin)
 %ADVANCEDREPORTCREATE This function creates the file AdvancedReport.docx
 %   First it calls the function "getAdvancedReportData" to get the data
 %   that should be shown in the report. Then it loops through the holes in
@@ -100,6 +100,7 @@ if(~isempty(find(contains(pdf_filenames,fullfile(reportPath,outputFileName)),1))
     pdf_filenames(find(contains(pdf_filenames,fullfile(reportPath,outputFileName)),1)) = [];
 end
 delete(pdf_filenames{:});
+outputFile = fullfile(reportPath,outputFileName);
 end
 
 %%
