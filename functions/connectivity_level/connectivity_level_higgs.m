@@ -128,7 +128,7 @@ param.aj                = aj;
 param.Ajj               = Ajj;
 if IsCurv == 0
     Lvj                  = Lvj*W;
-    [Thetajj,Tjv,llh]   = higgs(Svv,Lvj(:,indms),param);
+    [Thetajj,Tjv,llh,Sjj,Psijj,Sigmajj]   = higgs(Svv,Lvj(:,indms),param);
     [Thetajj,s2j,Tjv]   = higgs_destandardization(Thetajj,Svv,Tjv,Winv,W,indms,IsField);
 elseif IsCurv == 1
     Lvj_giri             = subject.Lvj_giri;
