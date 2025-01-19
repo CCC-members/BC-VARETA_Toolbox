@@ -8,7 +8,7 @@ Fs              = properties.sensor_params.samp_freq.value;         % sampling f
 Fmax            = properties.sensor_params.max_freq.value;          % maximum frequency
 deltaf          = properties.sensor_params.freq_resol.value;        % frequency resolution
 F               = 0:deltaf:Fmax;
-if(isfield(subject.MEEG,'data'))
+if(~isempty(subject.MEEG.data))
     data        = subject.MEEG.data;    
     varf        = properties.sensor_params.freq_gfiltvar.value;     % gaussian filter variance
     Nw          = properties.sensor_params.win_order.value;         % Slepian windows
@@ -51,7 +51,7 @@ for pos=1:length(properties.sensor_params.frequencies)
     band                                = properties.sensor_params.frequencies(pos);
     disp("=====================================================================");
     disp(strcat( "BC-V-->> Sensor level for frequency band: " , band.str_band));
-    if(~isempty(PSD) && isfield(subject.MEEG,'data'))
+    if(~isempty(PSD) && ~isempty(subject.MEEG.data))
         if(isfield(band,'f_bin'))
             [f1,nf1]                = min(abs(F - band.f_bin));
             [f2,nf2]                = min(abs(F - band.f_bin));

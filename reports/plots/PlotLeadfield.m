@@ -12,6 +12,9 @@ isScalp  = false;
 
 Channel     = Cdata.Channel;
 elecIndex   = find(ismember({Channel.Name},elecName),1);
+if(isempty(elecIndex))
+    elecIndex = 1;
+end
 %% initial computations
 %% plot Lead Field
 [Ne,Nv]     = size(Headmodel.Gain);

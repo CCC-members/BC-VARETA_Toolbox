@@ -30,6 +30,7 @@ else
             if(isempty(properties.general_params.dataset.descriptors.segment) || isequal(properties.general_params.dataset.descriptors.segment,'all'))
                 subject_info.meeg_dir = subject_info.meeg_dir{i};
                 subject_info.meeg_dir       = replace(subject_info.meeg_dir,'\','/');
+                break;
             else
                 if(contains(subject_info.meeg_dir{i},strcat('Segment-',properties.general_params.dataset.descriptors.segment)))
                     subject_info.meeg_dir = subject_info.meeg_dir{i};

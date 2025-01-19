@@ -69,9 +69,9 @@ subject.parcellation  = parcellation;
 if(getGlobalGuimode())
     waitbar(0.4,process_waitbar,strcat("Creating Laplacian & Normals. 40%"));   
 end
-disp('-->> Creating Laplacian & Normals');
-regLaplacian    = activation_params.regLaplacian.value;
-[D,D3D]         = graph_laplacian(Faces,regLaplacian);
+    disp('-->> Creating Laplacian & Normals');
+    regLaplacian    = activation_params.regLaplacian.value;
+    [D,D3D]         = graph_laplacian(Faces,regLaplacian);
 I               = speye(length(D));
 Dinv            = I/D;
 Dinv            = (Dinv + Dinv)/2;
