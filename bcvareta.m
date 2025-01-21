@@ -37,6 +37,7 @@ if(isequal(nargin,2))
     idnode = varargin{1};
     count_node = varargin{2};
     setGlobalGuimode(false);
+    update = false;
     if(~isnumeric(idnode) || ~isnumeric(count_node))
         fprintf(2,"\n ->> Error: The selected node and count of nodes have to be numbers \n");
         return;
