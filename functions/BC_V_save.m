@@ -95,7 +95,7 @@ if(isequal(process,'fuctional'))
 
         file_name                                           = strcat('Data_spectrum.mat');
         reference_path                                      = strsplit(pathname,subject.name);
-        subject.BC_V_info.trials(trial).generals(2).Comment  = 'Generals';
+        subject.BC_V_info.trials(trial).generals(2).Comment  = 'PSD';
         subject.BC_V_info.trials(trial).generals(2).Ref_path = strrep(reference_path{2},'\','/');
         subject.BC_V_info.trials(trial).generals(2).Name     = file_name;
         disp(strcat("File: ", file_name));
@@ -112,7 +112,7 @@ if(isequal(process,'fuctional'))
 
         file_name                                           = strcat('Data_spectrum.mat');
         reference_path                                      = strsplit(pathname,subject.name);
-        subject.BC_V_info.generals(2).Comment               = 'Generals';
+        subject.BC_V_info.generals(2).Comment               = 'PSD';
         subject.BC_V_info.generals(2).Ref_path              = strrep(reference_path{2},'\','/');
         subject.BC_V_info.generals(2).Name                  = file_name;
         disp(strcat("File: ", file_name));
