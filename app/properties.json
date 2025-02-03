@@ -19,8 +19,8 @@
         "win":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/win64/MCR_R2018b_win64_installer.exe",
         "linux":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/glnxa64/MCR_R2018b_glnxa64_installer.zip"
     },
-    "check_matlab_version":true,
-    "check_app_update":true,    
+    "check_matlab_version":false,
+    "check_app_update":false,    
     "module_param_files":[
         {
             "description":"Define general_params. you can change the file and save different conbinations.",
