@@ -17,12 +17,12 @@ IsNeigh                 = activation_params.IsNeigh.value;
 IsField                 = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
 GridOrient              = subject.Headmodel.GridOrient;
 GridAtlas               = subject.Headmodel.GridAtlas;
-Atlas                   = Sc.Atlas(Sc.iAtlas).Scouts;
+Scouts                  = Sc.Atlas(Sc.iAtlas).Scouts;
 Faces                   = Sc.Faces;
 %%
 %% parcel/field options
 %%
-if(isempty(Atlas))
+if(isempty(Scouts))
    IsParcel = 0; 
 end
 if(getGlobalGuimode())
@@ -46,15 +46,15 @@ if IsParcel == 0
     end
 elseif IsParcel == 1
     if (IsField == 1) || (IsField == 2)
-        parcellation        = cell(length(Atlas),1);
-        for area = 1:length(Atlas)
-            parcellation{area}      = Atlas(area).Vertices;
+        parcellation        = cell(length(Scouts),1);
+        for area = 1:length(Scouts)
+            parcellation{area}      = Scouts(area).Vertices;
         end
     elseif IsField == 3
-        parcellation      = cell(length(Atlas),1);
-        for area = 1:length(Atlas)
-            for node = 1:length(Atlas(area).Vertices)
-                q0                  = 3*(Atlas(area).Vertices(node)-1);
+        parcellation      = cell(length(Scouts),1);
+        for area = 1:length(Scouts)
+            for node = 1:length(Scouts(area).Vertices)
+                q0                  = 3*(Scouts(area).Vertices(node)-1);
                 tmp_parcellation    = [q0+1;q0+2;q0+3];
                 parcellation{area} = cat(1,parcellation{area},tmp_parcellation);
             end
