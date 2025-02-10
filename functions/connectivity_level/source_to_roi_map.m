@@ -1,4 +1,4 @@
-function [ThetaRR] = source_to_roi_map(Thetajj,Scouts,Nsources)
+function [ThetaSS] = source_to_roi_map(Thetajj,Scouts,Nsources)
         
     % Initialize R with zeros
     R = zeros(length(Scouts), Nsources);    
@@ -13,7 +13,7 @@ function [ThetaRR] = source_to_roi_map(Thetajj,Scouts,Nsources)
         end
     end
     % Get Connectivity in the rois
-    ThetaRR = R*Thetajj*R';
+    ThetaSS = R*Thetajj*R';
 end
 
 
