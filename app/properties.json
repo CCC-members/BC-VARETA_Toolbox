@@ -8,11 +8,6 @@
         "url_check" : "https://raw.github.com/CCC-members/BC-VARETA_Toolbox/master/app/properties.json",
         "base_url"  : "https://codeload.github.com/CCC-members/BC-VARETA_Toolbox/zip/master"
     },
-    "externals" : {
-        "description":"No needed",
-        "name" : "brainstorm",
-        "url" : "unaurl"
-    },
     "matlab_runtime": {
         "description":"Do not change",
         "mac":"http://ssd.mathworks.com/supportfiles/downloads/R2018b/deployment_files/R2018b/installers/maci64/MCR_R2018b_maci64_installer.dmg.zip",
