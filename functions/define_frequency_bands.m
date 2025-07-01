@@ -55,6 +55,8 @@ if( properties.general_params.run_frequency_bin.value)
         delete(process_bin_waitbar);
     end
     properties.sensor_params.frequencies = struct('name',frequency_name,'f_bin',frequency_bin,'f_start',band_start,'f_end',band_end,'run',frequency_run,'str_band',str_band);
+    [~, uniqueInd] = unique([properties.sensor_params.frequencies.f_bin]);
+    properties.sensor_params.frequencies = properties.sensor_params.frequencies(uniqueInd);
 else
     frequency_name                      = {};
     frequency_run                       = {};
@@ -75,6 +77,7 @@ else
         end
     end
     properties.sensor_params.frequencies = struct('name',frequency_name,'f_start',band_start,'f_end',band_end,'run',frequency_run,'str_band',str_band);
+    
 end
 end
 

@@ -7,7 +7,7 @@ Lvj             = subject.Headmodel.Gain;
 Fs              = properties.sensor_params.samp_freq.value;         % sampling frequency
 Fmax            = properties.sensor_params.max_freq.value;          % maximum frequency
 deltaf          = properties.sensor_params.freq_resol.value;        % frequency resolution
-F               = 0:deltaf:Fmax;
+F               = properties.sensor_params.frequencies(1).f_bin:deltaf:Fmax;
 if(~isempty(subject.MEEG.data))
     data        = subject.MEEG.data;    
     varf        = properties.sensor_params.freq_gfiltvar.value;     % gaussian filter variance
