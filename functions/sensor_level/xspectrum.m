@@ -43,7 +43,11 @@ data        = data.*e;
 Nseg        = Nseg*2*Nw; % augmented number of segments 
 data        = reshape(data,Nc,Nt_seg,Nseg);
 Ns          = Nseg*Nt_seg; % sample number
-F           = properties.sensor_params.frequencies(1).f_bin:deltaf:Fm; % frequency vector
+if(properties.general_params.run_by_trial.value)
+    F               = properties.sensor_params.frequencies(1).f_bin:deltaf:Fm;
+else
+    F               = properties.sensor_params.frequencies(1).f_start:deltaf:Fm;
+end
 Nf          = length(F);
 Svv         = zeros(Nc,Nc,Nf);
 use_gpu     = properties.general_params.use_gpu.value;

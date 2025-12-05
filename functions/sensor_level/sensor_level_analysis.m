@@ -7,7 +7,11 @@ Lvj             = subject.Headmodel.Gain;
 Fs              = properties.sensor_params.samp_freq.value;         % sampling frequency
 Fmax            = properties.sensor_params.max_freq.value;          % maximum frequency
 deltaf          = properties.sensor_params.freq_resol.value;        % frequency resolution
-F               = properties.sensor_params.frequencies(1).f_bin:deltaf:Fmax;
+if(properties.general_params.run_by_trial.value)
+    F               = properties.sensor_params.frequencies(1).f_bin:deltaf:Fmax;
+else
+    F               = properties.sensor_params.frequencies(1).f_start:deltaf:Fmax;
+end
 if(~isempty(subject.MEEG.data))
     data        = subject.MEEG.data;    
     varf        = properties.sensor_params.freq_gfiltvar.value;     % gaussian filter variance
@@ -59,8 +63,13 @@ for pos=1:length(properties.sensor_params.frequencies)
             [f1,nf1]                = min(abs(F - band.f_start));
             [f2,nf2]                = min(abs(F - band.f_end));
         end
-        peak_pos                    = nf1:nf2;
-        Svv                         = mean(Svv_channel(:,:,peak_pos),3);
+        if(~properties.general_params.run_frequency_bin.band_mean)
+            peak_pos                    = nf1:nf2;
+            Svv                         = mean(Svv_channel(:,:,peak_pos),3);
+        else
+            Svv                         = Svv_channel(:,:,pos);
+            peak_pos                    = pos;
+        end
     else
         Svv                         = Svv_channel(:,:,pos);
         peak_pos                    = pos;

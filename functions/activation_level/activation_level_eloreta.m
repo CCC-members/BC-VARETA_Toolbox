@@ -31,13 +31,14 @@ str_band            = band.str_band;
 %%
 %% eLORETA activation parameters
 %%
-activation_params   = properties.activation_params.methods{2};
-gamma1              = activation_params.gamma1.value;
-gamma2              = activation_params.gamma2.value;
-delta_gamma         = activation_params.delta_gamma.value;
-threshold           = activation_params.threshold.value;
-IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
+activation_params   = properties.activation_params;
+method              = activation_params.methods{2};
+gamma1              = method.gamma1.value;
+gamma2              = method.gamma2.value;
+delta_gamma         = method.delta_gamma.value;
+threshold           = method.threshold.value;
 IsField             = activation_params.IsField.value; % 1 (projected Lead Field) 3 (3D Lead Field)
+IsCurv              = activation_params.IsCurv.value; % 0 (no compensation) 1 (giri and sulci curvature compensation)
 
 %%
 %% Activation Leakage Module spectral eLORETA
@@ -108,13 +109,22 @@ elseif IsCurv == 1
     clearvars Tgiri Tsulc;
 end
 % Ordering results by FSAve indices
-J_FSAve   = zeros(length(J),1);
-Jsp_FSAve = zeros(length(J),1);
+J_FSAve                     = zeros(length(J),1);
+Jsp_FSAve                   = zeros(length(J),1);
 for h=1:length(sub_to_FSAve)
-    indices           = sub_to_FSAve(h,:);    
-    J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(3)))/3;
-    Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(3)))/3; 
+    indices                 = sub_to_FSAve(h,:); 
+    indices(indices==0)     = h;
+    J_FSAve(h)              = (J(indices(1))+J(indices(2))+J(indices(3)))/3;
+    Jsp_FSAve(h)            = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(3)))/3; 
 end
+% Ordering results by FSAve indices
+% J_FSAve   = zeros(length(J),1);
+% Jsp_FSAve = zeros(length(J),1);
+% for h=1:length(sub_to_FSAve)
+%     indices           = sub_to_FSAve(h,:);    
+%     J_FSAve(h)        = (J(indices(1))+J(indices(2))+J(indices(3)))/3;
+%     Jsp_FSAve(h)      = (Jsp(indices(1))+Jsp(indices(2))+Jsp(indices(3)))/3; 
+% end
 outputs.s2j = s2j;
 outputs.sigma2j_post = sigma2j_post;
 outputs.T = T;

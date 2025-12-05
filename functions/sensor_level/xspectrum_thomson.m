@@ -27,7 +27,11 @@ function [Svv,Nf,Ns,PSD] = xspectrum_thomson(data,Fs,Fm,deltaf,properties)
 %% Initialization oF variables...
 NFFT     = round(Fs/deltaf);                            % number of time points per window
 Nw       = 1;                                           % number of windows for Thomson spectral estimate
-F        = properties.sensor_params.frequencies(1).f_bin:deltaf:Fm;                                 % frequency vector
+if(properties.general_params.run_by_trial.value)
+    F               = properties.sensor_params.frequencies(1).f_bin:deltaf:Fm;
+else
+    F               = properties.sensor_params.frequencies(1).f_start:deltaf:Fm;
+end
 %% Estimation of the Cross Spectrum...
 e       = dpss(NFFT,Nw);                                % discrete prolate spheroidal (Slepian) sequences
 e       = reshape(e,[1,NFFT,2*Nw]);

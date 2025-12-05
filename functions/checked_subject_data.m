@@ -105,8 +105,9 @@ if(isempty(errors))
     Sout        = load(fullfile(subject_dir,subject_info.headmodel_dir.outerskull));
     Sinn        = load(fullfile(subject_dir,subject_info.headmodel_dir.innerskull));
     Headmodels  = load(fullfile(subject_dir,subject_info.leadfield_dir.leadfield));
+    HeadModel   = Headmodels.HeadModel(Headmodels.iHeadModel);
     try
-        MEEG        = load(fullfile(subject_dir,subject_info.meeg_dir));
+        MEEG        = load(fullfile(subject_dir,subject_info.meeg_dir{1}));
     catch
         error_msg       = strcat("Errer loading EEG file");
         errors{ierror}       = error_msg;
@@ -121,9 +122,15 @@ if(isempty(errors))
         return;
     end
 
+    if(~isempty(properties.general_params.labels.file_name))
+        labels              = jsondecode(fileread(properties.general_params.labels.file_name));
+        MEEG                = remove_eeg_channels_by_labels(labels, MEEG);
+        [Cdata,HeadModel]   = remove_channels_by_preproc_data(labels,Cdata,HeadModel);
+    end
+
     subject.name            = subject_info.name;
     subject.modality        = 'EEG';
-    subject.Headmodel       = Headmodels.HeadModel(Headmodels.iHeadModel);
+    subject.Headmodel       = HeadModel;
     subject.Scortex         = Scortex.Sc(Scortex.iCortex);
     if(isfield(Scortex,'sub_to_FSAve'))
         subject.sub_to_FSAve    = Scortex.sub_to_FSAve;
